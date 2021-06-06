@@ -400,6 +400,7 @@ void function article() {
                 set_contents(data, false))
             .catch((err) => {
                 // TODO: Handle error.
+                console.log(err);
             });
     }
 
@@ -433,8 +434,4 @@ void function article() {
         next_token.appendChild(progress_token);
         next_token.classList.add("active-token");
     }
-}();
-
-void function main() {
-    º.emit`article::loadRandom`("de");
 }();
