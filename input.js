@@ -56,6 +56,7 @@ void function input() {
             switch(key) {
                 case "s":
                     º.emit`article::advance_token`();
+                    clear_input();
                     break;
                 case "mx":
                     console.log("ctrl + m");
