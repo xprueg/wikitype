@@ -131,9 +131,9 @@ void function wikipai() {
 
     function related(lang, title) {
         title = encodeURIComponent(title);
-        const url = encodeURIComponent(`https://${lang}.wikipedia.org/api/rest_v1/page/related/${title}`);
+        const url = `https://${lang}.wikipedia.org/api/rest_v1/page/related/${title}`;
 
-        return fetch(`http://localhost:8000/api/wikitype/fetch/${url}`)
+        return fetch(url)
         .then((x) => x.json())
         .catch((e) => {
             console.log("oops");
@@ -142,10 +142,10 @@ void function wikipai() {
     }
 
     function load(obj) {
-        const url = encodeURIComponent(`https://${obj.lang}.wikipedia.org/api/rest_v1/page/random/summary`);
+        const url = `https://${obj.lang}.wikipedia.org/api/rest_v1/page/random/summary`;
 
         if (obj.count === 1) {
-            return fetch(`http://localhost:8000/api/wikitype/fetch/${url}`)
+            return fetch(url)
             .then((x) => x.json())
             .catch((e) => {
                 console.log("oops");
@@ -155,10 +155,7 @@ void function wikipai() {
 
         return Promise.all(
             Array.from({ length: obj.count })
-                .map(
-                    () => fetch(`http://localhost:8000/api/wikitype/fetch/${url}`)
-                        .then((x) => x.json())
-                )
+                .map(() => fetch(url).then((x) => x.json()))
         );
     }
 }();
