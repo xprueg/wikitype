@@ -58,6 +58,7 @@ header {
     grid-area: header;
     height: var(--header-height);
     display: flex;
+    overflow: hidden;
 }
 
 .history {
@@ -152,6 +153,10 @@ nav [related] div {
     width: 100%;
     display: flex;
     margin-top: 10px;
+}
+
+nav [related] > div[data-unavailable=true] {
+    mix-blend-mode: difference;
 }
 
 nav [trigger] {
@@ -424,6 +429,10 @@ button:hover ol {
     display: flex;
 }
 
+button[disabled] {
+    opacity: .2;
+}
+
 button ol li {
     display: inline-block;
     background: black;
@@ -436,8 +445,18 @@ button ol li {
     margin: 0 0 10px 10px;
 }
 
+@keyframes wiggle {
+    0% {
+        transform: skewY(2deg);
+    } 100% {
+        transform: skewY(-2deg);
+    }
+}
+
+button ol li.selected-option,
 button ol li:hover {
     color: white;
+    animation: wiggle 512ms infinite ease-in-out alternate;
 }
 
 [type="text"] {

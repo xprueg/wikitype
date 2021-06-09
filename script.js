@@ -9,7 +9,72 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000 * 60);
 
-void function theme() {
+void function LanguageController() {
+    const self = Object.create(null);
+
+    void function init() {
+        self.node = ƒ("[langController]");
+        self.default_lang = "en";
+        self.default_li_node = get_node_by_lang_code(self.default_lang);
+        self.state = ƒƒ("[langList] li").reduce(
+            (state, li) => Object.assign(state, { [li.dataset.langCode]: false }),
+            Object.create(null)
+        );
+
+        // Activate default language.
+        toggle_lang(self.default_li_node);
+
+        // Add listener.
+        ƒ("[langList]", self.node).addEventListener("click", (e) => {
+            if (!(e.target instanceof HTMLLIElement))
+                return;
+
+            toggle_lang(e.target);
+        });
+
+        º.respond({
+            "lang::getRandom": () => {
+                const languages = get_active_languages();
+                return languages[Math.floor(Math.random() * languages.length)];
+            },
+            "lang::getAll": () => Object.keys(self.state),
+        });
+    }();
+
+    /// Returns a list containing the selected languages.
+    ///
+    /// [<] Array<String*>
+    function get_active_languages() {
+        return Object.keys(self.state).filter((lang) => self.state[lang]);
+    }
+
+    /// Returns a node that matches the given language code.
+    ///
+    /// [>] lang_code :: string
+    /// [<] HTMLLIElement
+    function get_node_by_lang_code(lang_code) {
+        return ƒ(`[data-lang-code=${lang_code}`, self.node);
+    }
+
+    /// Toggles the selected status for the given node and sets the internal state.
+    /// Activates the default language if the call should have otherwise resulted in no
+    /// active languages.
+    ///
+    /// [>] node :: HTMLLIElement
+    /// [<] void
+    function toggle_lang(node) {
+        const lang_code = node.dataset.langCode;
+
+        self.state[lang_code] = !self.state[lang_code];
+        node.classList.toggle("selected-option");
+
+        // Make sure that at least one language is selected.
+        if (get_active_languages().length === 0)
+            toggle_lang(self.default_li_node);
+    }
+}();
+
+void function ThemeController() {
     const self = Object.create(null);
 
     void function init() {
@@ -38,7 +103,7 @@ void function theme() {
     }
 }();
 
-void function history() {
+void function HistoryController() {
     const self = Object.create(null);
 
     void function init() {
@@ -119,44 +184,88 @@ void function areas() {
 // emit = º.emit`message`;
 // listen = º.listen`message`((response) => {});
 
-void function wikipai() {
+void function WikiController() {
     const self = Object.create(null);
 
     void function init() {
+        self.related_articles_cache = new Map();
+        self.random_article_cache = new Map(º.req`lang::getAll`()
+                                             .map((lang) => [lang, Array()]));
+        self.url = {
+            random: (lang_code) =>
+                `https://${lang_code}.wikipedia.org/api/rest_v1/page/random/summary`,
+            related: (article_data) => {
+                const lang = article_data.lang;
+                const title = encodeURIComponent(article_data.titles.normalized);
+
+                return `https://${lang}.wikipedia.org/api/rest_v1/page/related/${title}`;
+            }
+        }
+
         º.respond({
-            "wikiapi::fetch": (obj) => load(obj),
-            "wikiapi::related": (lang, title) => related(lang, title),
+            "wikiapi::fetchRandomArticle": (lang_code) => {
+                return load_random_article(lang_code);
+            },
+            "wikiapi::fetchRelatedArticles": (article_data) => {
+                return load_related_articles(article_data)
+            },
+        });
+
+        º.listen({
+            "wikiapi::prefetchRelatedArticles": (article_data) => {
+                prefetch_related_articles(article_data)
+            },
         });
     }();
 
-    function related(lang, title) {
-        title = encodeURIComponent(title);
-        const url = `https://${lang}.wikipedia.org/api/rest_v1/page/related/${title}`;
-
-        return fetch(url)
-        .then((x) => x.json())
-        .catch((e) => {
-            console.log("oops");
-            console.log(e);
+    function prefetch_related_articles(article_data) {
+        load_related_articles(article_data).then(
+            (articles) => self.related_articles_cache.set(article_data.pageid,
+                                                          articles)
+        ).catch((err) => {
+            // TODO: Handle error.
+            console.dir(err);
         });
     }
 
-    function load(obj) {
-        const url = `https://${obj.lang}.wikipedia.org/api/rest_v1/page/random/summary`;
+    function prefetch_random_article(lang_code) {
+        µƒ(self.url.random(lang_code)).then((article_data) => {
+            prefetch_related_articles(article_data);
+            self.random_article_cache.get(lang_code).push(article_data);
+        }).catch((err) => {
+            console.log(err);
+            // TODO: Handle error.
+        });
+    }
 
-        if (obj.count === 1) {
-            return fetch(url)
-            .then((x) => x.json())
-            .catch((e) => {
-                console.log("oops");
-                console.log(e);
-            });
+    function load_related_articles(article_data) {
+        const article_id = article_data.pageid;
+
+        const cached_related_articles = self.related_articles_cache.get(article_id)
+        if (cached_related_articles) {
+            self.related_articles_cache.delete(article_id);
+            return µµ(cached_related_articles);
         }
 
-        return Promise.all(
-            Array.from({ length: obj.count })
-                .map(() => fetch(url).then((x) => x.json()))
-        );
+        return µƒ(self.url.related(article_data), { pages: Array() });
+    }
+
+    function load_random_article(lang_code = º.req`lang::getRandom`()) {
+        // prefetch_random_article(lang_code);
+
+        const cached_article = self.random_article_cache.get(lang_code).shift();
+        if (cached_article)
+            return µµ(cached_article);
+
+        return µƒ(self.url.random(lang_code)).then(x => {
+            prefetch_related_articles(x);
+
+            return x;
+        }).catch((err) => {
+            console.log("wot");
+            console.log(err);
+            // TODO: Handle error.
+        });
     }
 }();
 
@@ -168,43 +277,38 @@ void function nav() {
         self.related_nodes = ƒƒ("[related] > div", self.node);
 
         º.listen({
-            "nav::show": (lang, title) => show(lang, title),
+            "nav::show": (article_data) => show(article_data),
             "nav::select": (choice) => {
-                if (choice === "0") {
-                    º.emit`article::loadRandom`();
-                    return;
-                }
+                choice = Number(choice) - 1;
 
-                º.emit`article::set_contents`(self.related[+choice - 1], true);
+                if (isNaN(choice) || choice === -1)
+                    return void º.emit`article::loadRandom`();
+
+                const article_data = self.related_article_buffer[choice];
+                º.emit`article::set_contents`(article_data, true);
+                º.emit`wikiapi::prefetchRelatedArticles`(article_data);
             }
         });
     }();
 
-    function show(lang, title) {
-        º.req`wikiapi::related`(lang, title).then((data) => {
-            self.related = Array();
+    function show(article_data) {
+        º.req`wikiapi::fetchRelatedArticles`(article_data).then((articles) => {
+            self.related_article_buffer = Array();
             self.related_nodes.forEach((node) => {
-                // TODO: Prevent dupes.
-                const upcoming = data.pages[Math.floor(Math.random() * data.pages.length)];
+                const article_data = articles.pages
+                    .splice(Math.floor(Math.random() * articles.pages.length), 1)
+                    .pop();
 
-                if (upcoming) {
-                    self.related.push(upcoming);
-                    ƒ("[article]", node).innerText = upcoming.titles.normalized;
+                if (article_data) {
+                    self.related_article_buffer.push(article_data);
+                    ƒ("[article]", node).innerText = article_data.titles.normalized;
+                    node.dataset.unavailable = "false";
                 } else {
-                    // TODO: Hide entry if there is no related article.
-                    ƒ("[article]", node).innerText = "???";
+                    ƒ("[article]", node).innerText = "⚠ Unavailable";
+                    node.dataset.unavailable = "true";
                 }
             });
-            console.log(self.related);
         });
-
-        // canonical
-//         console.log(articles);
-//         self.node.removeAttribute("upnext_hidden");
-//
-//         [...self.node.querySelectorAll("[data-next=choice]")].forEach((node, i) => {
-//             node.querySelector("[article]").innerText = articles[i];
-//         });
     }
 }();
 
@@ -274,6 +378,7 @@ void function article() {
     void function init() {
         self.article = ƒ("article");
         self.areas = º.req`areas::get`();
+        self.current_article = undefined;
 
         º.respond({
             "article::get_active_token_text": () => ƒ(".active-token", self.article)?.dataset.word,
@@ -290,7 +395,7 @@ void function article() {
             "article::set_token_mistyped_text": (mistyped_txt) => {
                 ƒ(".progress-token", self.article).dataset.mistyped = mistyped_txt;
             },
-            "article::loadRandom": (lang) => load_random(lang),
+            "article::loadRandom": () => load_random(),
             "article::set_contents": (...args) => set_contents(...args),
         });
     }();
@@ -320,33 +425,31 @@ void function article() {
 
     function unload_article() {
         const img = ƒ("body").appendChild(ƒ("img", self.article).cloneNode());
-        const img_pos = ƒ("img", self.article).getBoundingClientRect();
-        const padding = 0; //self.areas.footer.h / 2;
-        const top = img_pos.y;
-        const left = img_pos.x;
 
-    // const bottom =     bottom: calc(var(--global-border-size) + var(--footer-height) / 2);
-//
-//         const padding = self.areas.footer.h / 2;
-//         const left = padding + Math.floor(Math.random() * (self.areas.footer.w - padding));
+        if (img.src !== String()) {
+            const img_pos = ƒ("img", self.article).getBoundingClientRect();
+            const padding = 0; //self.areas.footer.h / 2;
+            const top = img_pos.y;
+            const left = img_pos.x;
 
-        img.classList.add("footer-image");
-        img.style.left = `${left}px`;
-        img.style.top = `${top}px`;
+            img.classList.add("footer-image");
+            img.style.left = `${left}px`;
+            img.style.top = `${top}px`;
 
-        setTimeout(() => {
-            img.style.left = `${Math.floor(Math.random() * (self.areas.footer.w - padding))}px`;
-            img.style.top = `${
-                window.innerHeight - self.areas.footer.h - º.req`theme::px`("--global-border-size")
-            }px`;
-            img.style.transform = `rotate(${Math.random() > .5 ? "-" : ""}${Math.random() * 360}deg)`;
-        });
-        // img.style.transform = `translate(-50%, 50%) rotate(${Math.floor(Math.random() * 360)}deg)`;
+            setTimeout(() => {
+                img.style.left = `${Math.floor(Math.random() * (self.areas.footer.w - padding))}px`;
+                img.style.top = `${
+                    window.innerHeight - self.areas.footer.h - º.req`theme::px`("--global-border-size")
+                }px`;
+                img.style.transform = `rotate(${Math.random() > .5 ? "-" : ""}${Math.random() * 360}deg)`;
+            });
+        }
 
         ƒ("p", self.article).innerHTML = String();
         ƒ("img", self.article).src = String();
 
-        º.emit`nav::show`(self.article.dataset.lang, self.article.dataset.canonicalTitle);
+        º.emit`nav::show`(self.current_article);
+        self.current_article = undefined;
     }
 
     let spinner_id;
@@ -376,7 +479,10 @@ void function article() {
     }
 
     function set_contents(data, is_related) {
+        // TODO: Load related articles here.
         display_loading(false);
+
+        self.current_article = data;
 
         tokenize(data.extract.length ? data.extract : data.displaytitle).forEach((token) => ƒ("p", self.article).appendChild(token));
         advance_token();
@@ -384,15 +490,15 @@ void function article() {
         self.article.dataset.title = data.displaytitle;
         self.article.dataset.canonicalTitle = data.titles.canonical;
         self.article.dataset.lang = data.lang;
-        ƒ("img", self.article).src = data?.thumbnail?.source ?? "https://de.wikipedia.org/wiki/918#/media/Datei:Konrad_I.png";
+        ƒ("img", self.article).src = data?.thumbnail?.source ?? String();
 
         º.emit`history::push`({ title: data.titles.normalized, is_related });
     }
 
     // TODO: Handle lang selection.
-    function load_random(lang = "en") {
+    function load_random() {
         display_loading(true);
-        º.req`wikiapi::fetch`({ lang, count: 1 })
+        º.req`wikiapi::fetchRandomArticle`()
             .then((data) =>
                 set_contents(data, false))
             .catch((err) => {

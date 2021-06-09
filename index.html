@@ -46,19 +46,19 @@
         </main>
         <footer>
             <button>MODES</button>
-            <button>
+            <button disabled>
                 SOURCES
                 <ol>
                     <li>WIKIPEDIA</li>
-                    <li>TEAM FORTRESS WIKI</li>
+                </ol>
             </button>
             <div></div>
-            <button>
+            <button langController>
                 LANGUAGES
-                <ol>
-                    <li>DE</li>
-                    <li>EN</li>
-                    <li>RU</li>
+                <ol langList>
+                    <li data-lang-code="de">DE</li>
+                    <li data-lang-code="en">EN</li>
+                    <li data-lang-code="ru">RU</li>
                 </ol>
             </button>
             <button>
@@ -77,7 +77,7 @@
         <script type="text/javascript" src="script.js"></script>
         <script type="text/javascript">
             // TODO: Handle language selection.
-            º.emit`article::loadRandom`("en");
+            º.emit`article::loadRandom`();
         </script>
     </body>
 </html>

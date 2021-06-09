@@ -6,6 +6,7 @@ void function input() {
         self.input.setAttribute("type", "text");
         self.input.setAttribute("autocomplete", "off");
         self.input.setAttribute("autocorrect", "off");
+        self.input.setAttribute("spellcheck", "false");
         self.input.addEventListener("input", input_evt);
 
         self.current_key_is_dead = false;
