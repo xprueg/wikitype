@@ -30,16 +30,20 @@
                     <img src/>
                 </article>
                 <nav>
-                    <h2>START OVER</h2>
-                    <div data-next=random">
-                        <span trigger></span>
-                        <span article>Random Article</span>
-                    </div>
-                    <h2>KEEP GOING</h2>
-                    <div related>
-                        <div><span trigger></span><span article></span></div>
-                        <div><span trigger>②</span><span article></span></div>
-                        <div><span trigger>③</span><span article></span></div>
+                    <h2 navHeading>Keep Going!</h2>
+                    <div navSelect>
+                        <div navOption>
+                            <span navOptionIdx="0"></span>
+                            <span navOptionTitle>Random Article</span></div>
+                        <div navOption>
+                            <span navOptionIdx="1"></span>
+                            <span navOptionTitle></span></div>
+                        <div navOption>
+                            <span navOptionIdx="2"></span>
+                            <span navOptionTitle></span></div>
+                        <div navOption>
+                            <span navOptionIdx="3"></span>
+                            <span navOptionTitle></span></div>
                     </div>
                 </nav>
             </section>
@@ -76,7 +80,6 @@
         <script type="text/javascript" src="input.js"></script>
         <script type="text/javascript" src="script.js"></script>
         <script type="text/javascript">
-            // TODO: Handle language selection.
             º.emit`article::loadRandom`();
         </script>
     </body>

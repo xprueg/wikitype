@@ -251,7 +251,7 @@ void function WikiController() {
     }
 
     function load_random_article(lang_code = º.req`lang::getRandom`()) {
-        // prefetch_random_article(lang_code);
+        prefetch_random_article(lang_code);
 
         const cached_article = self.random_article_cache.get(lang_code).shift();
         if (cached_article)
@@ -269,44 +269,38 @@ void function WikiController() {
     }
 }();
 
-void function nav() {
+void function NavController() {
     const self = Object.create(null);
 
     void function init() {
         self.node = ƒ("nav");
-        self.related_nodes = ƒƒ("[related] > div", self.node);
+        self.related_nodes = ƒƒ("[navOption]", self.node).slice(1);
 
         º.listen({
-            "nav::show": (article_data) => show(article_data),
+            "nav::displayOptions": (article_data) => display_options(article_data),
             "nav::select": (choice) => {
                 choice = Number(choice) - 1;
+                const article_data = self.related_article_buffer[choice];
 
-                if (isNaN(choice) || choice === -1)
+                if (!article_data)
                     return void º.emit`article::loadRandom`();
 
-                const article_data = self.related_article_buffer[choice];
                 º.emit`article::set_contents`(article_data, true);
                 º.emit`wikiapi::prefetchRelatedArticles`(article_data);
             }
         });
     }();
 
-    function show(article_data) {
+    function display_options(article_data) {
         º.req`wikiapi::fetchRelatedArticles`(article_data).then((articles) => {
             self.related_article_buffer = Array();
             self.related_nodes.forEach((node) => {
-                const article_data = articles.pages
+                const article_data = articles?.pages
                     .splice(Math.floor(Math.random() * articles.pages.length), 1)
                     .pop();
 
-                if (article_data) {
-                    self.related_article_buffer.push(article_data);
-                    ƒ("[article]", node).innerText = article_data.titles.normalized;
-                    node.dataset.unavailable = "false";
-                } else {
-                    ƒ("[article]", node).innerText = "⚠ Unavailable";
-                    node.dataset.unavailable = "true";
-                }
+                self.related_article_buffer.push(article_data);
+                ƒ("[navOptionTitle]", node).dataset.text = article_data?.titles.normalized;
             });
         });
     }
@@ -324,7 +318,7 @@ void function section() {
         reposition();
 
         º.listen({
-            "nav::show": () => {
+            "nav::displayOptions": () => {
                 self.node.setAttribute("show", "nav");
                 reposition();
             },
@@ -448,7 +442,7 @@ void function article() {
         ƒ("p", self.article).innerHTML = String();
         ƒ("img", self.article).src = String();
 
-        º.emit`nav::show`(self.current_article);
+        º.emit`nav::displayOptions`(self.current_article);
         self.current_article = undefined;
     }
 

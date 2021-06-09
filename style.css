@@ -135,31 +135,22 @@ footer {
     display: none;
 }
 
-nav .frame {
-    border-style: dotted;
-}
+/* NavController */
 
-nav h2 {
+[navHeading] {
+    font-family: Trash;
     font-size: 20px;
+    line-height: 20px;
+    text-transform: uppercase;
+    transform-origin: bottom left;
 }
 
-nav h2:not(:first-of-type) {
-    margin-top: 20px;
-}
-
-nav [data-next],
-nav [related] div {
-    font-family: Inter;
-    width: 100%;
-    display: flex;
+[navOption] {
     margin-top: 10px;
+    display: flex;
 }
 
-nav [related] > div[data-unavailable=true] {
-    mix-blend-mode: difference;
-}
-
-nav [trigger] {
+[navOptionIdx] {
     width: 50px;
     height: 50px;
     background: black;
@@ -173,7 +164,15 @@ nav [trigger] {
     flex-shrink: 0;
 }
 
-nav [article] {
+[navOptionIdx="0"]::before { content: ""; }
+[navOptionIdx="1"]::before { content: "➀"; }
+[navOptionIdx="2"]::before { content: "➁"; }
+[navOptionIdx="3"]::before { content: ""; }
+[navOption="undefined"] [navOptionIdx]::before {
+    content: "";
+}
+
+[navOptionTitle] {
     height: 50px;
     font-size: 30px;
     background: black;
@@ -184,8 +183,24 @@ nav [article] {
     border-radius: 50px;
     border-bottom-left-radius: 0;
     white-space: nowrap;
-    z-index: 1000;
+    z-index: 943;
 }
+
+[navOptionTitle]::before {
+    content: attr(data-text);
+}
+
+/* Nothing loaded yet */
+:not([navOptionIdx="0"]) + [navOptionTitle]:not([data-text])::before {
+    content: "???";
+}
+
+/* Option not available */
+[navOption="undefined"] [navOptionTitle]::before {
+    content: "////////";
+}
+
+/* /NavController */
 
 .grid {
     position: fixed;
