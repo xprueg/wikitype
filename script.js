@@ -391,6 +391,7 @@ void function article() {
             },
             "article::loadRandom": () => load_random(),
             "article::set_contents": (...args) => set_contents(...args),
+            "article::unloadArticle": () => unload_article(),
         });
     }();
 

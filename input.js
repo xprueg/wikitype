@@ -1,4 +1,4 @@
-void function input() {
+void function InputController() {
     const self = Object.create(null);
 
     void function init() {
@@ -58,6 +58,9 @@ void function input() {
                 case "s":
                     º.emit`article::advance_token`();
                     clear_input();
+                    break;
+                case "n":
+                    º.emit`article::unloadArticle`();
                     break;
                 case "mx":
                     console.log("ctrl + m");
