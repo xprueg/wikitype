@@ -9,68 +9,117 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 1000 * 60);
 
-void function LanguageController() {
+void function SettingsController() {
     const self = Object.create(null);
 
     void function init() {
-        self.node = ƒ("[langController]");
-        self.default_lang = "en";
-        self.default_li_node = get_node_by_lang_code(self.default_lang);
-        self.state = ƒƒ("[langList] li").reduce(
-            (state, li) => Object.assign(state, { [li.dataset.langCode]: false }),
-            Object.create(null)
-        );
+        self.settings = new Map();
 
-        // Activate default language.
-        toggle_lang(self.default_li_node);
-
-        // Add listener.
-        ƒ("[langList]", self.node).addEventListener("click", (e) => {
-            if (!(e.target instanceof HTMLLIElement))
-                return;
-
-            toggle_lang(e.target);
+        º.listen({
+            "setting::construct": (name, data) => construct(name, data),
         });
 
-        º.respond({
-            "lang::getRandom": () => {
-                const languages = get_active_languages();
-                return languages[Math.floor(Math.random() * languages.length)];
-            },
-            "lang::getAll": () => Object.keys(self.state),
+        º.emit`setting::construct`("language", {
+            multiple_selection: true,
+            default: "en",
+        });
+
+        º.emit`setting::construct`("theme", {
+            multiple_selection: false,
+            default: "neon",
         });
     }();
 
-    /// Returns a list containing the selected languages.
+    function construct(name, data) {
+        data.name = name;
+        data.node = ƒ(`[${name}Controller]`);
+        data.multiple_selection ??= false;
+        data.state = ƒƒ("li", data.node).reduce(
+            (state, li) => Object.assign(state, { [li.dataset[name]]: false }),
+            Object.create(null)
+        );
+
+        // Bind functions.
+        data.toggle_option = toggle_option.bind(data);
+        data.get_active_options = get_active_options.bind(data);
+        data.update_options = update_options.bind(data);
+        data.get_active_options = get_active_options.bind(data);
+
+        // Select default option.
+        data.update_options(ƒ(`[data-${name}=${data.default}`, data.node));
+
+        // Listen for user interaction.
+        data.node.addEventListener("click", (e) => {
+            if (!(e.target instanceof HTMLLIElement))
+                return;
+
+            data.update_options(e.target);
+
+            º.emit`setting::${name}Update`(
+                data.multiple_selection
+                    ? data.get_active_options()
+                    : data.get_active_options().shift()
+            );
+        });
+
+        º.respond({
+            [`${name}::getRandom`]: () => {
+                const options = data.get_active_options();
+                return options[Math.floor(Math.random() * options.length)];
+            },
+            [`${name}::getAll`]: () => Object.keys(data.state),
+        });
+
+        // Store reference.
+        self.settings.set(name, data);
+    }
+
+    /// Returns a list containing the selected options.
     ///
     /// [<] Array<String*>
-    function get_active_languages() {
-        return Object.keys(self.state).filter((lang) => self.state[lang]);
+    function get_active_options() {
+        return Object.keys(this.state).filter((option) => this.state[option]);
     }
 
-    /// Returns a node that matches the given language code.
-    ///
-    /// [>] lang_code :: string
-    /// [<] HTMLLIElement
-    function get_node_by_lang_code(lang_code) {
-        return ƒ(`[data-lang-code=${lang_code}`, self.node);
-    }
-
-    /// Toggles the selected status for the given node and sets the internal state.
-    /// Activates the default language if the call should have otherwise resulted in no
-    /// active languages.
+    /// Toggles the provided node.
     ///
     /// [>] node :: HTMLLIElement
     /// [<] void
-    function toggle_lang(node) {
-        const lang_code = node.dataset.langCode;
+    function toggle_option(node) {
+        const attr = node.dataset[this.name];
 
-        self.state[lang_code] = !self.state[lang_code];
+        this.state[attr] = !this.state[attr];
         node.classList.toggle("selected-option");
+    }
 
-        // Make sure that at least one language is selected.
-        if (get_active_languages().length === 0)
-            toggle_lang(self.default_li_node);
+    /// Updates the options and makes sure that all restrictions are upheld.
+    ///
+    /// [>] node_to_toggle :: HTMLLIElement
+    /// [<] void
+    function update_options(node_to_toggle) {
+        // Update state.
+        this.toggle_option(node_to_toggle);
+
+        // Maybe prevent multiple selection.
+        if (!this.multiple_selection && this.get_active_options().length) {
+            ƒƒ("li", this.node).forEach((node) => {
+                const attr = node.dataset[this.name];
+
+                if (this.state[attr] && node !== node_to_toggle)
+                    this.toggle_option(node);
+            });
+        }
+
+        // Make sure that at least one option is selected.
+        if (this.get_active_options().length === 0)
+            this.toggle_option(ƒ(`[data-${this.name}=${this.default}`, this.node));
+
+        // Set active option interface.
+        const active_options = this.get_active_options();
+        if (active_options.length > 3)
+            active_options.push(`+${active_options.splice(2).length}`);
+
+        this.node.dataset.selectedOption = active_options.join(", ");
     }
 }();
 
@@ -189,7 +238,7 @@ void function WikiController() {
 
     void function init() {
         self.related_articles_cache = new Map();
-        self.random_article_cache = new Map(º.req`lang::getAll`()
+        self.random_article_cache = new Map(º.req`language::getAll`()
                                              .map((lang) => [lang, Array()]));
         self.url = {
             random: (lang_code) =>
@@ -250,7 +299,7 @@ void function WikiController() {
         return µƒ(self.url.related(article_data), { pages: Array() });
     }
 
-    function load_random_article(lang_code = º.req`lang::getRandom`()) {
+    function load_random_article(lang_code = º.req`language::getRandom`()) {
         prefetch_random_article(lang_code);
 
         const cached_article = self.random_article_cache.get(lang_code).shift();
