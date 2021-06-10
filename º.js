@@ -25,8 +25,9 @@ const º = (function() {
     const is_fn = fn => get_type(fn) === "[object Function]";
     const has_prop = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
 
-    function req(name) {
-        console.assert(has_prop(responder, name));
+    function req(name, ...tokens) {
+        name = name.map((str, idx) => `${str}${tokens[idx] ?? String()}`).join(String());
+        console.assert(has_prop(responder, name), `${name} has no responder.`);
 
         return (...args) => {
             listener[name]?.forEach((fn) => fn(...args));
@@ -44,8 +45,8 @@ const º = (function() {
         });
     }
 
-    function emit(name) {
-        console.assert(has_prop(listener, name));
+    function emit(name, ...tokens) {
+        name = name.map((str, idx) => `${str}${tokens[idx] ?? String()}`).join(String());
 
         return (...args) => {
             listener[name]?.forEach((fn) => fn(...args));
