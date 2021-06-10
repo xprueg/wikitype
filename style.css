@@ -448,6 +448,21 @@ button[disabled] {
     opacity: .2;
 }
 
+button::before {
+    content: attr(data-selected-option);
+    position: absolute;
+    bottom: 100%;
+    background: white;
+    color: black;
+    left: 50%;
+    transform: translate(-50%, 71px);
+    font-size: 0.5em;
+    line-height: calc(20px + 0.215em);
+    padding: .2em 0.8em;
+    border-radius: 100px;
+    height: 20px;
+}
+
 button ol li {
     display: inline-block;
     background: black;
@@ -468,9 +483,11 @@ button ol li {
     }
 }
 
-button ol li.selected-option,
-button ol li:hover {
+button ol li.selected-option {
     color: white;
+}
+
+button ol li:hover {
     animation: wiggle 512ms infinite ease-in-out alternate;
 }
 
