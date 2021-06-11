@@ -459,6 +459,7 @@ button::before {
     padding: .2em 0.8em;
     border-radius: 100px;
     height: 20px;
+    white-space: nowrap;
 }
 
 button ol li {
