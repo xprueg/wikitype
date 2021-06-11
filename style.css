@@ -383,8 +383,9 @@ article img:not([src=""]) {
     max-width: var(--footer-height);
 }
 
+/* footer */
+
 footer {
-    padding-right: 50px;
     display: flex;
     grid-gap: 10px;
     justify-content: center;
@@ -411,7 +412,7 @@ button {
     color: white;
     padding: 0 20px;
     line-height: calc(var(--button-height) + 0.215em);
-    border-radius: 100px;
+    border-radius: var(--button-height);
     height: var(--button-height);
     font-size: 30px;
     position: relative;
@@ -419,29 +420,26 @@ button {
 
 button ol {
     position: absolute;
-    bottom: 60px;
-    right: 0;
+    bottom: calc(var(--button-height) + 10px);
     list-style: none;
-    width: 40vw;
-    text-align: right;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row-reverse;
-    margin-bottom: -10px;
     display: none;
-}
-
-button:nth-child(-n+2) ol {
-    flex-direction: row;
-    left: 0;
-}
-
-button:nth-child(-n+2) ol li {
-    margin: 0 10px 10px 0;
+    flex-direction: column;
+    margin-bottom: -10px;
+    align-items: center;
+    transform: translateX(-50%);
+    left: 50%;
 }
 
 button:hover ol {
     display: flex;
+}
+
+button[settings~=grid] ol {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+button[settings~=grid]:hover ol {
+    display: grid;
 }
 
 button[disabled] {
