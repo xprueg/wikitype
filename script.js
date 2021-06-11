@@ -446,6 +446,7 @@ void function article() {
 
     function tokenize(text) {
         const words = text
+            .replace(/\n$/, String())
             .match(/[^\s]+\s{0,1}/g)
             .map(word => word
                 .replace(/\s+/g, "\x20")  // Whitespace
