@@ -15,27 +15,23 @@ void function SettingsController() {
     void function init() {
         self.settings = new Map();
 
-        º.listen({
-            "setting::construct": (name, data) => construct(name, data),
-        });
+        ƒƒ("button").forEach((button) => {
+            const name = button.getAttribute("controller");
+            const settings = button.getAttribute("settings").split("\u0020");
 
-        º.emit`setting::construct`("language", {
-            multiple_selection: true,
-            default: "en",
-        });
-
-        º.emit`setting::construct`("theme", {
-            multiple_selection: false,
-            default: "neon",
+           construct(name, {
+               node: button,
+               multiple_selection: settings.includes("multiple"),
+               default: ƒ("[defaultOption]", button).dataset.option,
+           });
         });
     }();
 
     function construct(name, data) {
         data.name = name;
-        data.node = ƒ(`[${name}Controller]`);
         data.multiple_selection ??= false;
         data.state = ƒƒ("li", data.node).reduce(
-            (state, li) => Object.assign(state, { [li.dataset[name]]: false }),
+            (state, li) => Object.assign(state, { [li.dataset.option]: false }),
             Object.create(null)
         );
 
@@ -46,7 +42,7 @@ void function SettingsController() {
         data.get_active_options = get_active_options.bind(data);
 
         // Select default option.
-        data.update_options(ƒ(`[data-${name}=${data.default}`, data.node));
+        data.update_options(ƒ(`[data-option=${data.default}`, data.node));
 
         // Listen for user interaction.
         data.node.addEventListener("click", (e) => {
@@ -86,7 +82,7 @@ void function SettingsController() {
     /// [>] node :: HTMLLIElement
     /// [<] void
     function toggle_option(node) {
-        const attr = node.dataset[this.name];
+        const attr = node.dataset.option;
 
         this.state[attr] = !this.state[attr];
         node.classList.toggle("selected-option");
@@ -103,22 +99,19 @@ void function SettingsController() {
         // Maybe prevent multiple selection.
         if (!this.multiple_selection && this.get_active_options().length) {
             ƒƒ("li", this.node).forEach((node) => {
-                const attr = node.dataset[this.name];
-
-                if (this.state[attr] && node !== node_to_toggle)
+                if (this.state[node.dataset.option] && node !== node_to_toggle)
                     this.toggle_option(node);
             });
         }
 
         // Make sure that at least one option is selected.
         if (this.get_active_options().length === 0)
-            this.toggle_option(ƒ(`[data-${this.name}=${this.default}`, this.node));
+            this.toggle_option(ƒ(`[data-option=${this.default}`, this.node));
 
         // Set active option interface.
         const active_options = this.get_active_options();
         if (active_options.length > 3)
             active_options.push(`+${active_options.splice(2).length}`);
-
         this.node.dataset.selectedOption = active_options.join(", ");
     }
 }();

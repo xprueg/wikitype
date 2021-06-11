@@ -49,24 +49,24 @@
             </section>
         </main>
         <footer>
-            <button languageController data-selected-option>
+            <button controller="language" settings="multiple grid" data-selected-option>
                 Languages
-                <ol langList="mutiple grid">
-                    <li data-language="de">DE</li>
-                    <li data-language="en">EN</li>
-                    <li data-language="ru">RU</li>
-                    <li data-language="uk">UK</li>
-                    <li data-language="da">DA</li>
+                <ol langList>
+                    <li data-option="de">DE</li>
+                    <li data-option="en" defaultOption>EN</li>
+                    <li data-option="ru">RU</li>
+                    <li data-option="uk">UK</li>
+                    <li data-option="da">DA</li>
                 </ol>
             </button>
-            <button themeController="" data-selected-option>
+            <button controller="theme" settings="" data-selected-option>
                 Theme
                 <ol>
-                    <li data-theme="neon">NEON</li>
-                    <li data-theme="light">LIGHT</li>
-                    <li data-theme="dark">DARK</li>
-                    <li data-theme="sunset">SUNSET</li>
-                    <li data-theme="palette">PALETTE</li>
+                    <li data-option="neon" defaultOption>NEON</li>
+                    <li data-option="light">LIGHT</li>
+                    <li data-option="dark">DARK</li>
+                    <li data-option="sunset">SUNSET</li>
+                    <li data-option="palette">PALETTE</li>
                 </ol>
             </button>
         </footer>
