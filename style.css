@@ -385,10 +385,10 @@ article img:not([src=""]) {
 
 footer {
     padding-right: 50px;
-    display: grid;
-    align-items: center;
-    grid-template-columns: auto auto 1fr auto auto;
+    display: flex;
     grid-gap: 10px;
+    justify-content: center;
+    align-items: center;
     z-index: 943;
 }
 
