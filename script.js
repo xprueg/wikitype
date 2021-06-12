@@ -213,19 +213,6 @@ void function areas() {
     }
 }();
 
-// insert text frame
-// handle inputs
-
-// show loading content
-// fetch data - load from wikipedia
-// tokenize
-// reposition/resize frame
-// move image
-
-// call = º.call`message`;
-// emit = º.emit`message`;
-// listen = º.listen`message`((response) => {});
-
 void function WikiController() {
     const self = Object.create(null);
 
@@ -233,16 +220,29 @@ void function WikiController() {
         self.related_articles_cache = new Map();
         self.random_article_cache = new Map(º.req`language::getAll`()
                                              .map((lang) => [lang, Array()]));
-        self.url = {
-            random: (lang_code) =>
+
+        self.url = (() => {
+            const headers = new Headers({
+                "Api-User-Agent": "Wikitype (https://xpr.org/wikitype; abuse@xpr.org)"
+            });
+
+            const random = (lang_code) => new Request(
                 `https://${lang_code}.wikipedia.org/api/rest_v1/page/random/summary`,
-            related: (article_data) => {
+                { headers }
+            );
+
+            const related = (article_data) => {
                 const lang = article_data.lang;
                 const title = encodeURIComponent(article_data.titles.normalized);
 
-                return `https://${lang}.wikipedia.org/api/rest_v1/page/related/${title}`;
+                return new Request(
+                    `https://${lang}.wikipedia.org/api/rest_v1/page/related/${title}`,
+                    { headers }
+                );
             }
-        }
+
+            return { random, related };
+        })();
 
         º.respond({
             "wikiapi::fetchRandomArticle": (lang_code) => {
