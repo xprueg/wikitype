@@ -73,6 +73,7 @@ void function SettingsController() {
         });
 
         º.respond({
+            [`${name}::getDefault`]: () => data.default,
             [`${name}::getRandom`]: () => {
                 const options = data.get_active_options();
                 return options[Math.floor(Math.random() * options.length)];
