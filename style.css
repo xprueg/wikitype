@@ -17,16 +17,6 @@ html {
     --aside-width: 50px;
     --header-height: calc(50px + var(--global-border-size));
     --footer-height: 200px;
-
-    /* Custom */
-    --body-background: radial-gradient(at 0% 0%, magenta, cyan);
-    --global-border-size: 2px;
-    --global-border-color: black;
-    --main-padding: 20px;
-    --article-base-width: 700px;
-    --article-width-shift: 50px;
-    --article-base-height: 400px;
-    --article-height-shift: 50px;
 }
 
 body {
@@ -110,16 +100,11 @@ header {
 }
 
 main {
-    --dark: hsla(0, 0%, 0%, .05);
-    --bright: white;
-    --size: 40px;
     grid-area: main;
-    background-color: var(--bright);
-    background-image: linear-gradient(45deg, var(--dark) 25%, transparent 25%, transparent 75%, var(--dark) 75%, var(--dark)),
-    linear-gradient(45deg, var(--dark) 25%, transparent 25%, transparent 75%, var(--dark) 75%, var(--dark));
-    background-size: var(--size) var(--size);
-    background-position: 0 0, calc(var(--size) / 2) calc(var(--size) / 2);
-
+    background-color: var(--main-background-color);
+    background-image: var(--main-background-image);
+    background-size: var(--main-background-size);
+    background-position: var(--main-background-position);
     border: var(--global-border-size) solid var(--global-border-color);
     border-right: none;
     position: relative;
