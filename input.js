@@ -42,14 +42,8 @@ void function InputController() {
 
         switch(key) {
             case "Tab":
-                console.log("tab");
-                // e.preventDefault();
-                // evt.emit("select_next_token");
-                // clear_input();
                 break;
             case "Enter":
-                // e.preventDefault();
-                // evt.emit("open_article_in_new_tab");
                 break;
         }
 
@@ -62,32 +56,6 @@ void function InputController() {
                 case "n":
                     º.emit`article::unloadArticle`();
                     break;
-                case "mx":
-                    console.log("ctrl + m");
-                    break;
-                    // e.preventDefault();
-                    // evt.emit("toggle_zen_mode");
-                    // break;
-                case "ä":
-                    // e.preventDefault();
-                    // evt.emit("select_next_article");
-                    // clear_input();
-                    // break;
-                case "L":
-                    // shift && evt.emit("open_language_selection");
-                    // break;
-                case "+":
-                case "-":
-                    // e.preventDefault();
-                    // evt.emit("change_font_size", key);
-                    // break;
-                case "1":
-                case "2":
-                case "3":
-                case "4":
-                    // e.preventDefault();
-                    // evt.emit("set_theme_by_index", Number(key) - 1);
-                    // break;
             }
         }
     }
