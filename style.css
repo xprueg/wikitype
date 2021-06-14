@@ -368,6 +368,20 @@ article img:not([src=""]) {
     max-width: var(--footer-height);
 }
 
+article img[data-display=highres]:not([src=""]) {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 95vh;
+    width: 95vw;
+    object-fit: contain;
+    max-height: var(--original-height);
+    max-width: var(--original-width);
+    z-index: 1009;
+    border: none;
+}
+
 /* footer */
 
 footer {
