@@ -464,7 +464,7 @@ void function section() {
     }
 }();
 
-void function article() {
+void function ArticleController() {
     const self = Object.create(null);
 
     void function init() {
@@ -495,6 +495,30 @@ void function article() {
             "article::loadRandom": () => load_random(),
             "article::set_contents": (...args) => set_contents(...args),
             "article::unloadArticle": () => unload_article(),
+            "article::showHighResImage": (show) => {
+                const img = ƒ("img", self.article);
+
+                if (show) {
+                    if (img.dataset.display === "highres")
+                        return;
+
+                    img.dataset.lowres = img.src;
+
+                    const width = self.current_article?.originalimage?.width ?? img.naturalWidth;
+                    const height = self.current_article?.originalimage?.height ?? img.naturalHeight;
+
+                    const preload = new Image();
+                    preload.onload = (e) => img.src = e.target.src;
+                    preload.src = self.current_article?.originalimage?.source,
+
+                    img.dataset.display = "highres";
+                    img.style.cssText = `--original-height: ${width}px;
+                                         --original-width: ${height}px;`;
+                } else {
+                    img.dataset.display = "lowres";
+                    img.src = img.dataset.lowres;
+                }
+            },
         });
     }();
 
