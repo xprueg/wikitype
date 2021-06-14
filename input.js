@@ -12,6 +12,7 @@ void function InputController() {
         self.current_key_is_dead = false;
 
         document.body.addEventListener("keydown", keydown_evt);
+        document.body.addEventListener("keyup", keyup_evt);
 
         ƒ("body").appendChild(self.input);
 
@@ -29,19 +30,17 @@ void function InputController() {
     }
 
     function keydown_evt(e) {
-        self.current_key_is_dead = (e.key === "Dead");
-
-        focus_input();
-        handle_shortcut(e);
-    }
-
-    function handle_shortcut(e) {
         const key = e.key;
         const ctrl = e.ctrlKey || e.metaKey;
         const shift = e.shiftKey;
+        self.current_key_is_dead = (key === "Dead");
+
+        focus_input();
 
         switch(key) {
             case "Tab":
+                º.emit`article::showHighResImage`(true);
+                e.preventDefault();
                 break;
             case "Enter": {
                 const url = º.req`article::getUrl`();
@@ -60,6 +59,19 @@ void function InputController() {
                     º.emit`article::unloadArticle`();
                     break;
             }
+        }
+    }
+
+    function keyup_evt(e) {
+        const key = e.key;
+        const ctrl = e.ctrlKey || e.metaKey;
+        const shift = e.shiftKey;
+
+        switch(key) {
+            case "Tab":
+                º.emit`article::showHighResImage`(false);
+                e.preventDefault();
+                break;
         }
     }
 
