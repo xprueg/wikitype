@@ -43,8 +43,11 @@ void function InputController() {
         switch(key) {
             case "Tab":
                 break;
-            case "Enter":
-                break;
+            case "Enter": {
+                const url = º.req`article::getUrl`();
+                if (url)
+                    window.open(url);
+            } break;
         }
 
         if (ctrl) {
