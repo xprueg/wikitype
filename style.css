@@ -401,7 +401,7 @@ footer {
     transition: all 500ms ease-in-out, mix-blend-mode 4s;
 }
 
-button {
+[controller] {
     --button-height: 50px;
     cursor: pointer;
     font-family: Trash;
@@ -417,7 +417,7 @@ button {
     position: relative;
 }
 
-button ol {
+[controller] ol {
     position: absolute;
     bottom: calc(var(--button-height) + 10px);
     list-style: none;
@@ -429,23 +429,23 @@ button ol {
     left: 50%;
 }
 
-button:hover ol {
+[controller]:hover ol {
     display: flex;
 }
 
-button[settings~=grid] ol {
+[controller][settings~=grid] ol {
     grid-template-columns: 1fr 1fr 1fr;
 }
 
-button[settings~=grid]:hover ol {
+[controller][settings~=grid]:hover ol {
     display: grid;
 }
 
-button[disabled] {
+[controller][disabled] {
     opacity: .2;
 }
 
-button::before {
+[controller]::before {
     content: attr(data-selected-option);
     position: absolute;
     bottom: 100%;
@@ -461,7 +461,7 @@ button::before {
     white-space: nowrap;
 }
 
-button ol li {
+[controller] ol li {
     display: inline-block;
     background: black;
     color: hsla(255, 100%, 100%, .5);
@@ -481,11 +481,11 @@ button ol li {
     }
 }
 
-button ol li.selected-option {
+[controller] ol li.selected-option {
     color: white;
 }
 
-button ol li:hover {
+[controller] ol li:hover {
     animation: wiggle 512ms infinite ease-in-out alternate;
 }
 
