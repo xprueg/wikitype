@@ -473,7 +473,12 @@ void function article() {
         self.current_article = undefined;
 
         º.respond({
-            "article::get_active_token_text": () => ƒ(".active-token", self.article)?.dataset.word,
+            "article::get_active_token_text": () => {
+                return ƒ(".active-token", self.article)?.dataset?.word;
+            },
+            "article::getUrl": () => {
+                return self.current_article?.content_urls?.desktop?.page;
+            },
         });
 
         º.listen({
