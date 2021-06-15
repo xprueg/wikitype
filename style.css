@@ -115,36 +115,52 @@ footer {
     grid-area: footer;
 }
 
-[show="article"] nav,
-[show="nav"] article {
-    display: none;
-}
-
 /* NavController */
 
-[navHeading] {
-    font-family: Trash;
-    font-size: 20px;
-    line-height: 20px;
-    text-transform: uppercase;
-    transform-origin: bottom left;
+nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    --option-height: 60px;
+    --option-font-size: 32px;
+    z-index: 9043;
+    display: flex;
+    opacity: 0;
+    transition: opacity 125ms ease-in-out;
+}
+
+nav[data-is-visible=true] {
+    opacity: 1;
+}
+
+[navSelect] {
+    max-width: 500px;
 }
 
 [navOption] {
-    margin-top: 10px;
+    margin-top: 1.5ex;
     display: flex;
+    font-family: Inter;
+}
+
+[navOption]:first-child {
+    margin-top: 0;
 }
 
 [navOptionIdx] {
-    width: 50px;
-    height: 50px;
+    width: var(--option-height);
+    height: var(--option-height);
     background: black;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 30px;
-    border-radius: 50px;
+    font-size: var(--option-font-size);
+    border-radius: var(--option-height);
     border-bottom-right-radius: 0;
     flex-shrink: 0;
 }
@@ -158,14 +174,14 @@ footer {
 }
 
 [navOptionTitle] {
-    height: 50px;
-    font-size: 30px;
+    height: var(--option-height);
+    font-size: var(--option-font-size);
     background: black;
     color: white;
     display: flex;
     align-items: center;
-    padding: 0 1ex;
-    border-radius: 50px;
+    padding: 0 1.5ex;
+    border-radius: var(--option-height);
     border-bottom-left-radius: 0;
     white-space: nowrap;
     z-index: 943;
@@ -362,7 +378,13 @@ article p {
     padding-bottom: 20px;
 }
 
-article img:not([src=""]) {
+
+article img:not([src]) {
+    display: none;
+    border: none;
+}
+
+article img[src] {
     border: 2px solid black;
     max-height: var(--footer-height);
     max-width: var(--footer-height);
