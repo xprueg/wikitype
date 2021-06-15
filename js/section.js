@@ -11,11 +11,11 @@ void function SectionController() {
 
         º.listen({
             "nav::displayOptions": () => {
-                self.node.setAttribute("show", "nav");
+                ƒ("nav").dataset.isVisible = true;
                 reposition();
             },
-            "article::set_contents": () => self.node.setAttribute("show", "article"),
-            "article::loadRandom": () => self.node.setAttribute("show", "article"),
+            "article::set_contents": () => ƒ("nav").dataset.isVisible = false,
+            "article::loadRandom": () => ƒ("nav").dataset.isVisible = false,
             "section::reposition": () => reposition(),
             "areas::update": (areas) => {
                 self.areas = areas;
