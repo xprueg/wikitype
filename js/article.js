@@ -147,7 +147,8 @@ void function ArticleController() {
         self.article.dataset.title = data.displaytitle;
         self.article.dataset.canonicalTitle = data.titles.canonical;
         self.article.dataset.lang = data.lang;
-        ƒ("img", self.article).src = data?.thumbnail?.source ?? String();
+        if (data?.thumbnail?.source)
+            ƒ("img", self.article).src = data?.thumbnail?.source;
 
         º.emit`history::push`({ title: data.titles.normalized, is_related });
     }
