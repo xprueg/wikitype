@@ -103,7 +103,7 @@ void function ArticleController() {
         }
 
         ƒ("p", self.article).innerHTML = String();
-        ƒ("img", self.article).src = String();
+        ƒ("img", self.article).removeAttribute("src");
 
         º.emit`nav::displayOptions`(self.current_article);
         self.current_article = undefined;
