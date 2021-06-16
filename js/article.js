@@ -2,7 +2,8 @@ void function ArticleController() {
     const self = Object.create(null);
 
     void function init() {
-        self.article = ƒ("article");
+        self.article = ª(ƒ("#articleTemplate"), "#article");
+        ƒ("main").appendChild(self.article);
         self.areas = º.req`areas::get`();
         self.current_article = undefined;
 
@@ -107,18 +108,22 @@ void function ArticleController() {
 
         º.emit`nav::displayOptions`(self.current_article);
         self.current_article = undefined;
+        display_loading(true);
     }
 
     let spinner_id;
     function start_spinner(chars) {
-        const self = ƒ(".loading_spinner");
+        console.log("starting_spinner");
+        const node = document.createElement("div");
+        node.setAttribute("id", "loadingSpinner");
+        self.article.appendChild(node);
         let idx = 0;
 
         function update_char(chars) {
             if (++idx > chars.length - 1)
                 idx = 0;
 
-            self.innerText = chars[idx];
+            node.innerText = chars[idx];
         }
 
         update_char(chars);
@@ -126,29 +131,33 @@ void function ArticleController() {
     }
 
     function display_loading(bool) {
+        if (self.article.dataset.isLoading === "true" && bool)
+            return;
+
         self.article.dataset.isLoading = bool;
 
         if (bool)
             start_spinner("-\\|/".split(""));
         else {
             clearInterval(spinner_id);
+            if (document.querySelector("#loadingSpinner"))
+                document.querySelector("#loadingSpinner").remove();
         }
     }
 
     function set_contents(data, is_related) {
-        // TODO: Load related articles here.
         display_loading(false);
 
         self.current_article = data;
 
-        tokenize(data.extract.length ? data.extract : data.displaytitle).forEach((token) => ƒ("p", self.article).appendChild(token));
+        tokenize(data.extract.length ? data.extract : data.displaytitle).forEach((token) => ƒ("#articleExtract", self.article).appendChild(token));
         advance_token();
 
         self.article.dataset.title = data.displaytitle;
         self.article.dataset.canonicalTitle = data.titles.canonical;
         self.article.dataset.lang = data.lang;
         if (data?.thumbnail?.source)
-            ƒ("img", self.article).src = data?.thumbnail?.source;
+            ƒ("#articleImage", self.article).src = data?.thumbnail?.source;
 
         º.emit`history::push`({ title: data.titles.normalized, is_related });
     }

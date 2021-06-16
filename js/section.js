@@ -2,7 +2,7 @@ void function SectionController() {
     const self = Object.create(null);
 
     void function init() {
-        self.node = ƒ("section");
+        self.node = ƒ("#article");
         self.areas = º.req`areas::get`();
 
         // Position frame on inital load, afterwards only reposition on the transition
@@ -40,7 +40,6 @@ void function SectionController() {
             article_base_width + rand((Math.random() > .5 ? 1 : -1) * article_width_shift),
             max_width
         );
-        console.log(rand((Math.random() > .5 ? 1 : -1) * article_width_shift));
 
         const max_height = self.areas.main.h - padding * 2;
         const height = Math.min(

@@ -212,37 +212,7 @@ nav[data-is-visible=true] {
     pointer-events: none;
 }
 
-section {
-    position: absolute;
-    font-family: Inter;
-    font-size: 30px;
-    line-height: 40px;
-    padding: 30px;
-    transition: all 1s;
-}
-
-.frame {
-    --frame-border-size: 2px;
-    --frame-border-color: black;
-
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border: var(--frame-border-size) solid var(--frame-border-color);
-}
-
-article p {
-    font-feature-settings: "ss01", "ss02", "case", "cv10", "cv11";
-    white-space: pre-wrap;
-}
-
-.loading_spinner {
-    display: none;
-}
-
-article[data-is-loading="true"] .loading_spinner {
+#loadingSpinner {
     display: flex;
     position: absolute;
     left: 0;
@@ -252,6 +222,22 @@ article[data-is-loading="true"] .loading_spinner {
     align-items: center;
     justify-content: center;
     font-size: 2rem;
+}
+
+/*/ #Article /*/
+
+#article {
+    position: absolute;
+    font-family: Inter;
+    font-size: 30px;
+    line-height: 40px;
+    padding: 30px;
+    transition: all 1s;
+}
+
+#article p {
+    font-feature-settings: "ss01", "ss02", "case", "cv10", "cv11";
+    white-space: pre-wrap;
 }
 
 .token {
@@ -303,94 +289,96 @@ article[data-is-loading="true"] .loading_spinner {
     content: attr(data-word);
     overflow: hidden;
     display: inline-block;
-    /* line-height: 1em;
-    height: 1em;
-    transition: height 2s ease-out; */
 }
 
-/* .typed-token::before {
-    height: 0;
-} */
+/*/ FRAME /*/
 
-.handles {
+#transformFrame {
+    --frame-border-size: 2px;
+    --frame-border-color: black;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: var(--frame-border-size) solid var(--frame-border-color);
+}
+
+ol[id$=Handles] {
     list-style: none;
 }
 
-.handles li {
-    --handle-size: 10px;
-    --handle-offset: calc(-1 * var(--handle-size) / 2 - var(--frame-border-size) / 2);
+ol[id$=Handles] li {
     position: absolute;
     width: var(--handle-size);
     height: var(--handle-size);
+}
+
+#edgeHandles li {
+    --handle-size: 10px;
+    --handle-offset: calc(-1 * var(--handle-size) / 2 - var(--frame-border-size) / 2);
     background: white;
     box-shadow: inset 0 0 0 var(--frame-border-size) var(--frame-border-color);
 }
-
-.handles li:nth-child(1) {
+#edgeHandles li:nth-child(1) {
     top: var(--handle-offset);
     left: var(--handle-offset);
 }
-.handles li:nth-child(2) {
+#edgeHandles li:nth-child(2) {
     top: var(--handle-offset);
     right: var(--handle-offset);
 }
-.handles li:nth-child(3) {
+#edgeHandles li:nth-child(3) {
     bottom: var(--handle-offset);
     left: var(--handle-offset);
 }
-.handles li:nth-child(4) {
+#edgeHandles li:nth-child(4) {
     bottom: var(--handle-offset);
     right: var(--handle-offset);
 }
 
-.handless {
-    list-style: none;
+#middleHandles li {
+    --handle-size: 6px;
+    --handle-offset: calc(-1 * var(--handle-size) / 2 - var(--global-border-size) / 2);
+    background: black;
+}
+#middleHandles li:nth-child(1) {
+    top: var(--handle-offset);
+    left: calc(50% - var(--handle-size) / 2);
+}
+#middleHandles li:nth-child(2) {
+    top: calc(50% - var(--handle-size) / 2);
+    right: var(--handle-offset);
+}
+#middleHandles li:nth-child(3) {
+    bottom: var(--handle-offset);
+    left: calc(50% - var(--handle-size) / 2);
+}
+#middleHandles li:nth-child(4) {
+    top: calc(50% - var(--handle-size) / 2);
+    left: var(--handle-offset);
 }
 
-.handless li {
-    --handles-size: 6px;
-    --handles-offset: calc(-1 * var(--handles-size) / 2 - var(--global-border-size) / 2);
-    position: absolute;
-    width: var(--handles-size);
-    height: var(--handles-size);
-    background: var(--frame-border-color);
-    border-radius: 100px;
-}
+/*/ /FRAME /*/
 
-.handless li:nth-child(1) {
-    top: var(--handles-offset);
-    left: calc(50% - var(--handles-size) / 2);
-}
-.handless li:nth-child(2) {
-    top: calc(50% - var(--handles-size) / 2);
-    right: var(--handles-offset);
-}
-.handless li:nth-child(3) {
-    bottom: var(--handles-offset);
-    left: calc(50% - var(--handles-size) / 2);
-}
-.handless li:nth-child(4) {
-    top: calc(50% - var(--handles-size) / 2);
-    left: var(--handles-offset);
-}
-
-article p {
+#article p {
     padding-bottom: 20px;
 }
 
 
-article img:not([src]) {
+#article img:not([src]) {
     display: none;
     border: none;
 }
 
-article img[src] {
+#article img[src] {
     border: 2px solid black;
     max-height: var(--footer-height);
     max-width: var(--footer-height);
 }
 
-article img[data-display=highres]:not([src=""]) {
+#article img[data-display=highres]:not([src=""]) {
     position: fixed;
     top: 50%;
     left: 50%;

@@ -3,8 +3,10 @@
     <head>
         <meta charset="utf-8">
         <title>Wikitype</title>
-        <link rel="stylesheet" type="text/css" href="https://server.xpr.org/~/fonts/trash.css">
-        <link rel="stylesheet" type="text/css" href="https://server.xpr.org/~/fonts/inter.css">
+        <link rel="stylesheet" type="text/css"
+              href="https://server.xpr.org/~/fonts/trash.css">
+        <link rel="stylesheet" type="text/css"
+              href="https://server.xpr.org/~/fonts/inter.css">
         <link rel="stylesheet" type="text/css" href="style.css">
         <script src="js/º.js"></script>
         <script src="js/lib.js"></script>
@@ -34,17 +36,17 @@
                         <span navOptionTitle></span></div>
                 </div>
             </nav>
-            <section>
-                <div class="frame">
-                    <ol class="handles"><li></li><li></li><li></li><li></li></ol>
-                    <ol class="handless"><li></li><li></li><li></li><li></li></ol>
+
+            <template id="articleTemplate">
+                <div id="article" data-lang data-title data-canonical-title>
+                    <div id="transformFrame">
+                        <ol id="edgeHandles"><li></li><li></li><li></li><li></li></ol>
+                        <ol id="middleHandles"><li></li><li></li><li></li><li></li></ol>
+                    </div>
+                    <p id="articleExtract"></p>
+                    <img id="articleImage"/>
                 </div>
-                <article data-lang data-title data-canonical-title>
-                    <div class="loading_spinner"></div>
-                    <p></p>
-                    <img/>
-                </article>
-            </section>
+            </template>
         </main>
         <footer>
             <div controller="language" settings="multiple grid" data-selected-option>
@@ -70,8 +72,8 @@
         <script src="js/area.js"></script>
         <script src="js/wiki.js"></script>
         <script src="js/nav.js"></script>
-        <script src="js/section.js"></script>
         <script src="js/article.js"></script>
+        <script src="js/section.js"></script>
         <script>
             º.emit`article::loadRandom`();
         </script>
