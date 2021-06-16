@@ -38,7 +38,6 @@ void function ArticleController() {
                         return;
 
                     img.dataset.lowres = img.src;
-
                     const width = self.current_article?.originalimage?.width ?? img.naturalWidth;
                     const height = self.current_article?.originalimage?.height ?? img.naturalHeight;
 
@@ -108,45 +107,11 @@ void function ArticleController() {
 
         º.emit`nav::displayOptions`(self.current_article);
         self.current_article = undefined;
-        display_loading(true);
-    }
-
-    let spinner_id;
-    function start_spinner(chars) {
-        console.log("starting_spinner");
-        const node = document.createElement("div");
-        node.setAttribute("id", "loadingSpinner");
-        self.article.appendChild(node);
-        let idx = 0;
-
-        function update_char(chars) {
-            if (++idx > chars.length - 1)
-                idx = 0;
-
-            node.innerText = chars[idx];
-        }
-
-        update_char(chars);
-        spinner_id = setInterval(() => update_char(chars), 128);
-    }
-
-    function display_loading(bool) {
-        if (self.article.dataset.isLoading === "true" && bool)
-            return;
-
-        self.article.dataset.isLoading = bool;
-
-        if (bool)
-            start_spinner("-\\|/".split(""));
-        else {
-            clearInterval(spinner_id);
-            if (document.querySelector("#loadingSpinner"))
-                document.querySelector("#loadingSpinner").remove();
-        }
+        º.emit`spinner::spawn`(self.article);
     }
 
     function set_contents(data, is_related) {
-        display_loading(false);
+        º.emit`spinner::kill`(self.article);
 
         self.current_article = data;
 
@@ -164,7 +129,7 @@ void function ArticleController() {
 
     // TODO: Handle lang selection.
     function load_random() {
-        display_loading(true);
+        º.emit`spinner::spawn`(self.article);
         º.req`wikiapi::fetchRandomArticle`()
             .then((data) =>
                 set_contents(data, false))
