@@ -27,6 +27,9 @@ void function Spinner() {
     }
 
     function kill_spinner(node) {
+        if (!self.spinner.has(node))
+            return;
+
         const data = self.spinner.get(node);
         const spinner = data.get("spinner");
         const id = data.get("id");
