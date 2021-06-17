@@ -2,8 +2,7 @@ void function ArticleController() {
     const self = Object.create(null);
 
     void function init() {
-        self.article = ª(ƒ("#articleTemplate"), "#article");
-        ƒ("main").appendChild(self.article);
+        self.article = ƒ("#article");
         self.areas = º.req`areas::get`();
         self.current_article = undefined;
 

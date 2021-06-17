@@ -38,16 +38,14 @@
                 </div>
             </nav>
 
-            <template id="articleTemplate">
-                <div id="article" data-lang data-title data-canonical-title>
-                    <div id="transformFrame">
-                        <ol id="edgeHandles"><li></li><li></li><li></li><li></li></ol>
-                        <ol id="middleHandles"><li></li><li></li><li></li><li></li></ol>
-                    </div>
-                    <p id="articleExtract"></p>
-                    <img id="articleImage"/>
+            <div id="article" data-lang data-title data-canonical-title>
+                <div id="transformFrame">
+                    <ol id="edgeHandles"><li></li><li></li><li></li><li></li></ol>
+                    <ol id="middleHandles"><li></li><li></li><li></li><li></li></ol>
                 </div>
-            </template>
+                <p id="articleExtract"></p>
+                <img id="articleImage" src="data:," alt/>
+            </div>
         </main>
         <footer>
             <div controller="language" settings="multiple grid" data-selected-option>

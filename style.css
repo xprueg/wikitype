@@ -366,19 +366,17 @@ ol[id$=Handles] li {
     padding-bottom: 20px;
 }
 
-
-#article img:not([src]) {
+#articleImage[src="data:,"] {
     display: none;
-    border: none;
 }
 
-#article img[src] {
+#articleImage {
     border: 2px solid black;
     max-height: var(--footer-height);
     max-width: var(--footer-height);
 }
 
-#article img[data-display=highres]:not([src=""]) {
+#article img[data-display=highres] {
     position: fixed;
     top: 50%;
     left: 50%;
