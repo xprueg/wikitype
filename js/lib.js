@@ -13,6 +13,17 @@ function ø(node, type, fn) {
     node.addEventListener(type, fn);
 }
 
+/// Preloads an image and calls next upon completion.
+///
+/// [>] source := string
+/// [>] next := fn(img: HTMLImageElement) -> void
+/// [<] void
+function π(source, next) {
+    const img = new Image();
+    img.onload = () => next(img);
+    img.src = source;
+}
+
 /// Returns a new promise.
 ///
 /// [>] fn :: Fn(*) -> *
