@@ -120,8 +120,11 @@ void function ArticleController() {
         self.article.dataset.title = data.displaytitle;
         self.article.dataset.canonicalTitle = data.titles.canonical;
         self.article.dataset.lang = data.lang;
-        if (data?.thumbnail?.source)
-            ƒ("#articleImage", self.article).src = data?.thumbnail?.source;
+        if (data?.thumbnail?.source) {
+            const preload = new Image();
+            preload.onload = () => ƒ("#articleImage").src = data.thumbnail.source;
+            preload.src = data.thumbnail.source;
+        }
 
         º.emit`history::push`({ title: data.titles.normalized, is_related });
     }
