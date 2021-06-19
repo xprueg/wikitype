@@ -17,6 +17,9 @@ html {
     --aside-width: 50px;
     --header-height: calc(50px + var(--global-border-size));
     --footer-height: 200px;
+    --z-footer: 20;
+    --z-navigation: 10;
+    --z-imagePreview: 30;
 }
 
 body {
@@ -117,6 +120,7 @@ main {
 
 footer {
     grid-area: footer;
+    z-index: var(--z-footer);
 }
 
 /* NavController */
@@ -131,7 +135,7 @@ nav {
     justify-content: center;
     --option-height: 60px;
     --option-font-size: 32px;
-    z-index: 9043;
+    z-index: var(--z-navigation);
     display: flex;
     opacity: 0;
     transition: opacity 125ms ease-in-out;
@@ -186,7 +190,6 @@ nav[data-is-visible=true] {
     border-radius: var(--option-height);
     border-bottom-left-radius: 0;
     white-space: nowrap;
-    z-index: 943;
 }
 
 [data-is-available="false"] .navOptionTitle:empty::before {
@@ -250,7 +253,6 @@ nav[data-is-visible=true] {
 #activeToken #progressToken {
     position: absolute;
     right: 0;
-    z-index: 943;
 }
 
 #activeToken #progressToken::before {
@@ -291,7 +293,7 @@ nav[data-is-visible=true] {
     left: 0;
     right: 0;
     border: var(--frame-border-size) solid var(--frame-border-color);
-    z-index: 43;
+    z-index: 1;
 }
 
 ol[id$=Handles] {
@@ -381,7 +383,7 @@ ol[id$=Handles] li {
     object-fit: contain;
     max-height: var(--original-height);
     max-width: var(--original-width);
-    z-index: 1009;
+    z-index: var(--z-imagePreview);
     border: none;
 }
 
@@ -392,7 +394,6 @@ footer {
     grid-gap: 10px;
     justify-content: center;
     align-items: center;
-    z-index: 943;
 }
 
 .footer-image {
@@ -475,6 +476,7 @@ footer {
     border-radius: 100px;
     height: var(--button-height);
     font-size: 30px;
+    /* margin: 0 0 10px 10px; */
     position: relative;
 }
 
