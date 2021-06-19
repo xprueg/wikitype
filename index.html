@@ -83,8 +83,10 @@
         <script src="js/article.js"></script>
         <script>
             º.req`wikiapi :fetchRandomArticle`()
-             .then((article_data) => º.emit`article :setContents`({ article_data,
-                                                                    is_related: false }));
+             .then((article_data) => {
+                º.emit`history :push`({ article_data, is_related: false });
+                º.emit`article :setContents`(article_data);
+             });
         </script>
     </body>
 </html>

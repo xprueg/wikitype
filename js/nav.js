@@ -31,15 +31,15 @@ void function NavController() {
         const article_data = self.related_article_buffer[Number(choice) - 1];
         if (!article_data) {
             º.req`wikiapi :fetchRandomArticle`().then((article_data) => {
-                console.log(article_data);
-                º.emit`article :setContents`({ article_data, is_related: false });
+                º.emit`history :push`({ article_data, is_related: false });
+                º.emit`article :setContents`(article_data);
             });
 
             return;
         }
 
         º.emit`history :push`({ article_data, is_related: true });
-        º.emit`article :setContents`({ article_data, is_related: true });
+        º.emit`article :setContents`(article_data);
         º.emit`wikiapi :prefetchRelatedArticles`(article_data);
     }
 

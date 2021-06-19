@@ -37,7 +37,7 @@ void function ArticleController() {
                 ƒ("#progressToken", self.article).dataset.upcoming = upcoming;
                 ƒ("#progressToken", self.article).dataset.mistyped = mistyped;
             },
-            "article :setContents": (data) => set_contents(data),
+            "article :setContents": (article_data) => set_contents(article_data),
             "article :unloadArticle": () => unload_article(),
             "article :showHighResImage": (bool) => display_highres_image(bool),
         });
@@ -87,7 +87,7 @@ void function ArticleController() {
         });
     }
 
-    function set_contents({ article_data, is_related }) {
+    function set_contents(article_data) {
         const article = self.current = new Article(article_data);
 
         // Create tokens.
@@ -109,7 +109,6 @@ void function ArticleController() {
             });
         }
 
-        º.emit`history :push`({ article_data, is_related: false });
         º.emit`spinner :kill`(self.article_node);
     }
 
