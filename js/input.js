@@ -39,11 +39,11 @@ void function InputController() {
 
         switch(key) {
             case "Tab":
-                º.emit`article::showHighResImage`(true);
+                º.emit`article :showHighResImage`(true);
                 e.preventDefault();
                 break;
             case "Enter": {
-                const url = º.req`article::getUrl`();
+                const url = º.req`article :getUrl`();
                 if (url)
                     window.open(url);
             } break;
@@ -52,11 +52,11 @@ void function InputController() {
         if (ctrl) {
             switch(key) {
                 case "s":
-                    º.emit`article::advance_token`();
+                    º.emit`article :advanceToken`();
                     clear_input();
                     break;
                 case "n":
-                    º.emit`article::unloadArticle`();
+                    º.emit`article :unloadArticle`();
                     break;
             }
         }
@@ -69,7 +69,7 @@ void function InputController() {
 
         switch(key) {
             case "Tab":
-                º.emit`article::showHighResImage`(false);
+                º.emit`article :showHighResImage`(false);
                 e.preventDefault();
                 break;
         }
@@ -77,14 +77,14 @@ void function InputController() {
 
     function input_evt(kbevt) {
         const input_txt = self.input.value;
-        const token_txt = º.req`article::get_active_token_text`();
+        const token_txt = º.req`article :getActiveTokenText`();
 
         // Don't updated on dead key as it will show up as mistyped text.
         if (self.current_key_is_dead)
             return;
 
         if (!token_txt) {
-            º.emit`nav::select`(input_txt);
+            º.emit`nav :select`(input_txt);
             clear_input();
             return;
         }
@@ -94,7 +94,7 @@ void function InputController() {
 
         if (token_txt.indexOf(input_txt) === 0) {
             if (token_txt.length === input_txt.length) {
-                º.emit`article::advance_token`();
+                º.emit`article :advanceToken`();
                 return void clear_input();
             }
 
@@ -109,7 +109,6 @@ void function InputController() {
             }
         }
 
-        º.emit`article::set_token_upcoming_text`(upcoming_txt);
-        º.emit`article::set_token_mistyped_text`(mistyped_txt);
+        º.emit`article :updateProgressToken`(upcoming_txt, mistyped_txt);
     }
 }();

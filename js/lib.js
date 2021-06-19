@@ -15,9 +15,9 @@ function ø(node, type, fn) {
 
 /// Preloads an image and calls next upon completion.
 ///
-/// [>] source := string
-/// [>] next := fn(img: HTMLImageElement) -> void
-/// [<] void
+/// [>] source: String
+/// [>] next: Fn(img: HTMLImageElement) -> Void
+/// [<] Void
 function π(source, next) {
     const img = new Image();
     img.onload = () => next(img);
@@ -26,7 +26,7 @@ function π(source, next) {
 
 /// Returns a new promise.
 ///
-/// [>] fn :: Fn(*) -> *
+/// [>] fn: Fn(*) -> *
 /// [<] Promise
 function µ(fn) {
     return new Promise(fn);
@@ -34,7 +34,7 @@ function µ(fn) {
 
 /// Returns a resolved promise.
 ///
-/// [>] val :: *
+/// [>] val: *
 /// [<] Promise
 function µµ(val) {
     return Promise.resolve(val);
@@ -42,7 +42,7 @@ function µµ(val) {
 
 /// Fetches a url and returns a promise with the parsed response.
 ///
-/// [>] url :: string
+/// [>] url: String
 /// [<] Promise
 function µƒ(url, fallback_value) {
     return fetch(url).then((res) => {
@@ -52,14 +52,17 @@ function µƒ(url, fallback_value) {
         }
 
         return res.json();
+    }).catch((err) => {
+        alert("No Internet");
+        throw Error("No Internet");
     });
 }
 
 /// Returns the selected node from a template.
 ///
-/// [>] template :: node
-/// [>] selector_to_extract :: string
-/// [<] node
+/// [>] template: HTMLTemplateElement
+/// [>] selector_to_extract: String
+/// [<] HTMLElement
 function ª(template, selector_to_extract) {
     return document.importNode(
         template.content.querySelector(selector_to_extract),

@@ -15,36 +15,45 @@
     <body>
         <aside>XPR.ORG/WIKITYPE&nbsp;&nbsp;&nbsp;\\\&nbsp;&nbsp;&nbsp;XPR.ORG/WIKITYPE&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;<div class="clock"></div>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;XPR.ORG/WIKITYPE&nbsp;&nbsp;&nbsp;///&nbsp;&nbsp;&nbsp;XPR.ORG/WIKITYPE</aside>
         <header>
-            <template id="history_item">
+            <template id="historyEntryTemplate">
                 <li><span></span></li>
             </template>
             <ol class="history"></ol>
         </header>
         <main>
             <nav>
-                <div navSelect>
-                    <div navOption>
-                        <span navOptionIdx="0"></span>
-                        <span navOptionTitle>Random Article</span></div>
-                    <div navOption>
-                        <span navOptionIdx="1"></span>
-                        <span navOptionTitle></span></div>
-                    <div navOption>
-                        <span navOptionIdx="2"></span>
-                        <span navOptionTitle></span></div>
-                    <div navOption>
-                        <span navOptionIdx="3"></span>
-                        <span navOptionTitle></span></div>
+                <div id="navSelect">
+                    <div class="navOption">
+                        <span data-navOptionIdx="0"></span>
+                        <span class="navOptionTitle">Random Article</span></div>
+                    <div class="navOption" data-is-available="false">
+                        <span data-navOptionIdx="1"></span>
+                        <span class="navOptionTitle"></span></div>
+                    <div class="navOption" data-is-available="false">
+                        <span data-navOptionIdx="2"></span>
+                        <span class="navOptionTitle"></span></div>
+                    <div class="navOption" data-is-available="false">
+                        <span data-navOptionIdx="3"></span>
+                        <span class="navOptionTitle"></span></div>
                 </div>
             </nav>
 
-            <div id="article" data-lang data-title data-canonical-title>
+            <div id="article">
                 <div id="transformFrame">
                     <ol id="edgeHandles"><li></li><li></li><li></li><li></li></ol>
                     <ol id="middleHandles"><li></li><li></li><li></li><li></li></ol>
                 </div>
-                <p id="articleExtract"></p>
-                <img id="articleImage" src="data:," alt/>
+                <template id="tokenTemplate">
+                    <span class="token" data-word></span>
+                </template>
+                <template id="progressTokenTemplate">
+                    <span id="progressToken" data-upcoming data-mistyped></span>
+                </template>
+                <div id="articleContentWrapper">
+                    <p id="articleExtract"></p>
+                    <img id="articleThumbnail" src="data:," alt/>
+                    <img id="articleImage" src="data:," alt/>
+                </div>
             </div>
         </main>
         <footer>
@@ -72,9 +81,10 @@
         <script src="js/wiki.js"></script>
         <script src="js/nav.js"></script>
         <script src="js/article.js"></script>
-        <script src="js/section.js"></script>
         <script>
-            º.emit`article::loadRandom`();
+            º.req`wikiapi :fetchRandomArticle`()
+             .then((article_data) => º.emit`article :setContents`({ article_data,
+                                                                    is_related: false }));
         </script>
     </body>
 </html>

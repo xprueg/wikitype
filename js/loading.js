@@ -5,8 +5,8 @@ void function Spinner() {
         self.spinner = new Map();
 
         º.listen({
-            "spinner::spawn": (node) => spawn_spinner(node),
-            "spinner::kill": (node) => kill_spinner(node),
+            "spinner :spawn": (node) => spawn_spinner(node),
+            "spinner :kill": (node) => kill_spinner(node),
         });
     }();
 

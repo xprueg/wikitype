@@ -30,16 +30,16 @@ void function WikiController() {
         })();
 
         º.respond({
-            "wikiapi::fetchRandomArticle": (lang_code) => {
+            "wikiapi :fetchRandomArticle": (lang_code) => {
                 return load_random_article(lang_code);
             },
-            "wikiapi::fetchRelatedArticles": (article_data) => {
+            "wikiapi :fetchRelatedArticles": (article_data) => {
                 return load_related_articles(article_data)
             },
         });
 
         º.listen({
-            "wikiapi::prefetchRelatedArticles": (article_data) => {
+            "wikiapi :prefetchRelatedArticles": (article_data) => {
                 prefetch_related_articles(article_data)
             },
         });
@@ -49,19 +49,13 @@ void function WikiController() {
         load_related_articles(article_data).then(
             (articles) => self.related_articles_cache.set(article_data.pageid,
                                                           articles)
-        ).catch((err) => {
-            // TODO: Handle error.
-            console.dir(err);
-        });
+        );
     }
 
     function prefetch_random_article(lang_code) {
         µƒ(self.url.random(lang_code)).then((article_data) => {
             prefetch_related_articles(article_data);
             self.random_article_cache.get(lang_code).push(article_data);
-        }).catch((err) => {
-            console.log(err);
-            // TODO: Handle error.
         });
     }
 
@@ -88,10 +82,6 @@ void function WikiController() {
             prefetch_related_articles(x);
 
             return x;
-        }).catch((err) => {
-            console.log("wot");
-            console.log(err);
-            // TODO: Handle error.
         });
     }
 }();

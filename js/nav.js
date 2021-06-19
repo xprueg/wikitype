@@ -3,33 +3,64 @@ void function NavController() {
 
     void function init() {
         self.node = ƒ("nav");
-        self.related_nodes = ƒƒ("[navOption]", self.node).slice(1);
+        self.related_nodes = ƒƒ(".navOption", self.node).slice(1);
+        self.related_article_buffer;
 
         º.listen({
-            "nav::displayOptions": (article_data) => display_options(article_data),
-            "nav::select": (choice) => {
-                choice = Number(choice) - 1;
-                const article_data = self.related_article_buffer[choice];
-
-                if (!article_data)
-                    return void º.emit`article::loadRandom`();
-
-                º.emit`article::set_contents`(article_data, true);
-                º.emit`wikiapi::prefetchRelatedArticles`(article_data);
-            }
+            "nav :displayOptions": (article_data) => (show(), render_options(article_data)),
+            "nav :select": (choice) => (hide(), select(choice)),
         });
     }();
 
-    function display_options(article_data) {
-        º.req`wikiapi::fetchRelatedArticles`(article_data).then((articles) => {
+    function show() {
+        self.node.dataset.isVisible = true;
+    }
+
+    function hide() {
+        self.node.dataset.isVisible = false;
+    }
+
+    function reset_options() {
+        self.related_nodes.forEach((node) => {
+            node.dataset.isAvailable = false;
+            ƒ(".navOptionTitle", node).textContent = String();
+        });
+    }
+
+    function select(choice) {
+        const article_data = self.related_article_buffer[Number(choice) - 1];
+        if (!article_data) {
+            º.req`wikiapi :fetchRandomArticle`().then((article_data) => {
+                console.log(article_data);
+                º.emit`article :setContents`({ article_data, is_related: false });
+            });
+
+            return;
+        }
+
+        º.emit`history :push`({ article_data, is_related: true });
+        º.emit`article :setContents`({ article_data, is_related: true });
+        º.emit`wikiapi :prefetchRelatedArticles`(article_data);
+    }
+
+    function render_options(article_data) {
+        reset_options();
+
+        º.req`wikiapi :fetchRelatedArticles`(article_data).then((articles) => {
             self.related_article_buffer = Array();
             self.related_nodes.forEach((node) => {
                 const article_data = articles?.pages
                     .splice(Math.floor(Math.random() * articles.pages.length), 1)
                     .pop();
 
-                self.related_article_buffer.push(article_data);
-                ƒ("[navOptionTitle]", node).dataset.text = article_data?.titles.normalized;
+                if (article_data) {
+                    self.related_article_buffer.push(article_data);
+                    node.dataset.isAvailable = true;
+                    ƒ(".navOptionTitle", node).textContent = article_data.titles.normalized;
+                } else {
+                    node.dataset.isAvailable = false;
+                    ƒ(".navOptionTitle", node).textContent = ["⸘̶̨̘̔̒⁈̵̺͔͐͠¿̶̜͚̾⁉̶̮͈͛̑⸘̴͕̦̊͗", "⸘̷͙͙̽⁈̸͔͇̽͝⸘̸̘̤̘̀¿̶̰̉͘⁉̸̹̜́̿̂⸘̶̤̠̽̚⁈̴͕̋͊̈́⸘̴͚͋̐"];
+                }
             });
         });
     }
