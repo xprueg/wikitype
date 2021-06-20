@@ -3,8 +3,20 @@ void function HistoryController() {
 
     void function init() {
         self.node = ƒ(".history");
-        self.entries = Array();
         self.cache = new Map();
+
+        self.node.addEventListener("click", (e) => {
+            const node = e.target;
+            if (!(node instanceof HTMLLIElement))
+                return;
+
+            while(node.previousElementSibling) {
+                self.cache.delete(node.previousElementSibling.textContent);
+                node.previousElementSibling.remove();
+            }
+
+            º.emit`article :setContents`(self.cache.get(e.target.textContent));
+        }, true);
 
         º.listen({
             "history :push": (data) => push_entry(data),
@@ -18,10 +30,6 @@ void function HistoryController() {
 
         if (!is_related)
             li.dataset.chain = "start";
-
-        li.addEventListener("click", () => {
-            console.log("clickity!");
-        });
 
         span.innerText = article_data.titles.normalized;
         self.node.insertBefore(li, self.node.children.length

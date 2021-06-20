@@ -27,6 +27,7 @@ void function ArticleController() {
         º.emit`spinner :spawn`(self.article_node);
 
         º.respond({
+            "article :getRawData": () => self.current?._raw,
             "article :getActiveTokenText": () => self.token_node?.dataset?.word,
             "article :getUrl": () => self.current?.desktop_url,
         });
@@ -88,6 +89,10 @@ void function ArticleController() {
     }
 
     function set_contents(article_data) {
+        // If there is already an article loaded clear it first.
+        if (self.current)
+            unload_article();
+
         const article = self.current = new Article(article_data);
 
         // Create tokens.
@@ -129,7 +134,6 @@ void function ArticleController() {
         reposition();
 
         º.emit`spinner :spawn`(self.article_node);
-        º.emit`nav :displayOptions`(self.current._raw);
         self.current = undefined;
     }
 
@@ -139,8 +143,11 @@ void function ArticleController() {
                                         : self.extract_node.children[0];
 
         if (active_token) {
-            if (!next_token)
-                return void unload_article();
+            if (!next_token) {
+                º.emit`nav :displayOptions`(self.current._raw);
+                unload_article();
+                return;
+            }
 
             // Removed typed row.
             if (active_token.offsetTop !== next_token.offsetTop) {

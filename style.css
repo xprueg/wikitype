@@ -79,11 +79,12 @@ header {
 }
 
 .history li span {
+    pointer-events: none;
     position: relative;
     display: inline-block;
 }
 
-.history li:hover span:hover {
+.history li:hover span {
     background: var(--dark);
     color: var(--bright);
 }
