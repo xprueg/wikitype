@@ -210,7 +210,6 @@ nav[data-is-visible=true] {
 
 #article {
     position: absolute;
-    transition: all 1s;
     color: var(--article-loading-spinner-color);
     font-family: var(--article-extract-font-family);
     font-size: var(--article-extract-font-size);
