@@ -58,6 +58,9 @@ header {
     padding: 0 2ex;
     z-index: var(--z-header);
     border-bottom: var(--global-border-size) solid var(--global-border-color);
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
 }
 
 .history {
