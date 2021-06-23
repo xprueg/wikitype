@@ -235,6 +235,7 @@ nav[data-is-visible=true] {
 
 #activeToken {
     color: var(--token-active-color);
+    z-index: 1;
 }
 
 #activeToken #progressToken {
