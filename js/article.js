@@ -190,14 +190,14 @@ void function ArticleController() {
             max_width
         );
 
-        const max_height = areas.main.h - padding * 2;
+        const max_height = areas.main.h - areas.header.h - padding * 2;
         const height = Math.min(
             article_base_height + rand((Math.random() > .5 ? 1 : -1) * article_height_shift),
             max_height
         );
 
         const left = padding + rand(areas.main.w - width - padding * 2);
-        const top = padding + rand(areas.main.h - height - padding * 2);
+        const top = padding + areas.header.h + rand(areas.main.h - areas.header.h - height - padding * 2);
 
         self.article_node.style.cssText = `
             left: ${left}px; width: ${width}px;

@@ -1,4 +1,6 @@
 void function AreaController() {
+    // FIXME: Create new area that contains the articles since the header is now included
+    // in the <main> element.
     let areas = Object.create(null);
 
     void function init() {

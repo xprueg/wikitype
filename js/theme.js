@@ -11,7 +11,7 @@ void function ThemeController() {
                 "--bright": "white",
                 /* Global */
                 "--global-border-size": "2px",
-                "--global-border-color": "var(--dark)",
+                "--global-border-color": "var(--bright)",
                 /* Body */
                 "--body-background": "radial-gradient(at 0% 0%, magenta, cyan)",
                 /* Main */
