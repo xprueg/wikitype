@@ -16,16 +16,16 @@ void function ThemeController() {
                 "--body-background": "radial-gradient(at 0% 0%, magenta, cyan)",
                 /* Main */
                 "--main-padding": "20px",
-                "--main-background-color": "var(--dark)",
-                "--main-background-image": `
+                "--main-background": `
                     linear-gradient(45deg,
-                        hsla(0, 0%, 100%, .03) 25%, transparent 25%,
-                        transparent 75%, hsla(0, 0%, 10100%, .03) 75%, hsla(0, 0%, 100%, .03)),
+                        hsla(0, 0%, 100%, .03) 25%, transparent 25%, transparent 75%,
+                        hsla(0, 0%, 100%, .03) 75%, hsla(0, 0%, 100%, .03))
+                        0 0/50px 50px,
                     linear-gradient(45deg,
-                        hsla(0, 0%, 100%, .03) 25%, transparent 25%,
-                        transparent 75%, hsla(0, 0%, 100%, .03) 75%, hsla(0, 0%, 100%, .03))`,
-                "--main-background-size": "50px 50px",
-                "--main-background-position": "0 0, calc(50px / 2) calc(50px / 2)",
+                        hsla(0, 0%, 100%, .03) 25%, transparent 25%, transparent 75%,
+                        hsla(0, 0%, 100%, .03) 75%, hsla(0, 0%, 100%, .03))
+                        calc(50px / 2) calc(50px / 2)/50px 50px,
+                    var(--dark)`,
                 /* Article */
                 "--article-base-width": "700px",
                 "--article-width-shift": "50px",
