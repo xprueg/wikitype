@@ -4,14 +4,15 @@ void function SettingsController() {
     void function init() {
         self.settings = new Map();
 
-        ƒƒ("[controller]").forEach((controller) => {
-            const name = controller.getAttribute("controller");
-            const settings = controller.getAttribute("settings").split("\u0020");
+        ƒƒ("[id$='Controller']").forEach((controller) => {
+            const name = controller.getAttribute("id")
+                                   .replace("Controller", String());
+            const settings = controller.dataset.settings.split("\u0020");
 
            construct(name, {
                node: controller,
                multiple_selection: settings.includes("multiple"),
-               default: ƒ("[defaultOption]", controller).dataset.option,
+               default: ƒ("[data-defaultOption]", controller).dataset.option,
            });
         });
     }();

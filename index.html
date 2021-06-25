@@ -59,18 +59,19 @@
             </div>
 
             <footer>
-                <div controller="language" settings="multiple grid" data-selected-option>
+                <div id="languageController" data-settings="multiple grid"
+                     data-selectedOption>
                     Languages
-                    <ol langList>
+                    <ol>
                         <li data-option="de">DE</li>
-                        <li data-option="en" defaultOption>EN</li>
+                        <li data-option="en" data-defaultOption>EN</li>
                         <li data-option="ru">RU</li>
                     </ol>
                 </div>
-                <div controller="theme" settings="" data-selected-option>
+                <div id="themeController" data-settings data-selectedOption>
                     Theme
                     <ol>
-                        <li data-option="neon" defaultOption>NEON</li>
+                        <li data-option="neon" data-defaultOption>NEON</li>
                     </ol>
                 </div>
             </footer>
