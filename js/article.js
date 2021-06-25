@@ -22,6 +22,7 @@ void function ArticleController() {
         self.current;
 
         reposition();
+        window.addEventListener("resize", () => reposition());
 
         // Always start in a loading state.
         º.emit`spinner :spawn`(self.article_node);
@@ -177,27 +178,27 @@ void function ArticleController() {
     /// [<] Void
     function reposition() {
         const rand = (val) => Math.floor(Math.random() * val);
-        const areas = º.req`areas::get`();
+        const wrapper = ƒ("#articleWrapper").getBoundingClientRect();
         const padding = º.req`theme::px`("--main-padding");
         const article_base_width = º.req`theme::px`("--article-base-width");
         const article_width_shift = º.req`theme::px`("--article-width-shift");
         const article_base_height = º.req`theme::px`("--article-base-height");
         const article_height_shift = º.req`theme::px`("--article-height-shift");
 
-        const max_width = areas.main.w - padding * 2;
+        const max_width = wrapper.width - padding * 2;
         const width = Math.min(
             article_base_width + rand((Math.random() > .5 ? 1 : -1) * article_width_shift),
             max_width
         );
 
-        const max_height = areas.main.h - areas.header.h - padding * 2;
+        const max_height = wrapper.height - padding * 2;
         const height = Math.min(
             article_base_height + rand((Math.random() > .5 ? 1 : -1) * article_height_shift),
             max_height
         );
 
-        const left = padding + rand(areas.main.w - width - padding * 2);
-        const top = padding + areas.header.h + rand(areas.main.h - areas.header.h - height - padding * 2);
+        const left = padding + rand(wrapper.width - width - padding * 2);
+        const top = padding + rand(wrapper.height - height - padding * 2);
 
         self.article_node.style.cssText = `
             left: ${left}px; width: ${width}px;

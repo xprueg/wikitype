@@ -86,6 +86,13 @@ header {
     font-family: Inter;
 }
 
+.history::after {
+    /* This ensures that the header will have a height even before
+       the first entry is being pushed. */
+    content: "*";
+    opacity: 0;
+}
+
 .history li {
     cursor: pointer;
     white-space: nowrap;
@@ -122,12 +129,16 @@ header {
 main {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     background: var(--main-background);
     border-right: none;
     border-top: none;
     position: relative;
     overflow: hidden;
+    flex-grow: 1;
+}
+
+#articleWrapper {
+    position: relative;
     flex-grow: 1;
 }
 
@@ -237,6 +248,7 @@ nav[data-is-visible=true] {
     font-size: var(--article-extract-font-size);
     line-height: var(--article-extract-line-height);
     font-feature-settings: var(--article-extract-font-feature-settings);
+    transition: all 512ms ease-out;
 }
 
 #articleContentWrapper {
@@ -395,18 +407,23 @@ ol[id$=Handles] li {
 footer {
     grid-area: footer;
     z-index: var(--z-footer);
-    display: flex;
+    padding: 1.5ex;
+    text-align: center;
+}
+
+#controllerWrapper {
+    display: inline-flex;
     grid-gap: 10px;
     justify-content: center;
     align-items: center;
-    padding: 1.5ex;
 }
 
 .footer-image {
+    --footer-image-max-size: 200px;
     position: absolute;
     mix-blend-mode: difference;
-    max-height: var(--footer-height);
-    max-width: var(--footer-height);
+    max-height: var(--footer-image-max-size);
+    max-width: var(--footer-image-max-size);
     transform-origin: center;
     transition: all 500ms ease-in-out, mix-blend-mode 4s;
 }

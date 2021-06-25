@@ -40,39 +40,43 @@
                 <ol class="history"></ol>
             </header>
 
-            <div id="article">
-                <div id="transformFrame">
-                    <ol id="edgeHandles"><li></li><li></li><li></li><li></li></ol>
-                    <ol id="middleHandles"><li></li><li></li><li></li><li></li></ol>
-                </div>
-                <template id="tokenTemplate">
-                    <span class="token" data-word></span>
-                </template>
-                <template id="progressTokenTemplate">
-                    <span id="progressToken" data-upcoming data-mistyped></span>
-                </template>
-                <div id="articleContentWrapper">
-                    <p id="articleExtract"></p>
-                    <img id="articleThumbnail" src="data:," alt/>
-                    <img id="articleImage" src="data:," alt/>
+            <div id="articleWrapper">
+                <div id="article">
+                    <div id="transformFrame">
+                        <ol id="edgeHandles"><li></li><li></li><li></li><li></li></ol>
+                        <ol id="middleHandles"><li></li><li></li><li></li><li></li></ol>
+                    </div>
+                    <template id="tokenTemplate">
+                        <span class="token" data-word></span>
+                    </template>
+                    <template id="progressTokenTemplate">
+                        <span id="progressToken" data-upcoming data-mistyped></span>
+                    </template>
+                    <div id="articleContentWrapper">
+                        <p id="articleExtract"></p>
+                        <img id="articleThumbnail" src="data:," alt/>
+                        <img id="articleImage" src="data:," alt/>
+                    </div>
                 </div>
             </div>
 
             <footer>
-                <div id="languageController" data-settings="multiple grid"
-                     data-selectedOption>
-                    <span class="controllerName">Languages</span>
-                    <ol>
-                        <li data-option="de">DE</li>
-                        <li data-option="en" data-defaultOption>EN</li>
-                        <li data-option="ru">RU</li>
-                    </ol>
-                </div>
-                <div id="themeController" data-settings data-selectedOption>
-                    <span class="controllerName">Theme</span>
-                    <ol>
-                        <li data-option="neon" data-defaultOption>NEON</li>
-                    </ol>
+                <div id="controllerWrapper">
+                    <div id="languageController" data-settings="multiple grid"
+                         data-selectedOption>
+                        <span class="controllerName">Languages</span>
+                        <ol>
+                            <li data-option="de">DE</li>
+                            <li data-option="en" data-defaultOption>EN</li>
+                            <li data-option="ru">RU</li>
+                        </ol>
+                    </div>
+                    <div id="themeController" data-settings data-selectedOption>
+                        <span class="controllerName">Theme</span>
+                        <ol>
+                            <li data-option="neon" data-defaultOption>NEON</li>
+                        </ol>
+                    </div>
                 </div>
             </footer>
         </main>
@@ -81,7 +85,6 @@
         <script src="js/settings.js"></script>
         <script src="js/theme.js"></script>
         <script src="js/history.js"></script>
-        <script src="js/area.js"></script>
         <script src="js/wiki.js"></script>
         <script src="js/nav.js"></script>
         <script src="js/article.js"></script>

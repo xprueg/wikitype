@@ -38,9 +38,38 @@ void function HistoryController() {
         self.cache.set(article_data.titles.normalized, article_data);
     }
 
+    function get_cloned_image_position(image) {
+        const rand = (val) => Math.floor(Math.random() * val);
+        let positions = Array();
+
+        const aside = ƒ("aside").getBoundingClientRect();
+        positions.push({
+            x: aside.left + aside.width / 2,
+            y: rand(aside.height) + aside.top,
+        });
+
+        const controller_wrapper = ƒ("#controllerWrapper").getBoundingClientRect();
+        const footer = ƒ("footer").getBoundingClientRect();
+        const footer_width = (footer.width - controller_wrapper.width) / 2;
+        positions.push({
+            x: rand(footer_width - image.width / 2) + footer.left,
+            y: footer.top + footer.height / 2,
+        });
+        positions.push({
+            x: rand(footer_width - image.width / 2) + footer.left + footer_width + controller_wrapper.width + image.width / 2,
+            y: footer.top + footer.height / 2,
+        });
+
+        const ref = positions[rand(positions.length)];
+        return {
+            x: ref.x - image.width / 2,
+            y: ref.y - image.height / 2,
+            r: (Math.random() > .5 ? -1 : 1) * Math.random() * 360,
+        };
+    }
+
     function clone_image(thumbnail_node) {
         if (thumbnail_node.src !== "data:,") {
-            const areas = º.req`areas::get`();
             const clone = ƒ("body").appendChild(thumbnail_node.cloneNode());
             const img_pos = thumbnail_node.getBoundingClientRect();
 
@@ -50,14 +79,11 @@ void function HistoryController() {
             clone.style.top = `${img_pos.y}px`;
 
             setTimeout(() => {
-                const left = Math.round(Math.random() * areas.footer.w);
-                const top = window.innerHeight - areas.footer.h
-                            - º.req`theme::px`("--global-border-size");
-                const rotation = (Math.random() > .5 ? -1 : 1) * Math.random() * 360;
+                const img_pos_to = get_cloned_image_position(clone);
 
-                clone.style.left = `${left}px`;
-                clone.style.top = `${top}px`;
-                clone.style.transform = `rotate(${rotation}deg)`;
+                clone.style.left = `${img_pos_to.x}px`;
+                clone.style.top = `${img_pos_to.y}px`;
+                clone.style.transform = `rotate(${img_pos_to.r}deg)`;
             });
         }
     }
