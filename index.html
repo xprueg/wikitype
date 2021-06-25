@@ -14,6 +14,24 @@
     </head>
     <body>
         <aside>XPR.ORG/WIKITYPE&nbsp;&nbsp;&nbsp;\\\&nbsp;&nbsp;&nbsp;XPR.ORG/WIKITYPE&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;<div class="clock"></div>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;XPR.ORG/WIKITYPE&nbsp;&nbsp;&nbsp;///&nbsp;&nbsp;&nbsp;XPR.ORG/WIKITYPE</aside>
+
+        <nav>
+            <div id="navSelect">
+                <div class="navOption">
+                    <span data-navOptionIdx="0"></span>
+                    <span class="navOptionTitle">Random Article</span></div>
+                <div class="navOption" data-is-available="false">
+                    <span data-navOptionIdx="1"></span>
+                    <span class="navOptionTitle"></span></div>
+                <div class="navOption" data-is-available="false">
+                    <span data-navOptionIdx="2"></span>
+                    <span class="navOptionTitle"></span></div>
+                <div class="navOption" data-is-available="false">
+                    <span data-navOptionIdx="3"></span>
+                    <span class="navOptionTitle"></span></div>
+            </div>
+        </nav>
+
         <main>
             <header>
                 <template id="historyEntryTemplate">
@@ -21,23 +39,6 @@
                 </template>
                 <ol class="history"></ol>
             </header>
-
-            <nav>
-                <div id="navSelect">
-                    <div class="navOption">
-                        <span data-navOptionIdx="0"></span>
-                        <span class="navOptionTitle">Random Article</span></div>
-                    <div class="navOption" data-is-available="false">
-                        <span data-navOptionIdx="1"></span>
-                        <span class="navOptionTitle"></span></div>
-                    <div class="navOption" data-is-available="false">
-                        <span data-navOptionIdx="2"></span>
-                        <span class="navOptionTitle"></span></div>
-                    <div class="navOption" data-is-available="false">
-                        <span data-navOptionIdx="3"></span>
-                        <span class="navOptionTitle"></span></div>
-                </div>
-            </nav>
 
             <div id="article">
                 <div id="transformFrame">
@@ -56,23 +57,24 @@
                     <img id="articleImage" src="data:," alt/>
                 </div>
             </div>
+
+            <footer>
+                <div controller="language" settings="multiple grid" data-selected-option>
+                    Languages
+                    <ol langList>
+                        <li data-option="de">DE</li>
+                        <li data-option="en" defaultOption>EN</li>
+                        <li data-option="ru">RU</li>
+                    </ol>
+                </div>
+                <div controller="theme" settings="" data-selected-option>
+                    Theme
+                    <ol>
+                        <li data-option="neon" defaultOption>NEON</li>
+                    </ol>
+                </div>
+            </footer>
         </main>
-        <footer>
-            <div controller="language" settings="multiple grid" data-selected-option>
-                Languages
-                <ol langList>
-                    <li data-option="de">DE</li>
-                    <li data-option="en" defaultOption>EN</li>
-                    <li data-option="ru">RU</li>
-                </ol>
-            </div>
-            <div controller="theme" settings="" data-selected-option>
-                Theme
-                <ol>
-                    <li data-option="neon" defaultOption>NEON</li>
-                </ol>
-            </div>
-        </footer>
         <script src="js/clock.js"></script>
         <script src="js/input.js"></script>
         <script src="js/settings.js"></script>
