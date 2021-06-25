@@ -58,6 +58,8 @@ aside {
     white-space: nowrap;
     width: var(--aside-width);
     border-left: var(--global-border-size) solid var(--global-border-color);
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
 .clock {
