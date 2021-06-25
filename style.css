@@ -413,13 +413,6 @@ footer {
     text-align: center;
 }
 
-#controllerWrapper {
-    display: inline-flex;
-    grid-gap: 10px;
-    justify-content: center;
-    align-items: center;
-}
-
 .footer-image {
     --footer-image-max-size: 200px;
     position: absolute;
@@ -430,7 +423,14 @@ footer {
     transition: all 500ms ease-in-out, mix-blend-mode 4s;
 }
 
-[id$="Controller"] {
+#controllerWrapper {
+    display: inline-flex;
+    grid-gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+[data-controller] {
     --button-height: 40px;
     cursor: pointer;
     font-family: Trash;
@@ -455,12 +455,12 @@ footer {
     padding-right: .5ex;
 }
 
-[id$="Controller"]:hover {
+[data-controller]:hover {
     background: var(--bright);
     color: var(--dark);
 }
 
-[id$="Controller"] ol {
+[data-controller] ol {
     position: absolute;
     bottom: calc(var(--button-height) + 10px);
     display: none;
@@ -473,23 +473,11 @@ footer {
     grid-gap: 10px;
 }
 
-[id$="Controller"]:hover ol {
+[data-controller]:hover ol {
     display: flex;
 }
 
-[id$="Controller"][settings~=grid] ol {
-    grid-template-columns: 1fr 1fr 1fr;
-}
-
-[id$="Controller"][settings~=grid]:hover ol {
-    display: grid;
-}
-
-[id$="Controller"][disabled] {
-    opacity: .2;
-}
-
-[id$="Controller"]::after {
+[data-controller]::after {
     --selected-settings-height: 14px;
     content: attr(data-selected-option);
     background: var(--bright);
@@ -502,12 +490,12 @@ footer {
     white-space: nowrap;
 }
 
-[id$="Controller"]:hover::after {
+[data-controller]:hover::after {
     background: var(--dark);
     color: var(--bright);
 }
 
-[id$="Controller"] ol li {
+[data-controller] ol li {
     display: inline-block;
     background: var(--dark);
     color: var(--bright);
@@ -523,12 +511,12 @@ footer {
     white-space: nowrap;
 }
 
-[id$="Controller"] ol li:hover {
+[data-controller] ol li:hover {
     background: var(--bright);
     color: var(--dark);
 }
 
-[id$="Controller"] ol li::before {
+[data-controller] ol li::before {
     font-size: .725em;
     position: relative;
     bottom: .1375em;
@@ -536,14 +524,14 @@ footer {
     margin-left: -.1375em;
 }
 
-[id$="Controller"] ol li.selected-option::before {
+[data-controller] ol li.selected-option::before {
     content: "● ";
 }
 
-[id$="Controller"][data-settings*="multiple"] ol li::before {
+[data-controller][data-settings*="multiple"] ol li::before {
     content: "◇ ";
 }
 
-[id$="Controller"][data-settings*="multiple"] ol li.selected-option::before {
+[data-controller][data-settings*="multiple"] ol li.selected-option::before {
     content: "◆ ";
 }
