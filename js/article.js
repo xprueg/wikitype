@@ -204,5 +204,7 @@ void function ArticleController() {
             left: ${left}px; width: ${width}px;
             top: ${top}px;   height: ${height}px;
         `;
+
+        º.emit`article :resizedTo`(width, height);
     }
 }();
