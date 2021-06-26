@@ -174,7 +174,7 @@ void function ThemeController() {
             },
         };
 
-        apply(self.active_theme);
+        apply(self.themes[self.active_theme]);
 
         º.respond({
             "theme::val": (key) => val(key),
@@ -185,21 +185,23 @@ void function ThemeController() {
             // FIXME: Clear all variables from the previously set theme on an update.
             "setting::themeUpdate": (theme) => {
                 self.active_theme = theme;
-                apply(theme);
+                apply(self.themes[theme]);
             },
             "article :resizedTo": (w, h) => {
-                ƒ("html").style.setProperty("--articleFrameWidth", `${w}px`);
-                ƒ("html").style.setProperty("--articleFrameHeight", `${h}px`);
+                apply({
+                    "--articleFrameWidth": `${w}px`,
+                    "--articleFrameHeight": `${h}px`,
+                });
             }
         });
     }();
 
-    /// Applies the values from the given theme to the html node.
+    /// Applies the given key value pairs to the html node.
     ///
-    /// [>] theme := string
+    /// [>] vars := Object{*: str}
     /// [<] void
-    function apply(theme) {
-        Object.entries(self.themes[theme])
+    function apply(vars) {
+        Object.entries(vars)
               .forEach(([key, value]) => self.node.style.setProperty(key, value));
    }
 
