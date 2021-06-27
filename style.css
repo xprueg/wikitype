@@ -21,6 +21,10 @@ html, body {
     pointer-events: none;
 }
 
+.bold {
+    font-weight: bold;
+}
+
 /*/ html /*/
 
 html {
@@ -28,7 +32,7 @@ html {
     overflow: hidden;
 
     /* Interface */
-    --aside-width: 50px;
+    --aside-width: 70px;
     --z-footer: 20;
     --z-navigation: 10;
     --z-header: 20;
@@ -53,12 +57,12 @@ body {
 
 aside {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    padding: 2ex 0;
     color: var(--dark);
     grid-area: aside;
     writing-mode: tb;
     transform: rotate(180deg);
-    font-weight: bold;
     font-size: 30px;
     line-height: calc(var(--aside-width) + 0.215em);
     white-space: nowrap;
