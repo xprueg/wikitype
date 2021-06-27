@@ -318,9 +318,6 @@ nav[data-is-visible=true] {
     background: black;
     background: var(--body-background);
     text-shadow: 0 0 30px black;
-}
-
-#activeToken #progressToken {
     position: absolute;
     right: 0;
 }
@@ -332,15 +329,17 @@ nav[data-is-visible=true] {
 #activeToken #progressToken::after {
     color: #ffe0e0;
     background: #e53e3e;
-}
-
-#activeToken #progressToken::after {
     content: attr(data-mistyped);
     position: absolute;
     left: 0;
     top: 0;
     white-space: nowrap;
     white-space: pre;
+}
+
+html[style*="--article-extract-extend-span-height"] #activeToken #progressToken,
+html[style*="--article-extract-extend-span-height"] #activeToken #progressToken::after {
+    height: 100%;
 }
 
 .typedToken {
