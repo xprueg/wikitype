@@ -151,9 +151,16 @@ void function ThemeController() {
 
         º.listen({
             // FIXME: Clear all variables from the previously set theme on an update.
-            "setting::themeUpdate": (theme) => {
-                self.active_theme = theme;
-                apply(self.themes[theme]);
+            "setting::themeUpdate": (name) => {
+                self.active_theme = name;
+
+                const theme = self.themes[name];
+                const extend = theme.extend;
+                if (extend) {
+                    self.themes[name] = Object.assign({}, self.themes[extend], self.themes[name]);
+                }
+
+                apply(theme);
             },
             "article :resizedTo": (w, h) => {
                 apply({
