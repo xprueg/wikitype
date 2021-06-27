@@ -142,7 +142,7 @@ void function ThemeController() {
             },
         };
 
-        apply(self.themes[self.active_theme]);
+        set_theme_to(self.active_theme);
 
         º.respond({
             "theme::val": (key) => val(key),
@@ -151,17 +151,7 @@ void function ThemeController() {
 
         º.listen({
             // FIXME: Clear all variables from the previously set theme on an update.
-            "setting::themeUpdate": (name) => {
-                self.active_theme = name;
-
-                const theme = self.themes[name];
-                const extend = theme.extend;
-                if (extend) {
-                    self.themes[name] = Object.assign({}, self.themes[extend], self.themes[name]);
-                }
-
-                apply(theme);
-            },
+            "setting::themeUpdate": (name) => set_theme_to(name),
             "article :resizedTo": (w, h) => {
                 apply({
                     "--articleFrameWidth": `${w}px`,
@@ -171,9 +161,31 @@ void function ThemeController() {
         });
     }();
 
+    /// Returns the extended theme object.
+    ///
+    /// [>] name: string
+    /// [<] object{*: str}
+    function compile(name) {
+        const theme = self.themes[name];
+        const extend = theme.extend;
+
+        if (!extend)
+            return theme;
+
+        return Object.assign(Object.create(null), self.themes[extend], theme);
+    }
+
+    /// Sets the active theme to the given name and applies it.
+    ///
+    /// [>] name: str
+    /// [<] void
+    function set_theme_to(name) {
+        apply(compile(self.active_theme = name));
+    }
+
     /// Applies the given key value pairs to the html node.
     ///
-    /// [>] vars := Object{*: str}
+    /// [>] vars: object{*: str}
     /// [<] void
     function apply(vars) {
         Object.entries(vars)
@@ -182,15 +194,15 @@ void function ThemeController() {
 
     /// Returns the raw property value as a string.
     ///
-    /// [>] key := string
-    /// [<] string
+    /// [>] key: str
+    /// [<] str
     function val(key) {
-        return self.themes[self.active_theme][key];
+        return compile(self.active_theme)[key];
     }
 
     /// Returns the property as a number.
     ///
-    /// [>] key := string
+    /// [>] key: str
     /// [<] int
     function px(key) {
         return Number(val(key).replace(/px$/, String()));
