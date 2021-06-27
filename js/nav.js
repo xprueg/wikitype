@@ -9,6 +9,7 @@ void function NavController() {
         º.listen({
             "nav :displayOptions": (article_data) => (show(), render_options(article_data)),
             "nav :select": (choice) => (hide(), select(choice)),
+            "nav :forceHide": () => hide(),
         });
     }();
 
