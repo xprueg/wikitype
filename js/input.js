@@ -56,8 +56,7 @@ void function InputController() {
                     clear_input();
                     break;
                 case "n":
-                    º.emit`nav :displayOptions`(º.req`article :getRawData`());
-                    º.emit`article :unloadArticle`();
+                    º.emit`shortcut :ctrln`();
                     break;
             }
         }

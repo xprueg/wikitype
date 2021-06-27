@@ -10,6 +10,13 @@ void function NavController() {
             "nav :displayOptions": (article_data) => (show(), render_options(article_data)),
             "nav :select": (choice) => (hide(), select(choice)),
             "nav :forceHide": () => hide(),
+            "shortcut :ctrln": () => {
+                if (self.node.dataset.isVisible === "true")
+                    return;
+
+                º.emit`nav :displayOptions`(º.req`article :getRawData`());
+                º.emit`article :unloadArticle`();
+            },
         });
     }();
 
