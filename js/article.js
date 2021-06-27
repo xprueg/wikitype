@@ -110,7 +110,7 @@ void function ArticleController() {
         if (article.thumbnail?.source) {
             π(article.thumbnail.source, (img) => {
                 // Make sure that the article hasn't been changed.
-                if (article.pageid === self.current.pageid)
+                if (article.pageid === self.current?.pageid)
                     self.thumbnail_node.src = img.src;
             });
         }
