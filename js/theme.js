@@ -134,43 +134,11 @@ void function ThemeController() {
                 "--upcoming-option-background": "var(--bright)",
                 "--upcoming-option-color": "var(--dark)",
             },
-            blackout: {
-                /* Base */
-                "--dark": "black",
-                "--bright": "#cc3736",
-                /* Global */
-                "--global-border-size": "2px",
-                "--global-border-color": "var(--bright)",
-                /* Body */
-                "--body-background": "radial-gradient(at 0% 0%, magenta, cyan)",
-                /* Main */
-                "--main-padding": "20px",
-                "--main-background": "#cc3736",
-                /* Article */
-                "--article-base-width": "700px",
-                "--article-width-shift": "50px",
-                "--article-base-height": "400px",
-                "--article-height-shift": "50px",
-                "--article-loading-spinner-color": "hsl(0, 0%, 100%, .7)",
-                /* Article Frame */
-                "--frame-border-size": "2px",
-                "--frame-border-color": "#dddcdd",
-                "--edge-handle-background": "var(--main-background)",
-                "--edge-handle-size": "10px",
-                "--middle-handle-background": "var(--frame-border-color)",
-                "--middle-handle-size": "6px",
-                /* Extract */
-                "--article-extract-font-family": "Inter",
-                "--article-extract-font-feature-settings": `"ss01", "ss02", "case", "cv10", "cv11"`,
-                "--article-extract-font-size": "30px",
-                "--article-extract-line-height": "40px",
-                "--article-image-border-color": "var(--bright)",
-                "--token-upcoming-color": "hsla(0, 0%, 100%, 1)",
-                "--token-active-color": "hsla(0, 0%, 100%, .5)",
-                "--token-typed-color": "hsla(0, 0%, 100%, .5)",
-                /* Nav */
-                "--upcoming-option-background": "var(--bright)",
-                "--upcoming-option-color": "var(--dark)",
+            terminal: {
+                "extend": "neon",
+                "--article-extract-font-family": "monogramextended",
+                "--article-extract-font-size": "50px",
+                "--article-extract-extend-span-height": "true",
             },
         };
 
