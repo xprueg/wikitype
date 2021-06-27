@@ -25,6 +25,10 @@ html, body {
     font-weight: bold;
 }
 
+.hidden {
+    opacity: 0;
+}
+
 /*/ html /*/
 
 html {
@@ -373,13 +377,14 @@ footer {
 }
 
 .footer-image {
+    --timing: 500ms;
     --footer-image-max-size: 200px;
     position: absolute;
     mix-blend-mode: difference;
     max-height: var(--footer-image-max-size);
     max-width: var(--footer-image-max-size);
     transform-origin: center;
-    transition: all 500ms ease-in-out, mix-blend-mode 4s;
+    transition: all var(--timing) ease-in-out, mix-blend-mode 4s;
 }
 
 #controllerWrapper {

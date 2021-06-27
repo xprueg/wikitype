@@ -29,8 +29,17 @@ void function HistoryController() {
         const li = ª(ƒ("#historyEntryTemplate"), "li");
         const span = li.querySelector("span");
 
-        if (!is_related)
+        if (!is_related) {
             li.dataset.chain = "start";
+            ƒƒ(".footer-image").forEach((img) => {
+                img.classList.add("hidden");
+                setTimeout(
+                    () => img.remove(),
+                    getComputedStyle(img).getPropertyValue("--timing")
+                                         .replace(/(\s|ms)/g, String())
+                );
+            });
+        }
 
         span.innerText = article_data.titles.normalized;
         self.node.insertBefore(li, self.node.children.length
@@ -41,27 +50,12 @@ void function HistoryController() {
 
     function get_cloned_image_position(image) {
         const rand = (val) => Math.floor(Math.random() * val);
-        let positions = Array();
-
         const aside = ƒ("aside").getBoundingClientRect();
-        positions.push({
+        const ref = {
             x: aside.left + aside.width / 2,
             y: rand(aside.height) + aside.top,
-        });
+        };
 
-        const controller_wrapper = ƒ("#controllerWrapper").getBoundingClientRect();
-        const footer = ƒ("footer").getBoundingClientRect();
-        const footer_width = (footer.width - controller_wrapper.width) / 2;
-        positions.push({
-            x: rand(footer_width - image.width / 2) + footer.left,
-            y: footer.top + footer.height / 2,
-        });
-        positions.push({
-            x: rand(footer_width - image.width / 2) + footer.left + footer_width + controller_wrapper.width + image.width / 2,
-            y: footer.top + footer.height / 2,
-        });
-
-        const ref = positions[rand(positions.length)];
         return {
             x: ref.x - image.width / 2,
             y: ref.y - image.height / 2,
