@@ -50,12 +50,25 @@ void function ArticleController() {
     /// [>] text: String
     /// [<] Array<String*>
     function tokenize(text) {
-        return text.replace(/\n$/, String())
-                   .replace(/\s+/g, "\x20")  // Whitespace
-                   .replace(/[\u2010-\u2015\u2212]/g, "\x2D")  // Dashes
-                   .replace(/[\u2018-\u201B]/g, "\x27")  // Single quotation marks
-                   .replace(/[\u201C-\u201F]/g, "\x22")  // Double quotation marks
-                   .replace(/\u0301/, String()) // Combining Acute Accent
+                   // Removes Trailing Whitespace
+        return text.replace(/(\s*|\n)$/, String())
+
+                   // Replaces Whitespace
+                   .replace(/\s+/g, "\x20")
+
+                   // Replaces Hyphens ( ‐ ‑ ‒ – — ― − )
+                   .replace(/[\u2010-\u2015\u2212]/g, "\x2D")
+
+                   // Replaces Single Quotation Marks ( ‘ ’ ‚ ‛ )
+                   .replace(/[\u2018-\u201B]/g, "\x27")
+
+                   // Replaces Double Quotation Marks ( “ ” „ ‟ )
+                   .replace(/[\u201C-\u201F]/g, "\x22")
+
+                   // Removes Combining Acute Accent ( ◌́ )
+                   .replace(/\u0301/, String())
+
+                   // Split text into words
                    .match(/[^\s]+\s{0,1}/g);
     }
 
