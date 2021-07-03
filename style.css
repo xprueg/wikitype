@@ -125,7 +125,8 @@ header {
     margin-right: 1ex;
 }
 
-.history li span {
+.history li span,
+.history::after {
     pointer-events: none;
     position: relative;
     display: inline-block;
