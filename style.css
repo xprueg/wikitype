@@ -255,15 +255,23 @@ nav[data-is-visible=true] {
     color: var(--article-loading-spinner-color);
 }
 
+/*/ Article Frame /*/
+
+#articleFrame {
+    position: absolute;
+    top: calc(-1 * var(--lap));
+    left: calc(-1 * var(--lap));
+    width: calc(var(--articleFrameWidth) + var(--lap) * 2);
+    height: calc(var(--articleFrameHeight) + var(--lap) * 2);
+    background: var(--articleFrameBackground);
+    transition: all 512ms ease-out;
+    z-index: 1;
+}
+
 /*/ Article /*/
 
 #article {
     position: absolute;
-    color: var(--article-loading-spinner-color);
-    font-family: var(--article-extract-font-family);
-    font-size: var(--article-extract-font-size);
-    line-height: var(--article-extract-line-height);
-    font-feature-settings: var(--article-extract-font-feature-settings);
     transition: left 512ms ease-out, top 512ms ease-out,
                 width 512ms ease-out, height 512ms ease-out;
 }
@@ -338,6 +346,11 @@ nav[data-is-visible=true] {
     white-space: pre;
 }
 
+#articleExtract {
+    font: var(--articleExtractFont);
+    font-feature-settings: var(--articleExtractFontFeatureSettings);
+}
+
 html[style*="--article-extract-extend-span-height"] #activeToken #progressToken,
 html[style*="--article-extract-extend-span-height"] #activeToken #progressToken::after {
     height: 100%;
@@ -352,19 +365,6 @@ html[style*="--article-extract-extend-span-height"] #activeToken #progressToken:
     content: attr(data-word);
     overflow: hidden;
     display: inline-block;
-}
-
-/*/ Article Frame /*/
-
-#articleFrame {
-    position: absolute;
-    top: calc(-1 * var(--lap));
-    left: calc(-1 * var(--lap));
-    width: calc(var(--articleFrameWidth) + var(--lap) * 2);
-    height: calc(var(--articleFrameHeight) + var(--lap) * 2);
-    background: var(--articleFrameBackground);
-    transition: all 512ms ease-out;
-    z-index: 1;
 }
 
 /*/ Footer /*/
