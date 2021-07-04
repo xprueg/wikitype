@@ -265,7 +265,6 @@ nav[data-is-visible=true] {
     height: calc(var(--articleFrameHeight) + var(--lap) * 2);
     background: var(--articleFrameBackground);
     transition: all 512ms ease-out;
-    z-index: 1;
 }
 
 /*/ Article /*/
