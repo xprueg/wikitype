@@ -36,6 +36,7 @@ void function ThemeController() {
                 "--article-base-height": "400px",
                 "--article-height-shift": "50px",
                 "--article-loading-spinner-color": "hsl(0, 0%, 100%, .7)",
+                "--articleThumbnailBorder": "2px solid var(--article-image-border-color)",
                 /* Article Frame */
                 "--articleFrameBackground": `
                     /* top middle handle */
@@ -122,23 +123,97 @@ void function ThemeController() {
                         var(--kBorderSize) var(--articleFrameHeight) no-repeat
                 `,
                 /* Extract */
-                "--article-extract-font-family": "Inter",
-                "--article-extract-font-feature-settings": `"ss01", "ss02", "case", "cv10", "cv11"`,
-                "--article-extract-font-size": "30px",
-                "--article-extract-line-height": "40px",
+                "--articleExtractFont": "30px/1.25em Inter",
+                "--articleExtractFontFeatureSettings": `"ss01", "ss02", "case", "cv10", "cv11"`,
                 "--article-image-border-color": "var(--bright)",
                 "--token-upcoming-color": "hsla(0, 0%, 100%, 1)",
                 "--token-active-color": "hsla(0, 0%, 100%, .5)",
-                "--token-typed-color": "hsla(0, 0%, 100%, .5)",
+                "--tokenTypedColor": "hsla(0, 0%, 100%, .5)",
+                "--tokenActiveBackground": "var(--body-background)",
                 /* Nav */
                 "--upcoming-option-background": "var(--bright)",
                 "--upcoming-option-color": "var(--dark)",
             },
             terminal: {
                 "extend": "neon",
-                "--article-extract-font-family": "monogramextended",
-                "--article-extract-font-size": "50px",
+                "--dark": "hsl(30, 1.41%, 10.84%)",
+                "--bright": "hsl(54.89, 79.66%, 76.86%)",
+                "--body-background": "var(--bright)",
+                "--global-border-size": "0",
+                "--main-background": `
+                    radial-gradient(circle at bottom center, hsla(30, 1.41%, 27.84%, .3), transparent),
+                    repeating-linear-gradient(
+                        180deg,
+                        hsla(0, 0%, 0%, .2), hsla(0, 0%, 0%, .2) 2px,
+                        transparent 2px, transparent 4px
+                    ),
+                    repeating-linear-gradient(
+                        270deg,
+                        hsla(0, 0%, 0%, .2), hsla(0, 0%, 0%, .2) 1px,
+                        transparent 1px, transparent 50px
+                    ),
+                    hsl(30, 1.41%, 10%)
+                `,
+                "--articleExtractFont": "50px/.8em monogramextended",
                 "--article-extract-extend-span-height": "true",
+                "--token-upcoming-color": "#95ff5f",
+                "--tokenActiveBackground": "var(--bright)",
+                "--token-active-color": "blue",
+
+                "--article-loading-spinner-color": "#f3eb95",
+
+                "--tokenUpcomingColor": "var(--bright)",
+                "--tokenUpcomingBackground": "transparent",
+                "--tokenActiveColor": "hsla(54.37, 59.26%, 89.41%, 0.39)",
+                "--tokenActiveBackground": "hsla(54.37, 59.26%, 89.41%, 0.04)",
+                "--tokenProgressColor": "hsl(30, 1.41%, 27.84%)",
+                "--tokenProgressBackground": "#f3eb95",
+                "--tokenProgressTextShadow": "0 0 30px #f3eb95",
+                "--tokenTypedColor": "hsla(54.37, 59.26%, 89.41%, 0.39)",
+                "--tokenTypedBackground": "",
+                "--tokenErrorColor": "hsl(360, 100%, 9.25%)",
+                "--tokenErrorBackground": "hsl(360, 100%, 59.25%)",
+
+                "--uiButtonBorderRadius": "0",
+
+                "--articleThumbnailBorder": "0",
+                "--articleThumbnailMixBlendMode": "luminosity",
+
+                "--articleFrameBackground": `
+                    /* top border */
+                    linear-gradient(var(--bright), var(--bright))
+                        calc(var(--lap) - var(--kBorderSize))
+                        calc(var(--lap) - var(--kBorderSize))/
+                        calc(var(--articleFrameWidth) + var(--kBorderSize) * 2)
+                        var(--kBorderSize)
+                        no-repeat,
+                    /* right border */
+                    linear-gradient(var(--bright), var(--bright))
+                        calc(var(--lap) + var(--articleFrameWidth))
+                        calc(var(--lap) - var(--kBorderSize))/
+                        calc(var(--kBorderSize) * 15)
+                        calc(var(--articleFrameHeight) + var(--kBorderSize) * 2)
+                        no-repeat,
+                    /* bottom border */
+                    linear-gradient(var(--bright), var(--bright))
+                        calc(var(--lap) - var(--kBorderSize))
+                        calc(var(--lap) + var(--articleFrameHeight))/
+                        calc(var(--articleFrameWidth) + var(--kBorderSize) * 2)
+                        var(--kBorderSize)
+                        no-repeat,
+                    /* left border */
+                    linear-gradient(var(--bright), var(--bright))
+                        calc(var(--lap) - var(--kBorderSize) * 15)
+                        calc(var(--lap) - var(--kBorderSize))/
+                        calc(var(--kBorderSize) * 15)
+                        calc(var(--articleFrameHeight) + var(--kBorderSize) * 2)
+                        no-repeat,
+                    /* background */
+                    linear-gradient(hsla(30, 1.41%, 27.84%, .6), hsla(30, 1.41%, 27.84%, .6))
+                        var(--lap) var(--lap)/
+                        var(--articleFrameWidth) var(--articleFrameHeight)
+                        no-repeat
+                `,
             },
         };
 
