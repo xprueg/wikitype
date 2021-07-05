@@ -190,33 +190,30 @@ void function ArticleController() {
     ///
     /// [<] Void
     function reposition() {
-        // FIXME: The article can collide with the navigation.
         const rand = (val) => Math.floor(Math.random() * val);
-        const wrapper = ƒ("#articleWrapper").getBoundingClientRect();
+        const wrapper = ƒ("#articleCropBox").getBoundingClientRect();
         const padding = º.req`theme::px`("--main-padding");
         const article_base_width = º.req`theme::px`("--article-base-width");
         const article_width_shift = º.req`theme::px`("--article-width-shift");
         const article_base_height = º.req`theme::px`("--article-base-height");
         const article_height_shift = º.req`theme::px`("--article-height-shift");
 
-        const max_width = wrapper.width - padding * 2;
+        const max_width = wrapper.width;
         const width = Math.min(
-            article_base_width + rand((Math.random() > .5 ? 1 : -1) * article_width_shift),
+            article_base_width + rand((rand(1) > .5 ? 1 : -1) * article_width_shift),
             max_width
         );
-
-        const max_height = wrapper.height - padding * 2;
+        const max_height = wrapper.height;
         const height = Math.min(
-            article_base_height + rand((Math.random() > .5 ? 1 : -1) * article_height_shift),
+            article_base_height + rand((rand(1) > .5 ? 1 : -1) * article_height_shift),
             max_height
         );
-
-        const left = padding + rand(wrapper.width - width - padding * 2);
-        const top = padding + rand(wrapper.height - height - padding * 2);
+        const left = rand(wrapper.width - width);
+        const top = rand(wrapper.height - height);
 
         self.article_node.style.cssText = `
-            left: ${left}px; width: ${width}px;
-            top: ${top}px;   height: ${height}px;
+            left: ${left}px; top: ${top}px;
+            width: ${width}px; height: ${height}px;
         `;
 
         º.emit`article :resizedTo`(width, height);

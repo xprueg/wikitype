@@ -36,15 +36,11 @@ html {
     overflow: hidden;
 
     /* Interface */
-    --aside-width: 70px;
     --z-footer: 20;
     --z-navigation: 10;
     --z-header: 20;
     --z-imagePreview: 30;
-    --uiButtonBorderRadius: 100px;
 
-    /* Article Frame */
-    --lap: 30px;
     /* Dynamically set by JS. */
     --articleFrameWidth: 0;
     --articleFrameHeight: 0;
@@ -90,7 +86,8 @@ header {
     color: var(--bright);
     display: flex;
     overflow: hidden;
-    padding: 1.5ex;
+    padding: var(--main-padding);
+    padding-bottom: 0;
     z-index: var(--z-header);
     user-select: none;
     -moz-user-select: none;
@@ -155,10 +152,14 @@ main {
     flex-grow: 1;
 }
 
-#articleWrapper {
-    // FIXME: Add padding to prevent the article touching the outside.
-    position: relative;
+#articleBleedBox {
     flex-grow: 1;
+    padding: calc(var(--main-padding) + var(--lap));
+}
+
+#articleCropBox {
+    position: relative;
+    height: 100%;
 }
 
 /*/ Navigation /*/
@@ -293,8 +294,9 @@ nav[data-is-visible=true] {
 #articleThumbnail {
     margin-top: 20px;
     border: var(--articleThumbnailBorder);
-    max-height: var(--footer-height);
-    max-width: var(--footer-height);
+    /* FIXME: Use variable for thumbnail size. */
+    max-height: 200px;
+    max-width: 200px;
     mix-blend-mode: var(--articleThumbnailMixBlendMode);
 }
 
@@ -376,7 +378,8 @@ html[style*="--article-extract-extend-span-height"] #activeToken #progressToken:
 footer {
     grid-area: footer;
     z-index: var(--z-footer);
-    padding: 1.5ex;
+    padding: var(--main-padding);
+    padding-top: 0;
     text-align: center;
 }
 

@@ -5,7 +5,14 @@ void function ThemeController() {
         self.node = ƒ("html");
         self.active_theme = º.req`theme::getDefault`();
         self.themes = {
+            base: {
+              "--aside-width": "70px",
+              "--uiButtonBorderRadius": "100px",
+              "--main-padding": "20px",
+              "--lap": "30px",
+            },
             neon: {
+                "extend": "base",
                 /* Custom */
                 "--kHandleSize": "10px",
                 "--kSmallHandleSize": "3px",
@@ -19,7 +26,6 @@ void function ThemeController() {
                 /* Body */
                 "--body-background": "radial-gradient(at 0% 0%, magenta, cyan)",
                 /* Main */
-                "--main-padding": "20px",
                 "--main-background": `
                     linear-gradient(45deg,
                         hsla(0, 0%, 100%, .03) 25%, transparent 25%, transparent 75%,
@@ -154,7 +160,7 @@ void function ThemeController() {
                     ),
                     hsl(30, 1.41%, 10%)
                 `,
-                "--articleExtractFont": "50px/.8em Monogram",
+                "--articleExtractFont": "50px/.8em Monogram, monogramextended",
                 "--article-extract-extend-span-height": "true",
                 "--token-upcoming-color": "#95ff5f",
                 "--tokenActiveBackground": "var(--bright)",
@@ -242,12 +248,12 @@ void function ThemeController() {
     /// [<] object{*: str}
     function compile(name) {
         const theme = self.themes[name];
-        const extend = theme.extend;
+        const parent = theme.extend;
 
-        if (!extend)
+        if (!parent)
             return theme;
 
-        return Object.assign(Object.create(null), self.themes[extend], theme);
+        return Object.assign(Object.create(null), compile(parent), theme);
     }
 
     /// Sets the active theme to the given name and applies it.
