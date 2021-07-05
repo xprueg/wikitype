@@ -136,6 +136,19 @@ void function ThemeController() {
                 "--token-active-color": "hsla(0, 0%, 100%, .5)",
                 "--tokenTypedColor": "hsla(0, 0%, 100%, .5)",
                 "--tokenActiveBackground": "var(--body-background)",
+
+                "--tokenUpcomingColor": "var(--bright)",
+                "--tokenUpcomingBackground": "transparent",
+                "--tokenActiveColor": "hsla(54.37, 59.26%, 89.41%, 0.39)",
+                "--tokenActiveBackground": "hsla(54.37, 59.26%, 89.41%, 0.04)",
+                "--tokenProgressColor": "hsl(30, 1.41%, 27.84%)",
+                "--tokenProgressBackground": "#f3eb95",
+                "--tokenProgressTextShadow": "0 0 30px #f3eb95",
+                "--tokenTypedColor": "hsla(54.37, 59.26%, 89.41%, 0.39)",
+                "--tokenTypedBackground": "",
+                "--tokenErrorColor": "hsl(360, 100%, 9.25%)",
+                "--tokenErrorBackground": "hsl(360, 100%, 59.25%)",
+
                 /* Nav */
                 "--upcoming-option-background": "var(--bright)",
                 "--upcoming-option-color": "var(--dark)",
@@ -232,7 +245,7 @@ void function ThemeController() {
 
         º.listen({
             // FIXME: Clear all variables from the previously set theme on an update.
-            "setting::themeUpdate": (name) => set_theme_to(name),
+            "setting::themeUpdate": (name) => (reset_theme(), set_theme_to(name)),
             "article :resizedTo": (w, h) => {
                 apply({
                     "--articleFrameWidth": `${w}px`,
@@ -254,6 +267,11 @@ void function ThemeController() {
             return theme;
 
         return Object.assign(Object.create(null), compile(parent), theme);
+    }
+
+    function reset_theme() {
+        Object.entries(compile(self.active_theme))
+              .forEach(([key, value]) => self.node.style.removeProperty(key));
     }
 
     /// Sets the active theme to the given name and applies it.
