@@ -190,6 +190,7 @@ void function ArticleController() {
     ///
     /// [<] Void
     function reposition() {
+        // FIXME: The article can collide with the navigation.
         const rand = (val) => Math.floor(Math.random() * val);
         const wrapper = ƒ("#articleWrapper").getBoundingClientRect();
         const padding = º.req`theme::px`("--main-padding");

@@ -154,7 +154,7 @@ void function ThemeController() {
                     ),
                     hsl(30, 1.41%, 10%)
                 `,
-                "--articleExtractFont": "50px/.8em monogramextended",
+                "--articleExtractFont": "50px/.8em Monogram",
                 "--article-extract-extend-span-height": "true",
                 "--token-upcoming-color": "#95ff5f",
                 "--tokenActiveBackground": "var(--bright)",
