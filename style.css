@@ -39,8 +39,8 @@ html {
     --z-footer: 20;
     --z-navigation: 10;
     --z-header: 20;
-    --z-article: 25;
     --z-imagePreview: 30;
+    // FIXME: Article is overlapped by Shortcuts.
 
     /* Dynamically set by JS. */
     --articleFrameWidth: 0;
@@ -210,6 +210,7 @@ nav[data-is-visible=true] {
     border-radius: var(--option-height);
     border-bottom-right-radius: 0;
     flex-shrink: 0;
+    box-shadow: 5px 5px 0 0 var(--dark);
 }
 
 [data-navOptionIdx="0"]::before { content: ""; }
@@ -229,6 +230,7 @@ nav[data-is-visible=true] {
     border-radius: var(--option-height);
     border-bottom-left-radius: 0;
     white-space: nowrap;
+    box-shadow: 5px 5px 0 0 var(--dark);
 }
 
 [data-is-available="false"] .navOptionTitle:empty::before {
@@ -277,7 +279,6 @@ nav[data-is-visible=true] {
     position: absolute;
     transition: left 512ms ease-out, top 512ms ease-out,
                 width 512ms ease-out, height 512ms ease-out;
-    z-index: var(--z-article);
 }
 
 #articleContentWrapper {
