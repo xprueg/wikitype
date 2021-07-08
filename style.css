@@ -61,7 +61,7 @@ aside {
     font-family: Trash;
     display: flex;
     justify-content: space-between;
-    padding: 2ex 0;
+    padding: var(--main-padding) 0;
     color: var(--dark);
     grid-area: aside;
     writing-mode: tb;
