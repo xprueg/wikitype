@@ -193,7 +193,7 @@ void function ThemeController() {
                 "--tokenErrorColor": "hsl(360, 100%, 9.25%)",
                 "--tokenErrorBackground": "hsl(360, 100%, 59.25%)",
 
-                "--uiButtonBorderRadius": "0",
+                // "--uiButtonBorderRadius": "0px",
 
                 "--articleThumbnailBorder": "0",
                 "--articleThumbnailMixBlendMode": "luminosity",
