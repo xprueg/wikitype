@@ -173,12 +173,11 @@ void function ThemeController() {
                     ),
                     hsl(30, 1.41%, 10%)
                 `,
-                "--articleExtractFont": "50px/.8em Monogram, monogramextended",
-                "--article-extract-extend-span-height": "true",
+                "--articleExtractFont": "34px/1.5em JetBrains Mono",
                 "--token-upcoming-color": "#95ff5f",
                 "--tokenActiveBackground": "var(--bright)",
                 "--token-active-color": "blue",
-
+                "--article-base-width": "900px",
                 "--article-loading-spinner-color": "#f3eb95",
 
                 "--tokenUpcomingColor": "var(--bright)",
