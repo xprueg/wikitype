@@ -68,18 +68,14 @@
                         <span class="controllerName">Languages</span>
                         <ol>
                             <li data-option="de">Deutsch</li>
-                            <li data-option="en" data-defaultOption>English</li>
+                            <li data-option="en" data-default-option>English</li>
                             <li data-option="ru">Русский</li>
                             <li data-option="uk">Українська</li>
                         </ol>
                     </div>
                     <div id="themeController" data-controller="theme" data-settings data-selectedOption>
                         <span class="controllerName">Theme</span>
-                        <ol>
-                            <!-- FIXME: Build the options dynamically. -->
-                            <li data-option="neon">Neon</li>
-                            <li data-option="terminal" data-defaultOption>Terminal</li>
-                        </ol>
+                        <ol id="themeList"></ol>
                     </div>
                 </div>
                 <dl id="shortcuts">
@@ -105,8 +101,8 @@
 
         <script src="js/clock.js"></script>
         <script src="js/input.js"></script>
-        <script src="js/settings.js"></script>
         <script src="js/theme.js"></script>
+        <script src="js/settings.js"></script>
         <script src="js/history.js"></script>
         <script src="js/wiki.js"></script>
         <script src="js/nav.js"></script>

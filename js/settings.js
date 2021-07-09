@@ -12,7 +12,7 @@ void function SettingsController() {
            construct(name, {
                node: controller,
                multiple_selection: settings.includes("multiple"),
-               default: ƒ("[data-defaultOption]", controller).dataset.option,
+               default: ƒ("[data-default-option]", controller).dataset.option,
            });
         });
     }();

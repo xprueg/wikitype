@@ -3,16 +3,19 @@ void function ThemeController() {
 
     void function init() {
         self.node = ƒ("html");
-        self.active_theme = º.req`theme::getDefault`();
+        self.active_theme;
         self.themes = {
+            // FIXME: Move <base> outside of themes in separat object.
             base: {
-              "--aside-width": "70px",
-              "--uiButtonBorderRadius": "100px",
-              "--main-padding": "20px",
-              "--lap": "30px",
+                "--aside-width": "70px",
+                "--uiButtonBorderRadius": "100px",
+                "--main-padding": "20px",
+                "--lap": "30px",
             },
             neon: {
+                "name": "Neon",
                 "extend": "base",
+                "default": "true",
                 /* Custom */
                 "--kHandleSize": "10px",
                 "--kSmallHandleSize": "3px",
@@ -154,6 +157,7 @@ void function ThemeController() {
                 "--upcoming-option-color": "var(--dark)",
             },
             terminal: {
+                "name": "Terminal",
                 "extend": "neon",
                 "--dark": "hsl(30, 1.41%, 10.84%)",
                 "--bright": "hsl(54.89, 79.66%, 76.86%)",
@@ -192,7 +196,7 @@ void function ThemeController() {
                 "--tokenErrorColor": "hsl(360, 100%, 9.25%)",
                 "--tokenErrorBackground": "hsl(360, 100%, 59.25%)",
 
-                // "--uiButtonBorderRadius": "0px",
+                "--uiButtonBorderRadius": "0px",
 
                 "--articleThumbnailBorder": "0",
                 "--articleThumbnailMixBlendMode": "luminosity",
@@ -234,6 +238,26 @@ void function ThemeController() {
                 `,
             },
         };
+
+        // FIXME: Move into separat function.
+        // FIXME: Use template for construction <li> element.
+        const ol = ƒ("#themeList");
+        Object.keys(self.themes).forEach((name) => {
+            if (name === "base")
+                return;
+
+            const theme = self.themes[name];
+            const li = document.createElement("li");
+            li.appendChild(document.createTextNode(theme.name));
+            li.dataset.option = name;
+
+            if (theme.default === "true") {
+                self.active_theme = name;
+                li.dataset.defaultOption = "true";
+            }
+
+            ol.appendChild(li);
+        });
 
         set_theme_to(self.active_theme);
 
