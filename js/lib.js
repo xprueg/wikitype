@@ -69,3 +69,7 @@ function ª(template, selector_to_extract) {
         true
     );
 }
+
+function rng(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}

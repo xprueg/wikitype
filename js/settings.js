@@ -1,108 +1,135 @@
 void function SettingsController() {
     const self = Object.create(null);
 
-    void function init() {
-        self.settings = new Map();
+    !function init() {
+        self.node = ƒ("#settings");
+        self.status_bar = ƒ("#settingsStatus");
+        self.settings = {
+            language: {
+                type: "checkbox",
+                default_option: "en",
+                options: {
+                    en: { name: "English" },
+                    ru: { name: "Русский" },
+                    de: { name: "Deutsch" },
+                },
+            },
+            theme: {
+                type: "radio",
+                default_option: "neon",
+                options: {
+                    neon: { name: "Neon"  },
+                    term: { name: "Terminal" },
+                },
+            }
+        };
 
-        ƒƒ("[id$='Controller']").forEach((controller) => {
-            const name = controller.getAttribute("id")
-                                   .replace("Controller", String());
-            const settings = controller.dataset.settings.split("\u0020");
+        Object.entries(self.settings).forEach(([setting, data]) => {
+            data.node = ƒ(`#${setting}`);
+            data.node.dataset.type = data.type;
 
-           construct(name, {
-               node: controller,
-               multiple_selection: settings.includes("multiple"),
-               default: ƒ("[data-default-option]", controller).dataset.option,
-           });
+            init_options(data.options, data.default_option);
+            render_dom(data.node, data.options);
+            add_listener(setting, data.node, data.type, data.options, data.default_option);
+
+            º.respond({
+                [`${setting} :getSelected`]: () => get_selected_options(data.options,
+                                                                        data.type),
+                [`${setting} :getRandom`]: () => rng(get_selected_options(data.options,
+                                                                          data.type)),
+                [`${setting} :getAll`]: () => Object.keys(data.options),
+            });
         });
+
+        update_status_bar();
     }();
 
-    function construct(name, data) {
-        data.name = name;
-        data.multiple_selection ??= false;
-        data.state = ƒƒ("li", data.node).reduce(
-            (state, li) => Object.assign(state, { [li.dataset.option]: false }),
-            Object.create(null)
-        );
+    function init_options(options, default_option) {
+        Object.entries(options).forEach(([key, state]) => {
+            state.is_selected = key === default_option;
+        });
+    }
 
-        // Bind functions.
-        data.toggle_option = toggle_option.bind(data);
-        data.get_active_options = get_active_options.bind(data);
-        data.update_options = update_options.bind(data);
-        data.get_active_options = get_active_options.bind(data);
+    function render_dom(root, options) {
+        const buffer = Array();
 
-        // Select default option.
-        data.update_options(ƒ(`[data-option=${data.default}`, data.node));
+        Object.keys(options).sort().forEach((key, i, arr) => {
+            const state = options[key];
+            const fragment = ª(ƒ("#settingsOptionTemplate"), "span");
+            fragment.textContent = state.name;
+            fragment.dataset.ref = key;
+            fragment.dataset.isSelected = state.is_selected;
+            buffer.push(fragment);
 
-        // Listen for user interaction.
-        data.node.addEventListener("click", (e) => {
-            if (!(e.target instanceof HTMLLIElement))
+            if (i === arr.length - 2) {
+                buffer.push(document.createTextNode(" or "));
+            } else if (i < arr.length - 2)
+                buffer.push(document.createTextNode(", "));
+
+            state.node = fragment;
+        });
+
+        root.append(...buffer);
+    }
+
+    function get_selected_options(options, type) {
+        const selected = Object.entries(options)
+                               .filter(([key, state]) => state.is_selected)
+                               .map(([key, state]) => key);
+
+        return type === "radio" ? selected.shift() : selected;
+    }
+
+    function add_listener(setting, root, type, options, default_option) {
+        root.addEventListener("click", (e) => {
+            const target = e.target;
+            const option = options?.[target.dataset.ref];
+            if (!target.classList.contains("settingsOption"))
                 return;
 
-            data.update_options(e.target);
+            // Make sure that only one option is selected at a time.
+            if (type === "radio") {
+                Object.values(options).forEach((state) => {
+                    if (state.is_selected) {
+                        state.is_selected = false;
+                        state.node.dataset.isSelected = false;
+                    }
+                });
+            }
 
-            º.emit`setting::${name}Update`(
-                data.multiple_selection
-                    ? data.get_active_options()
-                    : data.get_active_options().shift()
-            );
+            target.dataset.isSelected = (option.is_selected = !option.is_selected);
+
+            // Make sure that at least one option is selected.
+            if (type === "checkbox") {
+                if (Object.values(options).every((state) => !state.is_selected)) {
+                    const default_opt_node = options[default_option];
+                    default_opt_node.is_selected = true;
+                    default_opt_node.node.dataset.isSelected = true;
+                }
+            }
+
+            update_status_bar();
+            º.emit`setting :${setting}Updated`(get_selected_options(options, type));
+        });
+    }
+
+    function update_status_bar() {
+        let buffer = String();
+
+        buffer += Object.entries(self.settings.language.options)
+                        .filter(([key, state]) => state.is_selected)
+                        .map(([key, state]) => key)
+                        .sort()
+                        .join(", ");
+
+        buffer += " & ";
+
+        Object.entries(self.settings.theme.options).forEach(([key, state]) => {
+            if (state.is_selected) {
+                buffer += key;
+            }
         });
 
-        º.respond({
-            [`${name}::getDefault`]: () => data.default,
-            [`${name}::getRandom`]: () => {
-                const options = data.get_active_options();
-                return options[Math.floor(Math.random() * options.length)];
-            },
-            [`${name}::getAll`]: () => Object.keys(data.state),
-        });
-
-        // Store reference.
-        self.settings.set(name, data);
-    }
-
-    /// Returns a list containing the selected options.
-    ///
-    /// [<] Array<String*>
-    function get_active_options() {
-        return Object.keys(this.state).filter((option) => this.state[option]);
-    }
-
-    /// Toggles the provided node.
-    ///
-    /// [>] node :: HTMLLIElement
-    /// [<] void
-    function toggle_option(node) {
-        const attr = node.dataset.option;
-
-        this.state[attr] = !this.state[attr];
-        node.classList.toggle("selected-option");
-    }
-
-    /// Updates the options and makes sure that all restrictions are upheld.
-    ///
-    /// [>] node_to_toggle :: HTMLLIElement
-    /// [<] void
-    function update_options(node_to_toggle) {
-        // Update state.
-        this.toggle_option(node_to_toggle);
-
-        // Maybe prevent multiple selection.
-        if (!this.multiple_selection && this.get_active_options().length) {
-            ƒƒ("li", this.node).forEach((node) => {
-                if (this.state[node.dataset.option] && node !== node_to_toggle)
-                    this.toggle_option(node);
-            });
-        }
-
-        // Make sure that at least one option is selected.
-        if (this.get_active_options().length === 0)
-            this.toggle_option(ƒ(`[data-option=${this.default}`, this.node));
-
-        // Set active option interface.
-        const active_options = this.get_active_options();
-        if (active_options.length > 3)
-            active_options.push(`+${active_options.splice(2).length}`);
-        this.node.dataset.selectedOption = active_options.join(", ");
+        self.status_bar.textContent = buffer;
     }
 }();

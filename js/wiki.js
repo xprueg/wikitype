@@ -3,7 +3,7 @@ void function WikiController() {
 
     void function init() {
         self.related_articles_cache = new Map();
-        self.random_article_cache = new Map(º.req`language::getAll`()
+        self.random_article_cache = new Map(º.req`language :getAll`()
                                              .map((lang) => [lang, Array()]));
 
         self.url = (() => {
@@ -71,7 +71,7 @@ void function WikiController() {
         return µƒ(self.url.related(article_data), { pages: Array() });
     }
 
-    function load_random_article(lang_code = º.req`language::getRandom`()) {
+    function load_random_article(lang_code = º.req`language :getRandom`()) {
         prefetch_random_article(lang_code);
 
         const cached_article = self.random_article_cache.get(lang_code).shift();

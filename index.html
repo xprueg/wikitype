@@ -15,8 +15,6 @@
         <script src="js/loading.js"></script>
     </head>
     <body>
-        <aside><span class="bold">[[WIKITYPE]]</span><span class="clock"></span></aside>
-
         <nav>
             <div id="navSelect">
                 <div class="navOption">
@@ -33,6 +31,11 @@
                     <span class="navOptionTitle"></span></div>
             </div>
         </nav>
+
+        <aside>
+            <span class="bold">[[WIKITYPE]]</span>
+            <span class="clock"></span>
+        </aside>
 
         <main>
             <header>
@@ -62,22 +65,6 @@
             </div>
 
             <footer>
-                <div id="controllerWrapper">
-                    <div id="languageController" data-controller="language" data-settings="multiple"
-                         data-selectedOption>
-                        <span class="controllerName">Languages</span>
-                        <ol>
-                            <li data-option="de">Deutsch</li>
-                            <li data-option="en" data-default-option>English</li>
-                            <li data-option="ru">Русский</li>
-                            <li data-option="uk">Українська</li>
-                        </ol>
-                    </div>
-                    <div id="themeController" data-controller="theme" data-settings data-selectedOption>
-                        <span class="controllerName">Theme</span>
-                        <ol id="themeList"></ol>
-                    </div>
-                </div>
                 <dl id="shortcuts">
                     <div>
                         <dt>^N</dt>
@@ -99,10 +86,33 @@
             </footer>
         </main>
 
+        <div id="bla">
+            <div id="blaslider">
+                <div id="blaaside">
+                    <span>|||</span>
+                    <span id="settingsStatus"></span>
+                    <span>]|</span>
+                </div>
+                <template id="settingsOptionTemplate">
+                    <span class="settingsOption" data-ref></span>
+                </template>
+                <div id="settings">
+                    <p>
+                        The language of the next random article will be one
+                        of either <span id="language" class="options"></span>.
+                    </p>
+                    <p>
+                        The site will be rendered with the
+                        <span id="theme" class="options"></span> theme.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/settings.js"></script>
         <script src="js/clock.js"></script>
         <script src="js/input.js"></script>
         <script src="js/theme.js"></script>
-        <script src="js/settings.js"></script>
         <script src="js/history.js"></script>
         <script src="js/wiki.js"></script>
         <script src="js/nav.js"></script>

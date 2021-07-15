@@ -3,7 +3,7 @@ void function ThemeController() {
 
     void function init() {
         self.node = ƒ("html");
-        self.active_theme;
+        self.active_theme = º.req`theme :getSelected`();
         self.themes = {
             // FIXME: Move <base> outside of themes in separat object.
             base: {
@@ -24,21 +24,21 @@ void function ThemeController() {
                 "--dark": "black",
                 "--bright": "white",
                 /* Global */
-                "--global-border-size": "2px",
-                "--global-border-color": "var(--bright)",
+                "--global-border-size": "0",
+                "--global-border-color": "",
                 /* Body */
-                "--body-background": "radial-gradient(at 0% 0%, magenta, cyan)",
+                "--body-background": "var(--bright)",
                 /* Main */
                 "--main-background": `
                     linear-gradient(45deg,
-                        hsla(0, 0%, 100%, .03) 25%, transparent 25%, transparent 75%,
-                        hsla(0, 0%, 100%, .03) 75%, hsla(0, 0%, 100%, .03))
+                        hsla(0, 0%, 100%, .04) 25%, transparent 25%, transparent 75%,
+                        hsla(0, 0%, 100%, .04) 75%, hsla(0, 0%, 100%, .04))
                         0 0/50px 50px,
                     linear-gradient(45deg,
-                        hsla(0, 0%, 100%, .03) 25%, transparent 25%, transparent 75%,
-                        hsla(0, 0%, 100%, .03) 75%, hsla(0, 0%, 100%, .03))
+                        hsla(0, 0%, 100%, .04) 25%, transparent 25%, transparent 75%,
+                        hsla(0, 0%, 100%, .04) 75%, hsla(0, 0%, 100%, .04))
                         calc(50px / 2) calc(50px / 2)/50px 50px,
-                    var(--dark)`,
+                    radial-gradient(at 0% 0%, magenta, cyan)`,
                 /* Article */
                 "--article-base-width": "800px",
                 "--article-width-shift": "50px",
@@ -139,7 +139,7 @@ void function ThemeController() {
                 "--tokenUpcomingColor": "var(--bright)",
                 "--tokenUpcomingBackground": "transparent",
                 "--tokenActiveColor": "hsla(0, 0%, 100%, .2)",
-                "--tokenActiveBackground": "hsla(0, 0%, 0%, .4)",
+                "--tokenActiveBackground": "hsla(0, 0%, 0%, .1)",
                 "--tokenProgressColor": "var(--dark)",
                 "--tokenProgressBackground": "var(--bright)",
                 "--tokenProgressTextShadow": "0 0 30px #f3eb95",
@@ -152,7 +152,7 @@ void function ThemeController() {
                 "--upcoming-option-background": "var(--bright)",
                 "--upcoming-option-color": "var(--dark)",
             },
-            terminal: {
+            term: {
                 "name": "Terminal",
                 "extend": "neon",
                 "--dark": "hsl(30, 1.41%, 10.84%)",
@@ -235,26 +235,6 @@ void function ThemeController() {
             },
         };
 
-        // FIXME: Move into separat function.
-        // FIXME: Use template for construction <li> element.
-        const ol = ƒ("#themeList");
-        Object.keys(self.themes).forEach((name) => {
-            if (name === "base")
-                return;
-
-            const theme = self.themes[name];
-            const li = document.createElement("li");
-            li.appendChild(document.createTextNode(theme.name));
-            li.dataset.option = name;
-
-            if (theme.default === "true") {
-                self.active_theme = name;
-                li.dataset.defaultOption = "true";
-            }
-
-            ol.appendChild(li);
-        });
-
         set_theme_to(self.active_theme);
 
         º.respond({
@@ -263,8 +243,7 @@ void function ThemeController() {
         });
 
         º.listen({
-            // FIXME: Clear all variables from the previously set theme on an update.
-            "setting::themeUpdate": (name) => (reset_theme(), set_theme_to(name)),
+            "setting :themeUpdated": (theme) => (reset_theme(), set_theme_to(theme)),
             "article :resizedTo": (w, h) => {
                 apply({
                     "--articleFrameWidth": `${w}px`,
