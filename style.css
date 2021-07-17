@@ -39,12 +39,12 @@ html {
     --z-footer: 20;
     --z-navigation: 10;
     --z-header: 20;
-    --z-imagePreview: 30;
+    --z-image-preview: 30;
     // FIXME: Article is overlapped by Shortcuts.
 
     /* Dynamically set by JS. */
-    --articleFrameWidth: 0;
-    --articleFrameHeight: 0;
+    --article-frame-width: 0;
+    --article-frame-height: 0;
 }
 
 /*/ body /*/
@@ -85,7 +85,6 @@ aside {
 header {
     position: relative;
     grid-area: header;
-    color: var(--bright);
     display: flex;
     overflow: hidden;
     padding: var(--main-padding);
@@ -115,6 +114,7 @@ header {
 }
 
 .history li::after {
+    color: var(--history-bright);
     content: " <-";
     white-space: pre;
     margin-right: -0.3ex;
@@ -130,15 +130,15 @@ header {
     pointer-events: none;
     position: relative;
     display: inline-block;
-    box-shadow: inset 0 0 0 2px var(--bright);
-    border-radius: var(--uiButtonBorderRadius);
+    box-shadow: inset 0 0 0 2px var(--history-bright);
+    border-radius: var(--ui-button-border-radius);
     padding: .25ex .9ex;
 }
 
 .history li:first-of-type span,
 .history li:hover span {
-    background: var(--bright);
-    color: var(--dark);
+    background: var(--history-bright);
+    color: var(--history-dark);
 }
 
 /*/ Article Area /*/
@@ -268,9 +268,9 @@ nav[data-is-visible=true] {
     position: absolute;
     top: calc(-1 * var(--lap));
     left: calc(-1 * var(--lap));
-    width: calc(var(--articleFrameWidth) + var(--lap) * 2);
-    height: calc(var(--articleFrameHeight) + var(--lap) * 2);
-    background: var(--articleFrameBackground);
+    width: calc(var(--article-frame-width) + var(--lap) * 2);
+    height: calc(var(--article-frame-height) + var(--lap) * 2);
+    background: var(--article-frame-background);
     transition: all 512ms ease-out;
 }
 
@@ -297,11 +297,12 @@ nav[data-is-visible=true] {
 
 #articleThumbnail {
     margin-top: 20px;
-    border: var(--articleThumbnailBorder);
+    border: var(--article-thumbnail-border);
     /* FIXME: Use variable for thumbnail size. */
     max-height: 200px;
     max-width: 200px;
-    mix-blend-mode: var(--articleThumbnailMixBlendMode);
+    mix-blend-mode: var(--article-thumbnail-mix-blend-mode);
+    filter: var(--article-thumbnail-filter);
 }
 
 #articleImage {
@@ -314,7 +315,7 @@ nav[data-is-visible=true] {
     object-fit: contain;
     max-height: var(--original-height);
     max-width: var(--original-width);
-    z-index: var(--z-imagePreview);
+    z-index: var(--z-image-preview);
     border: none;
 }
 
@@ -322,20 +323,20 @@ nav[data-is-visible=true] {
     display: inline-block;
     position: relative;
     white-space: pre-wrap;
-    color: var(--tokenUpcomingColor);
-    background: var(--tokenUpcomingBackground);
+    color: var(--token-upcoming-color);
+    background: var(--token-upcoming-background);
 }
 
 #activeToken {
-    color: var(--tokenActiveColor);
-    background: var(--tokenActiveBackground);
+    color: var(--token-active-color);
+    background: var(--token-active-background);
     z-index: 1;
 }
 
 #activeToken #progressToken {
-    color: var(--tokenProgressColor);
-    background: var(--tokenProgressBackground);
-    text-shadow: var(--tokenProgressTextShadow);
+    color: var(--token-progress-color);
+    background: var(--token-progress-background);
+    text-shadow: var(--token-progress-text-shadow);
     position: absolute;
     right: 0;
 }
@@ -345,8 +346,8 @@ nav[data-is-visible=true] {
 }
 
 #activeToken #progressToken::after {
-    color: var(--tokenErrorColor);
-    background: var(--tokenErrorBackground);
+    color: var(--token-error-color);
+    background: var(--token-error-background);
     content: attr(data-mistyped);
     position: absolute;
     left: 0;
@@ -356,14 +357,14 @@ nav[data-is-visible=true] {
 }
 
 #articleExtract {
-    font: var(--articleExtractFont);
-    font-feature-settings: var(--articleExtractFontFeatureSettings);
+    font: var(--article-extract-font);
+    font-feature-settings: var(--article-extract-font-feature-settings);
 }
 
 .typedToken {
     position: relative;
-    color: var(--tokenTypedColor);
-    background: var(--tokenTypedBackground);
+    color: var(--token-typed-color);
+    background: var(--token-typed-background);
 }
 
 .token::before {
@@ -386,11 +387,13 @@ footer {
     --timing: 500ms;
     --footer-image-max-size: 200px;
     position: absolute;
-    mix-blend-mode: difference;
+    mix-blend-mode: var(--aside-thumbnail-mix-blend-mode);
+    filter: var(--aside-thumbnail-filter);
     max-height: var(--footer-image-max-size);
     max-width: var(--footer-image-max-size);
     transform-origin: center;
-    transition: all var(--timing) ease-in-out, mix-blend-mode 4s;
+    /* FIXME: Animating transform will prevent the animation of mix-blend-mode. */
+    transition: all var(--timing) ease-in-out;
 }
 
 #shortcuts {
@@ -409,7 +412,7 @@ footer {
     color: var(--dark);
     padding: 0.6ex 1.2ex;
     background: var(--bright);
-    border-radius: var(--uiButtonBorderRadius);
+    border-radius: var(--ui-button-border-radius);
     white-space: nowrap;
     display: flex;
     grid-gap: .6ex;
@@ -423,6 +426,7 @@ footer {
 /*** SETTINGS ***/
 /****************/
 #settingsWrapper {
+    /* FIXME: The settings Wrapper does overlay the outer border. */
     --settings-wrapper-width: min(40vw, 550px);
 
     width: var(--aside-width);
@@ -430,13 +434,14 @@ footer {
 }
 
 #settingsWrapperInner {
-    background: var(--bright);
+    /* background: var(--bright); */
     color: var(--dark);
     position: relative;
     left: 0;
     display: flex;
     transition: left 500ms ease,
-                box-shadow 500ms ease;
+                box-shadow 500ms ease,
+                background 256ms 500ms ease-out;
     width: calc(var(--aside-width) + var(--settings-wrapper-width));
     z-index: 10000;
     /* left: -var(--settings-wrapper-width); */
@@ -445,6 +450,10 @@ footer {
 #settingsWrapper:hover #settingsWrapperInner {
     box-shadow: 0 0 100px 10px var(--dark);
     left: calc(-1 * var(--settings-wrapper-width));
+    background: var(--bright);
+    transition: left 500ms ease,
+                box-shadow 500ms ease,
+                background 256ms ease;
 }
 
 #settingsStatusBar {
@@ -458,7 +467,6 @@ footer {
     font-family: Trash;
     line-height: calc(var(--aside-width) + 0.215em);
     width: var(--aside-width);
-    background: var(--bright);
     pointer-events: none;
 }
 
@@ -469,7 +477,6 @@ footer {
 #settings {
     width: var(--settings-wrapper-width);
     height: 100vh;
-    background: var(--bright);
     padding: calc(var(--main-padding) * 2);
     color: var(--dark);
     font-size: 26px;

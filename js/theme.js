@@ -1,21 +1,107 @@
 void function ThemeController() {
     const self = Object.create(null);
 
+    // FIXME: Do transpile while compiling the theme instead of each on their own.
+    function transpile(x) {
+        return Object.fromEntries(Object.entries(x)
+            .map(([k, v]) => [k.replace(/^__/, '--').replace(/([A-Z])/g, '-$1').toLowerCase(), v])
+        );
+    }
+
     void function init() {
         self.node = ƒ("html");
         self.active_theme = º.req`theme :getSelected`();
         self.themes = {
             // FIXME: Move <base> outside of themes in separat object.
-            base: {
-                "--aside-width": "70px",
-                "--uiButtonBorderRadius": "100px",
-                "--main-padding": "20px",
-                "--lap": "30px",
-            },
+
+            base: transpile({
+                __asideWidth: "70px",
+                __uiButtonBorderRadius: "100px",
+                __mainPadding: "20px",
+                __lap: "30px",
+                __kRandArticleBound: 0,
+            }),
+
+            pstr: transpile({
+                name: "Poster",
+                extend: "base",
+
+                // Theme specific
+                __cRandomHue: "calc(360 * var(--k-rand-article-bound))",
+
+                // Colors
+                __dark: "#252121",
+                __bright: "#e8e9e9",
+
+                // Border
+                __globalBorderSize: 0,
+                __globalBorderColor: 'transparent',
+
+                // Background
+                __bodyBackground: 'var(--bright)',
+                __mainBackground: 'var(--bright)',
+
+                // History
+                __historyDark: 'var(--bright)',
+                __historyBright: 'var(--dark)',
+
+                // Article
+                __articleBaseWidth: '700px',
+                __articleWidthShift: '50px',
+                __articleBaseHeight: '800px',
+                __articleHeightShift: '50px',
+                __articleLoadingSpinnerColor: 'hsl(0, 0%, 100%, .7)',
+                __articleThumbnailBorder: '2px solid var(--article-image-border-color)',
+                __articleFrameBackground: `
+                    linear-gradient(
+                        0deg,
+                        transparent, transparent 50%,
+                        hsla(0, 0%, 0%, .04) 50%, hsla(0, 0%, 0%, .02) 52%,
+                        hsla(0, 0%, 0%, .01) 60%, transparent),
+                    linear-gradient(
+                        90deg,
+                        transparent, transparent 50%,
+                        hsla(0, 0%, 0%, .04) 50%, hsla(0, 0%, 0%, .02) 52%,
+                        hsla(0, 0%, 0%, .01) 60%, transparent),
+                    hsl(var(--c-random-hue), 93.98%, 67.45%)
+                `,
+
+                // Thumbnail
+                __articleThumbnailBorder: 0,
+                __articleThumbnailMixBlendMode: 'darken',
+                __articleThumbnailFilter: 'grayscale(1)',
+
+                // Extract
+                __articleExtractFont: '32px/1.5em Inter',
+                __articleExtractFontFeatureSettings: '"ss01", "ss02", "case", "cv10", "cv11"',
+                __articleImageBorderColor: 'var(--bright)',
+
+                // Tokens
+                __tokenUpcomingColor:      'black',
+                __tokenUpcomingBackground: 'transparent',
+                __tokenActiveColor:        'hsl(var(--c-random-hue), 93.98%, 76%)',
+                __tokenActiveBackground:   'hsla(var(--c-random-hue), 0%, 100%, 0.04)',
+                __tokenProgressColor:      'black',
+                __tokenProgressBackground: 'rgba(255, 255, 255, 0.5)',
+                __tokenProgressTextShadow: '0 0 30px #f3eb95',
+                __tokenTypedColor:         'hsl(var(--c-random-hue), 93.98%, 76%)',
+                __tokenTypedBackground:    String(),
+                __tokenErrorColor:         'hsl(5.62, 65.75%, 19%)',
+                __tokenErrorBackground:    'hsl(5.62, 80%, 49%)',
+
+                // Navigation
+                __upcomingOptionBackground: 'var(--bright)',
+                __upcomingOptionColor: 'var(--dark)',
+
+                // Aside Thumbnails
+                __asideThumbnailMixBlendMode: "soft-light",
+                __asideThumbnailFilter: "grayscale(1)",
+            }),
+
             neon: {
                 "name": "Neon",
                 "extend": "base",
-                "default": "true",
+
                 /* Custom */
                 "--kHandleSize": "10px",
                 "--kSmallHandleSize": "3px",
@@ -246,10 +332,13 @@ void function ThemeController() {
             "setting :themeUpdated": (theme) => (reset_theme(), set_theme_to(theme)),
             "article :resizedTo": (w, h) => {
                 apply({
-                    "--articleFrameWidth": `${w}px`,
-                    "--articleFrameHeight": `${h}px`,
+                    "--article-frame-width": `${w}px`,
+                    "--article-frame-height": `${h}px`,
                 });
-            }
+            },
+            "article :unloadArticle": () => {
+                apply({ "--k-rand-article-bound": Math.random() });
+            },
         });
     }();
 
