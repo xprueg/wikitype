@@ -4,37 +4,39 @@ void function ThemeController() {
     // FIXME: Do transpile while compiling the theme instead of each on their own.
     function transpile(x) {
         return Object.fromEntries(Object.entries(x)
-            .map(([k, v]) => [k.replace(/^__/, '--').replace(/([A-Z])/g, '-$1').toLowerCase(), v])
+                                        .map(([k, v]) => [k.replace(/^__/, '--')
+                                                           .replace(/([A-Z])/g, '-$1')
+                                                           .toLowerCase(), v])
         );
     }
 
     void function init() {
-        self.node = ƒ("html");
+        self.node = ƒ('html');
         self.active_theme = º.req`theme :getSelected`();
         self.themes = {
             // FIXME: Move <base> outside of themes in separat object.
 
             base: transpile({
-                __asideWidth: "70px",
-                __uiButtonBorderRadius: "100px",
-                __mainPadding: "20px",
-                __lap: "30px",
+                __asideWidth: '70px',
+                __uiButtonBorderRadius: '100px',
+                __mainPadding: '20px',
+                __lap: '30px',
                 __kRandArticleBound: 0,
             }),
 
             pstr: transpile({
-                name: "Poster",
-                extend: "base",
+                name:   'Poster',
+                extend: 'base',
 
                 // Theme specific
                 __cRandomHue: "calc(360 * var(--k-rand-article-bound))",
 
                 // Colors
-                __dark: "#252121",
-                __bright: "#e8e9e9",
+                __dark:   'hsl(0, 5.71%, 13.73%)',
+                __bright: 'hsl(180, 2.22%, 91.18%)',
 
                 // Border
-                __globalBorderSize: 0,
+                __globalBorderSize:  '0',
                 __globalBorderColor: 'transparent',
 
                 // Background
@@ -42,16 +44,16 @@ void function ThemeController() {
                 __mainBackground: 'var(--bright)',
 
                 // History
-                __historyDark: 'var(--bright)',
+                __historyDark:   'var(--bright)',
                 __historyBright: 'var(--dark)',
 
                 // Article
-                __articleBaseWidth: '700px',
-                __articleWidthShift: '50px',
-                __articleBaseHeight: '800px',
-                __articleHeightShift: '50px',
-                __articleLoadingSpinnerColor: 'hsl(0, 0%, 100%, .7)',
-                __articleThumbnailBorder: '2px solid var(--article-image-border-color)',
+                __articleBaseWidth:           '700px',
+                __articleWidthShift:          '50px',
+                __articleBaseHeight:          '800px',
+                __articleHeightShift:         '50px',
+                __articleLoadingSpinnerColor: 'hsl(var(--c-random-hue), 93.98%, 20%)',
+                __articleThumbnailBorder:     '2px solid var(--article-image-border-color)',
                 __articleFrameBackground: `
                     linear-gradient(
                         0deg,
@@ -67,14 +69,15 @@ void function ThemeController() {
                 `,
 
                 // Thumbnail
-                __articleThumbnailBorder: 0,
+                __articleThumbnailBorder:       '0',
                 __articleThumbnailMixBlendMode: 'darken',
-                __articleThumbnailFilter: 'grayscale(1)',
+                __articleThumbnailFilter:       'grayscale(1)',
 
                 // Extract
-                __articleExtractFont: '32px/1.5em Inter',
-                __articleExtractFontFeatureSettings: '"ss01", "ss02", "case", "cv10", "cv11"',
-                __articleImageBorderColor: 'var(--bright)',
+                __articleExtractFont:                '32px/1.5em Inter',
+                __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
+                                                      "cv10", "cv11"`,
+                __articleImageBorderColor:           'var(--bright)',
 
                 // Tokens
                 __tokenUpcomingColor:      'black',
@@ -83,19 +86,19 @@ void function ThemeController() {
                 __tokenActiveBackground:   'hsla(var(--c-random-hue), 0%, 100%, 0.04)',
                 __tokenProgressColor:      'black',
                 __tokenProgressBackground: 'rgba(255, 255, 255, 0.5)',
-                __tokenProgressTextShadow: '0 0 30px #f3eb95',
+                __tokenProgressTextShadow: 'none',
                 __tokenTypedColor:         'hsl(var(--c-random-hue), 93.98%, 76%)',
-                __tokenTypedBackground:    String(),
+                __tokenTypedBackground:    'transparent',
                 __tokenErrorColor:         'hsl(5.62, 65.75%, 19%)',
                 __tokenErrorBackground:    'hsl(5.62, 80%, 49%)',
 
                 // Navigation
                 __upcomingOptionBackground: 'var(--bright)',
-                __upcomingOptionColor: 'var(--dark)',
+                __upcomingOptionColor:      'var(--dark)',
 
                 // Aside Thumbnails
-                __asideThumbnailMixBlendMode: "soft-light",
-                __asideThumbnailFilter: "grayscale(1)",
+                __asideThumbnailMixBlendMode: 'soft-light',
+                __asideThumbnailFilter:       'grayscale(1)',
             }),
 
             neon: {
