@@ -40,8 +40,8 @@ void function ThemeController() {
                 __globalBorderColor: 'transparent',
 
                 // Background
-                __bodyBackground: 'var(--bright)',
-                __mainBackground: 'var(--bright)',
+                __bodyBackground:  'var(--bright)',
+                __asideBackground: 'var(--bright)',
 
                 // History
                 __historyDark:   'var(--bright)',
