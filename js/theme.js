@@ -44,8 +44,8 @@ void function ThemeController() {
                 __asideBackground: 'var(--bright)',
 
                 // History
-                __historyDark:   'var(--bright)',
-                __historyBright: 'var(--dark)',
+                __historyBase:     'var(--dark)',
+                __historyContrast: 'var(--bright)',
 
                 // Article
                 __articleBaseWidth:           '700px',
@@ -53,7 +53,6 @@ void function ThemeController() {
                 __articleBaseHeight:          '800px',
                 __articleHeightShift:         '50px',
                 __articleLoadingSpinnerColor: 'hsl(var(--c-random-hue), 93.98%, 20%)',
-                __articleThumbnailBorder:     '2px solid var(--article-image-border-color)',
                 __articleFrameBackground: `
                     linear-gradient(
                         0deg,
@@ -85,7 +84,7 @@ void function ThemeController() {
                 __tokenActiveColor:        'hsl(var(--c-random-hue), 93.98%, 76%)',
                 __tokenActiveBackground:   'hsla(var(--c-random-hue), 0%, 100%, 0.04)',
                 __tokenProgressColor:      'black',
-                __tokenProgressBackground: 'rgba(255, 255, 255, 0.5)',
+                __tokenProgressBackground: 'hsla(0, 0%, 100%, 0.5)',
                 __tokenProgressTextShadow: 'none',
                 __tokenTypedColor:         'hsl(var(--c-random-hue), 93.98%, 76%)',
                 __tokenTypedBackground:    'transparent',
@@ -101,24 +100,25 @@ void function ThemeController() {
                 __asideThumbnailFilter:       'grayscale(1)',
             }),
 
-            neon: {
-                "name": "Neon",
-                "extend": "base",
+            neon: transpile({
+                name:   'Neon',
+                extend: 'base',
 
-                /* Custom */
-                "--kHandleSize": "10px",
-                "--kSmallHandleSize": "3px",
-                "--kBorderSize": "2px",
-                /* Base */
-                "--dark": "black",
-                "--bright": "white",
-                /* Global */
-                "--global-border-size": "0",
-                "--global-border-color": "",
-                /* Body */
-                "--body-background": "var(--bright)",
-                /* Main */
-                "--main-background": `
+                // Theme specific
+                __cHandleSize:      '10px',
+                __cSmallHandleSize: '3px',
+                __cBorderSize:      '2px',
+
+                // Colors
+                __dark:   'black',
+                __bright: 'white',
+
+                // Border
+                __globalBorderSize:  '0',
+                __globalBorderColor: 'transparent',
+
+                // Background
+                __bodyBackground:  `
                     linear-gradient(45deg,
                         hsla(0, 0%, 100%, .04) 25%, transparent 25%, transparent 75%,
                         hsla(0, 0%, 100%, .04) 75%, hsla(0, 0%, 100%, .04))
@@ -128,127 +128,158 @@ void function ThemeController() {
                         hsla(0, 0%, 100%, .04) 75%, hsla(0, 0%, 100%, .04))
                         calc(50px / 2) calc(50px / 2)/50px 50px,
                     radial-gradient(at 0% 0%, magenta, cyan)`,
-                /* Article */
-                "--article-base-width": "800px",
-                "--article-width-shift": "50px",
-                "--article-base-height": "500px",
-                "--article-height-shift": "50px",
-                "--article-loading-spinner-color": "hsl(0, 0%, 100%, .7)",
-                "--articleThumbnailBorder": "2px solid var(--article-image-border-color)",
-                /* Article Frame */
-                "--articleFrameBackground": `
+                __asideBackground: 'var(--bright)',
+
+                // History
+                __historyBase:     'var(--bright)',
+                __historyContrast: 'var(--dark)',
+
+                // Article
+                __articleBaseWidth:           '800px',
+                __articleWidthShift:          '50px',
+                __articleBaseHeight:          '500px',
+                __articleHeightShift:         '50px',
+                __articleLoadingSpinnerColor: 'hsl(0, 0%, 100%, .7)',
+                __articleFrameBackground: `
                     /* top middle handle */
                     radial-gradient(
                         circle at
-                            calc(var(--lap) + var(--articleFrameWidth) / 2)
-                            calc(var(--lap) + var(--kBorderSize) / 2),
-                        var(--bright), var(--bright) var(--kSmallHandleSize), transparent var(--kSmallHandleSize), transparent),
+                            calc(var(--lap) + var(--article-frame-width) / 2)
+                            calc(var(--lap) + var(--c-border-size) / 2),
+                        var(--bright), var(--bright) var(--c-small-handle-size), transparent var(--c-small-handle-size), transparent),
                     /* bottom middle handle */
                     radial-gradient(
                         circle at
-                            calc(var(--lap) + var(--articleFrameWidth) / 2)
-                            calc(var(--lap) - var(--kBorderSize) / 2 + var(--articleFrameHeight)),
-                        var(--bright), var(--bright) var(--kSmallHandleSize), transparent var(--kSmallHandleSize), transparent),
+                            calc(var(--lap) + var(--article-frame-width) / 2)
+                            calc(var(--lap) - var(--c-border-size) / 2 + var(--article-frame-height)),
+                        var(--bright), var(--bright) var(--c-small-handle-size), transparent var(--c-small-handle-size), transparent),
                     /* left middle handle */
                     radial-gradient(
                         circle at
-                            calc(var(--lap) + var(--kBorderSize) / 2)
-                            calc(var(--lap) + var(--kBorderSize) / 2 + var(--articleFrameHeight) / 2),
-                        var(--bright), var(--bright) var(--kSmallHandleSize), transparent var(--kSmallHandleSize), transparent),
+                            calc(var(--lap) + var(--c-border-size) / 2)
+                            calc(var(--lap) + var(--c-border-size) / 2 + var(--article-frame-height) / 2),
+                        var(--bright), var(--bright) var(--c-small-handle-size), transparent var(--c-small-handle-size), transparent),
                     /* right middle handle */
                     radial-gradient(
                         circle at
-                            calc(var(--lap) + var(--articleFrameWidth) - var(--kBorderSize) / 2)
-                            calc(var(--lap) + var(--kBorderSize) / 2 + var(--articleFrameHeight) / 2),
-                        var(--bright), var(--bright) var(--kSmallHandleSize), transparent var(--kSmallHandleSize), transparent),
+                            calc(var(--lap) + var(--article-frame-width) - var(--c-border-size) / 2)
+                            calc(var(--lap) + var(--c-border-size) / 2 + var(--article-frame-height) / 2),
+                        var(--bright), var(--bright) var(--c-small-handle-size), transparent var(--c-small-handle-size), transparent),
 
                     /* top left handle cutout */
                     linear-gradient(var(--dark), var(--dark))
-                        calc(var(--lap) + var(--kBorderSize) / 2 - (var(--kHandleSize) - var(--kBorderSize) * 2) / 2)
-                        calc(var(--lap) + var(--kBorderSize) / 2 - (var(--kHandleSize) - var(--kBorderSize) * 2) / 2)/
-                        calc(var(--kHandleSize) - var(--kBorderSize) * 2) calc(var(--kHandleSize) - var(--kBorderSize) * 2) no-repeat,
+                        calc(var(--lap) + var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)
+                        calc(var(--lap) + var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)/
+                        calc(var(--c-handle-size) - var(--c-border-size) * 2) calc(var(--c-handle-size) - var(--c-border-size) * 2) no-repeat,
                     /* top left handle */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) + var(--kBorderSize) / 2 - var(--kHandleSize) / 2)
-                        calc(var(--lap) + var(--kBorderSize) / 2 - var(--kHandleSize) / 2)/
-                        var(--kHandleSize) var(--kHandleSize) no-repeat,
+                        calc(var(--lap) + var(--c-border-size) / 2 - var(--c-handle-size) / 2)
+                        calc(var(--lap) + var(--c-border-size) / 2 - var(--c-handle-size) / 2)/
+                        var(--c-handle-size) var(--c-handle-size) no-repeat,
                     /* bottom left handle cutout */
                     linear-gradient(var(--dark), var(--dark))
-                        calc(var(--lap) + var(--kBorderSize) / 2 - (var(--kHandleSize) - var(--kBorderSize) * 2) / 2)
-                        calc(var(--lap) + var(--articleFrameHeight) - var(--kBorderSize) / 2 - (var(--kHandleSize) - var(--kBorderSize) * 2) / 2)/
-                        calc(var(--kHandleSize) - var(--kBorderSize) * 2) calc(var(--kHandleSize) - var(--kBorderSize) * 2) no-repeat,
+                        calc(var(--lap) + var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)
+                        calc(var(--lap) + var(--article-frame-height) - var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)/
+                        calc(var(--c-handle-size) - var(--c-border-size) * 2) calc(var(--c-handle-size) - var(--c-border-size) * 2) no-repeat,
                     /* bottom left handle */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) + var(--kBorderSize) / 2 - var(--kHandleSize) / 2)
-                        calc(var(--lap) + var(--articleFrameHeight) - var(--kBorderSize) / 2 - var(--kHandleSize) / 2)/
-                        var(--kHandleSize) var(--kHandleSize) no-repeat,
+                        calc(var(--lap) + var(--c-border-size) / 2 - var(--c-handle-size) / 2)
+                        calc(var(--lap) + var(--article-frame-height) - var(--c-border-size) / 2 - var(--c-handle-size) / 2)/
+                        var(--c-handle-size) var(--c-handle-size) no-repeat,
                     /* top right handle cutout */
                     linear-gradient(var(--dark), var(--dark))
-                        calc(var(--lap) + var(--articleFrameWidth) - var(--kBorderSize) / 2 - (var(--kHandleSize) - var(--kBorderSize) * 2) / 2)
-                        calc(var(--lap) + var(--kBorderSize) / 2 - (var(--kHandleSize) - var(--kBorderSize) * 2) / 2)/
-                        calc(var(--kHandleSize) - var(--kBorderSize) * 2) calc(var(--kHandleSize) - var(--kBorderSize) * 2) no-repeat,
+                        calc(var(--lap) + var(--article-frame-width) - var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)
+                        calc(var(--lap) + var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)/
+                        calc(var(--c-handle-size) - var(--c-border-size) * 2) calc(var(--c-handle-size) - var(--c-border-size) * 2) no-repeat,
                     /* top right handle */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) + var(--articleFrameWidth) - var(--kBorderSize) / 2 - var(--kHandleSize) / 2)
-                        calc(var(--lap) + var(--kBorderSize) / 2 - var(--kHandleSize) / 2)/
-                        var(--kHandleSize) var(--kHandleSize) no-repeat,
+                        calc(var(--lap) + var(--article-frame-width) - var(--c-border-size) / 2 - var(--c-handle-size) / 2)
+                        calc(var(--lap) + var(--c-border-size) / 2 - var(--c-handle-size) / 2)/
+                        var(--c-handle-size) var(--c-handle-size) no-repeat,
                     /* bottom right handle cutout */
                     linear-gradient(var(--dark), var(--dark))
-                        calc(var(--lap) + var(--articleFrameWidth) - var(--kBorderSize) / 2 - (var(--kHandleSize) - var(--kBorderSize) * 2) / 2)
-                        calc(var(--lap) + var(--articleFrameHeight) - var(--kBorderSize) / 2 - (var(--kHandleSize) - var(--kBorderSize) * 2) / 2)/
-                        calc(var(--kHandleSize) - var(--kBorderSize) * 2) calc(var(--kHandleSize) - var(--kBorderSize) * 2) no-repeat,
+                        calc(var(--lap) + var(--article-frame-width) - var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)
+                        calc(var(--lap) + var(--article-frame-height) - var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)/
+                        calc(var(--c-handle-size) - var(--c-border-size) * 2) calc(var(--c-handle-size) - var(--c-border-size) * 2) no-repeat,
                     /* bottom right handle */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) + var(--articleFrameWidth) - var(--kBorderSize) / 2 - var(--kHandleSize) / 2)
-                        calc(var(--lap) + var(--articleFrameHeight) - var(--kBorderSize) / 2 - var(--kHandleSize) / 2)/
-                        var(--kHandleSize) var(--kHandleSize) no-repeat,
+                        calc(var(--lap) + var(--article-frame-width) - var(--c-border-size) / 2 - var(--c-handle-size) / 2)
+                        calc(var(--lap) + var(--article-frame-height) - var(--c-border-size) / 2 - var(--c-handle-size) / 2)/
+                        var(--c-handle-size) var(--c-handle-size) no-repeat,
 
                     /* top border */
                     linear-gradient(var(--bright), var(--bright))
                         var(--lap) var(--lap)/
-                        var(--articleFrameWidth) var(--kBorderSize) no-repeat,
+                        var(--article-frame-width) var(--c-border-size) no-repeat,
                     /* right border */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) + var(--articleFrameWidth) - var(--kBorderSize)) var(--lap)/
-                        var(--kBorderSize) var(--articleFrameHeight) no-repeat,
+                        calc(var(--lap) + var(--article-frame-width) - var(--c-border-size)) var(--lap)/
+                        var(--c-border-size) var(--article-frame-height) no-repeat,
                     /* bottom border */
                     linear-gradient(var(--bright), var(--bright))
-                        var(--lap) calc(var(--lap) + var(--articleFrameHeight) - var(--kBorderSize))/
-                        var(--articleFrameWidth) var(--kBorderSize) no-repeat,
+                        var(--lap) calc(var(--lap) + var(--article-frame-height) - var(--c-border-size))/
+                        var(--article-frame-width) var(--c-border-size) no-repeat,
                     /* left border */
                     linear-gradient(var(--bright), var(--bright))
                         calc(var(--lap)) var(--lap)/
-                        var(--kBorderSize) var(--articleFrameHeight) no-repeat
+                        var(--c-border-size) var(--article-frame-height) no-repeat
                 `,
-                /* Extract */
-                "--articleExtractFont": "32px/1.5em Inter",
-                "--articleExtractFontFeatureSettings": `"ss01", "ss02", "case", "cv10", "cv11"`,
-                "--article-image-border-color": "var(--bright)",
 
-                "--tokenUpcomingColor": "var(--bright)",
-                "--tokenUpcomingBackground": "transparent",
-                "--tokenActiveColor": "hsla(0, 0%, 100%, .2)",
-                "--tokenActiveBackground": "hsla(0, 0%, 0%, .1)",
-                "--tokenProgressColor": "var(--dark)",
-                "--tokenProgressBackground": "var(--bright)",
-                "--tokenProgressTextShadow": "0 0 30px #f3eb95",
-                "--tokenTypedColor": "hsla(0, 0%, 100%, .2)",
-                "--tokenTypedBackground": "",
-                "--tokenErrorColor": "hsl(360, 100%, 9.25%)",
-                "--tokenErrorBackground": "hsl(360, 100%, 59.25%)",
+                // Thumbnail
+                __articleThumbnailBorder:       '2px solid var(--article-image-border-color)',
+                __articleThumbnailMixBlendMode: '',
+                __articleThumbnailFilter:       '',
 
-                /* Nav */
-                "--upcoming-option-background": "var(--bright)",
-                "--upcoming-option-color": "var(--dark)",
-            },
-            term: {
-                "name": "Terminal",
-                "extend": "neon",
-                "--dark": "hsl(30, 1.41%, 10.84%)",
-                "--bright": "hsl(54.89, 79.66%, 76.86%)",
-                "--body-background": "var(--bright)",
-                "--global-border-size": "0",
-                "--main-background": `
+                // Extract
+                __articleExtractFont:                '32px/1.5em Inter',
+                __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
+                                                      "cv10", "cv11"`,
+                __articleImageBorderColor:           'var(--bright)',
+
+                // Tokens
+                __tokenUpcomingColor:      'var(--bright)',
+                __tokenUpcomingBackground: 'transparent',
+                __tokenActiveColor:        'hsla(0, 0%, 100%, .2)',
+                __tokenActiveBackground:   'hsla(0, 0%, 0%, .1)',
+                __tokenProgressColor:      'var(--dark)',
+                __tokenProgressBackground: 'var(--bright)',
+                __tokenProgressTextShadow: '0 0 30px #f3eb95',
+                __tokenTypedColor:         'hsla(0, 0%, 100%, .2)',
+                __tokenTypedBackground:    'transparent',
+                __tokenErrorColor:         'hsl(360, 100%, 9.25%)',
+                __tokenErrorBackground:    'hsl(360, 100%, 59.25%)',
+
+                // Navigation
+                __upcomingOptionBackground: 'var(--bright)',
+                __upcomingOptionColor:      'var(--dark)',
+
+                // Aside Thumbnails
+                __asideThumbnailMixBlendMode: 'difference',
+                __asideThumbnailFilter:       '',
+            }),
+
+            term: transpile({
+                name:   'Terminal',
+                extend: 'base',
+
+                // Override
+                __uiButtonBorderRadius: '0',
+
+                // Theme specific
+                __cHandleSize:      '10px',
+                __cSmallHandleSize: '3px',
+                __cBorderSize:      '2px',
+
+                // Colors
+                __dark:   'hsl(30, 1.41%, 10.84%)',
+                __bright: 'hsl(54.89, 79.66%, 76.86%)',
+
+                // Border
+                __globalBorderSize:  '0',
+                __globalBorderColor: 'transparent',
+
+                // Background
+                __bodyBackground:  `
                     radial-gradient(circle at bottom center, hsla(30, 1.41%, 27.84%, .3), transparent),
                     repeating-linear-gradient(
                         180deg,
@@ -260,68 +291,87 @@ void function ThemeController() {
                         hsla(0, 0%, 0%, .2), hsla(0, 0%, 0%, .2) 1px,
                         transparent 1px, transparent 50px
                     ),
-                    hsl(30, 1.41%, 10%)
-                `,
-                "--articleExtractFont": "34px/1.5em JetBrains Mono",
-                "--token-upcoming-color": "#95ff5f",
-                "--tokenActiveBackground": "var(--bright)",
-                "--token-active-color": "blue",
-                "--article-base-width": "900px",
-                "--article-loading-spinner-color": "#f3eb95",
+                    hsl(30, 1.41%, 10%)`,
+                __asideBackground: 'var(--bright)',
 
-                "--tokenUpcomingColor": "var(--bright)",
-                "--tokenUpcomingBackground": "transparent",
-                "--tokenActiveColor": "hsla(54.37, 59.26%, 89.41%, 0.39)",
-                "--tokenActiveBackground": "hsla(54.37, 59.26%, 89.41%, 0.04)",
-                "--tokenProgressColor": "hsl(30, 1.41%, 27.84%)",
-                "--tokenProgressBackground": "#f3eb95",
-                "--tokenProgressTextShadow": "0 0 30px #f3eb95",
-                "--tokenTypedColor": "hsla(54.37, 59.26%, 89.41%, 0.39)",
-                "--tokenTypedBackground": "",
-                "--tokenErrorColor": "hsl(360, 100%, 9.25%)",
-                "--tokenErrorBackground": "hsl(360, 100%, 59.25%)",
+                // History
+                __historyBase:     'var(--bright)',
+                __historyContrast: 'var(--dark)',
 
-                "--uiButtonBorderRadius": "0px",
-
-                "--articleThumbnailBorder": "0",
-                "--articleThumbnailMixBlendMode": "luminosity",
-
-                "--articleFrameBackground": `
+                // Article
+                __articleBaseWidth:           '900px',
+                __articleWidthShift:          '50px',
+                __articleBaseHeight:          '500px',
+                __articleHeightShift:         '50px',
+                __articleLoadingSpinnerColor: 'hsl(54.89, 79.66%, 76.86%)',
+                __articleFrameBackground: `
                     /* top border */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) - var(--kBorderSize))
-                        calc(var(--lap) - var(--kBorderSize))/
-                        calc(var(--articleFrameWidth) + var(--kBorderSize) * 2)
-                        var(--kBorderSize)
+                        calc(var(--lap) - var(--c-border-size))
+                        calc(var(--lap) - var(--c-border-size))/
+                        calc(var(--article-frame-width) + var(--c-border-size) * 2)
+                        var(--c-border-size)
                         no-repeat,
                     /* right border */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) + var(--articleFrameWidth))
-                        calc(var(--lap) - var(--kBorderSize))/
-                        calc(var(--kBorderSize) * 15)
-                        calc(var(--articleFrameHeight) + var(--kBorderSize) * 2)
+                        calc(var(--lap) + var(--article-frame-width))
+                        calc(var(--lap) - var(--c-border-size))/
+                        calc(var(--c-border-size) * 15)
+                        calc(var(--article-frame-height) + var(--c-border-size) * 2)
                         no-repeat,
                     /* bottom border */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) - var(--kBorderSize))
-                        calc(var(--lap) + var(--articleFrameHeight))/
-                        calc(var(--articleFrameWidth) + var(--kBorderSize) * 2)
-                        var(--kBorderSize)
+                        calc(var(--lap) - var(--c-border-size))
+                        calc(var(--lap) + var(--article-frame-height))/
+                        calc(var(--article-frame-width) + var(--c-border-size) * 2)
+                        var(--c-border-size)
                         no-repeat,
                     /* left border */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) - var(--kBorderSize) * 15)
-                        calc(var(--lap) - var(--kBorderSize))/
-                        calc(var(--kBorderSize) * 15)
-                        calc(var(--articleFrameHeight) + var(--kBorderSize) * 2)
+                        calc(var(--lap) - var(--c-border-size) * 15)
+                        calc(var(--lap) - var(--c-border-size))/
+                        calc(var(--c-border-size) * 15)
+                        calc(var(--article-frame-height) + var(--c-border-size) * 2)
                         no-repeat,
                     /* background */
                     linear-gradient(hsla(30, 1.41%, 27.84%, .6), hsla(30, 1.41%, 27.84%, .6))
                         var(--lap) var(--lap)/
-                        var(--articleFrameWidth) var(--articleFrameHeight)
+                        var(--article-frame-width) var(--article-frame-height)
                         no-repeat
                 `,
-            },
+
+                // Thumbnail
+                __articleThumbnailBorder:       '0',
+                __articleThumbnailMixBlendMode: 'luminosity',
+                __articleThumbnailFilter:       '',
+
+                // Extract
+                __articleExtractFont:                '34px/1.5em JetBrains Mono',
+                __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
+                                                      "cv10", "cv11"`,
+                __articleImageBorderColor:           'var(--bright)',
+
+                // Tokens
+                __tokenUpcomingColor:      'var(--bright)',
+                __tokenUpcomingBackground: 'transparent',
+                __tokenActiveColor:        'hsla(54.37, 59.26%, 89.41%, 0.39)',
+                __tokenActiveBackground:   'hsla(54.37, 59.26%, 89.41%, 0.04)',
+                __tokenProgressColor:      'hsl(30, 1.41%, 27.84%)',
+                __tokenProgressBackground: 'hsl(54.89, 79.66%, 76.86%)',
+                __tokenProgressTextShadow: '0 0 30px hsl(54.89, 79.66%, 76.86%)',
+                __tokenTypedColor:         'hsla(54.37, 59.26%, 89.41%, 0.39)',
+                __tokenTypedBackground:    'transparent',
+                __tokenErrorColor:         'hsl(360, 100%, 9.25%)',
+                __tokenErrorBackground:    'hsl(360, 100%, 59.25%)',
+
+                // Navigation
+                __upcomingOptionBackground: 'var(--bright)',
+                __upcomingOptionColor:      'var(--dark)',
+
+                // Aside Thumbnails
+                __asideThumbnailMixBlendMode: 'soft-light',
+                __asideThumbnailFilter:       'grayscale(1)',
+            }),
         };
 
         set_theme_to(self.active_theme);
