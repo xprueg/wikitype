@@ -16,10 +16,11 @@ void function SettingsController() {
             },
             theme: {
                 type: "radio",
-                default_option: "neon",
+                default_option: "pstr",
                 options: {
                     neon: { name: "Neon"  },
                     term: { name: "Terminal" },
+                    pstr: { name: "Poster" },
                 },
             }
         };
