@@ -30,6 +30,12 @@ void function ThemeController() {
 
                 // Theme specific
                 __cRandomHue: "calc(360 * var(--k-rand-article-bound))",
+                __cArticleFrameBackgroundSize: `
+                    0 0/
+                    calc(var(--article-frame-width) + var(--lap) * 2)
+                    calc(var(--article-frame-height) + var(--lap))
+                    no-repeat
+                `,
 
                 // Colors
                 __dark:   'hsl(0, 5.71%, 13.73%)',
@@ -56,15 +62,22 @@ void function ThemeController() {
                 __articleFrameBackground: `
                     linear-gradient(
                         0deg,
-                        transparent, transparent 50%,
+                        transparent, transparent 48%,
+                        hsla(0, 0%, 100%, .03) 50%,
                         hsla(0, 0%, 0%, .04) 50%, hsla(0, 0%, 0%, .02) 52%,
-                        hsla(0, 0%, 0%, .01) 60%, transparent),
+                        hsla(0, 0%, 0%, .01) 60%, transparent)
+                        var(--c-article-frame-background-size),
                     linear-gradient(
                         90deg,
-                        transparent, transparent 50%,
+                        transparent, transparent 48%,
+                        hsla(0, 0%, 100%, .03) 50%,
                         hsla(0, 0%, 0%, .04) 50%, hsla(0, 0%, 0%, .02) 52%,
-                        hsla(0, 0%, 0%, .01) 60%, transparent),
-                    hsl(var(--c-random-hue), 93.98%, 67.45%)
+                        hsla(0, 0%, 0%, .01) 60%, transparent)
+                        var(--c-article-frame-background-size),
+                    linear-gradient(
+                        hsl(var(--c-random-hue), 93.98%, 67.45%),
+                        hsl(var(--c-random-hue), 93.98%, 67.45%))
+                        var(--c-article-frame-background-size)
                 `,
 
                 // Thumbnail
@@ -127,7 +140,8 @@ void function ThemeController() {
                         hsla(0, 0%, 100%, .04) 25%, transparent 25%, transparent 75%,
                         hsla(0, 0%, 100%, .04) 75%, hsla(0, 0%, 100%, .04))
                         calc(50px / 2) calc(50px / 2)/50px 50px,
-                    radial-gradient(at 0% 0%, magenta, cyan)`,
+                    radial-gradient(at 0% 0%, magenta, cyan)
+                `,
                 __asideBackground: 'var(--bright)',
 
                 // History
@@ -291,7 +305,8 @@ void function ThemeController() {
                         hsla(0, 0%, 0%, .2), hsla(0, 0%, 0%, .2) 1px,
                         transparent 1px, transparent 50px
                     ),
-                    hsl(30, 1.41%, 10%)`,
+                    hsl(30, 1.41%, 10%)
+                `,
                 __asideBackground: 'var(--bright)',
 
                 // History

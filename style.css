@@ -368,18 +368,6 @@ nav[data-is-visible=true] {
     content: attr(data-word);
 }
 
-/*/ Footer /*/
-
-footer {
-    grid-area: footer;
-    z-index: var(--z-footer);
-    padding: var(--main-padding);
-    padding-top: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
 .footer-image {
     --timing: 500ms;
     --footer-image-max-size: 200px;
@@ -393,30 +381,60 @@ footer {
     transition: all var(--timing) ease-in-out;
 }
 
-#shortcuts {
+/************************/
+/*** FOOTER/SHORTCUTS ***/
+/************************/
+footer {
+    grid-area: footer;
+    z-index: var(--z-footer);
     display: flex;
-    grid-gap: 12px;
-    flex-direction: column;
-    align-items: flex-end;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: var(--main-padding);
+    justify-content: center;
+}
+
+#shortcuts {
+    display: inline-flex;
+    justify-content: center;
+    background: var(--bright);
+    padding: 2ex 3ex;
+    font-size: 14px;
+    color: var(--dark);
+    border-radius: var(--ui-button-border-radius);
 }
 
 #shortcuts div {
-    font-size: 16px;
-    color: var(--dark);
-    padding: 0.6ex 1.2ex;
-    background: var(--bright);
-    border-radius: var(--ui-button-border-radius);
     white-space: nowrap;
     display: flex;
-    grid-gap: .6ex;
+    align-items: center;
+    flex-direction: row;
+}
+
+#shortcuts div:not(:last-child)::after {
+    content: ";";
+    padding: 0 2ex;
+    opacity: .4;
 }
 
 #shortcuts dt {
+    padding-right: 1ex;
     font-weight: bold;
+    display: flex;
+    grid-gap: 1px;
+}
+
+#shortcuts b {
+    display: flex;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    background: var(--dark);
+    color: var(--bright);
+    font-size: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+#shortcuts b.extended {
+    width: 30px;
 }
 
 /****************/
