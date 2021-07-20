@@ -13,15 +13,18 @@ void function ThemeController() {
     void function init() {
         self.node = ƒ('html');
         self.active_theme = º.req`theme :getSelected`();
+        // Variables that can be controlled by the user.
+        self.user = {
+            __uFontFactor: 1,
+        };
         self.themes = {
-            // FIXME: Move <base> outside of themes in separat object.
-
             base: transpile({
                 __asideWidth: '70px',
                 __uiButtonBorderRadius: '100px',
                 __mainPadding: '20px',
                 __lap: '30px',
                 __kRandArticleBound: 0,
+                // __uFontFactor: self.user.__uFontFactor,
             }),
 
             pstr: transpile({
@@ -86,7 +89,7 @@ void function ThemeController() {
                 __articleThumbnailFilter:       'grayscale(1)',
 
                 // Extract
-                __articleExtractFont:                '32px/1.5em Inter',
+                __articleExtractFont:                'calc(32px * var(--u-font-factor))/1.5em Inter',
                 __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
                                                       "cv10", "cv11"`,
                 __articleImageBorderColor:           'var(--bright)',
@@ -245,7 +248,7 @@ void function ThemeController() {
                 __articleThumbnailFilter:       '',
 
                 // Extract
-                __articleExtractFont:                '32px/1.5em Inter',
+                __articleExtractFont:                'calc(32px * var(--u-font-factor))/1.5em Inter',
                 __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
                                                       "cv10", "cv11"`,
                 __articleImageBorderColor:           'var(--bright)',
@@ -361,7 +364,7 @@ void function ThemeController() {
                 __articleThumbnailFilter:       '',
 
                 // Extract
-                __articleExtractFont:                '34px/1.5em JetBrains Mono',
+                __articleExtractFont:                'calc(34px * var(--u-font-factor))/1.5em JetBrains Mono',
                 __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
                                                       "cv10", "cv11"`,
                 __articleImageBorderColor:           'var(--bright)',
@@ -390,6 +393,17 @@ void function ThemeController() {
         };
 
         set_theme_to(self.active_theme);
+        apply(transpile(self.user));
+
+        º.emit`shortcut: set`('^+', () => {
+            self.user.__uFontFactor += .05;
+            apply(transpile(self.user));
+        });
+
+        º.emit`shortcut: set`('^-', () => {
+            self.user.__uFontFactor -= .05;
+            apply(transpile(self.user));
+        });
 
         º.respond({
             "theme::val": (key) => val(key),

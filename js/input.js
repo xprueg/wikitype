@@ -2,6 +2,8 @@ void function InputController() {
     const self = Object.create(null);
 
     void function init() {
+        self.shortcuts = new Map();
+
         self.input = document.createElement("input");
         self.input.setAttribute("type", "text");
         self.input.setAttribute("autocomplete", "off");
@@ -15,6 +17,15 @@ void function InputController() {
         document.body.addEventListener("keyup", keyup_evt);
 
         ƒ("body").appendChild(self.input);
+
+        º.listen({
+            'shortcut: set': (shortcut, callback) => {
+                if (self.shortcuts.has(shortcut))
+                    console.assert(`The shortcut [${shortcut}] has already been set.`);
+
+                self.shortcuts.set(shortcut, callback);
+            },
+        });
 
         focus_input();
     }();
@@ -50,6 +61,8 @@ void function InputController() {
         }
 
         if (ctrl) {
+            // TODO: Change all modules to use the 'shortcut :set' syntax to
+            // prevent having to hardcore them here.
             switch(key) {
                 case "s":
                     º.emit`article :advanceToken`();
@@ -58,6 +71,12 @@ void function InputController() {
                 case "n":
                     º.emit`shortcut :ctrln`();
                     break;
+                default: {
+                    const shortcut = `^${key}`;
+
+                    if (self.shortcuts.has(shortcut))
+                        self.shortcuts.get(shortcut)();
+                }   break;
             }
         }
     }
