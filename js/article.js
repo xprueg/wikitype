@@ -26,11 +26,23 @@ void function ArticleController() {
 
         // Always start in a loading state.
         º.emit`spinner :spawn`(self.article_node);
+        º.emit`shortcut :setMultiple`(
+            ['Enter',
+                (e) => {
+                    const url = self.current?.desktop_url;
+                    if (url)
+                        window.open(url);
+                }],
+            ['Tab',
+                (e) => (display_highres_image(true), e.preventDefault()),
+                (e)  => (display_highres_image(false), e.preventDefault())],
+            ['^s',
+                (e) => (advance_token(), º.emit`input :clear`())]
+         );
 
         º.respond({
             "article :getRawData": () => self.current?._raw,
             "article :getActiveTokenText": () => self.token_node?.dataset?.word,
-            "article :getUrl": () => self.current?.desktop_url,
         });
 
         º.listen({
@@ -41,7 +53,6 @@ void function ArticleController() {
             },
             "article :setContents": (article_data) => set_contents(article_data),
             "article :unloadArticle": () => unload_article(),
-            "article :showHighResImage": (bool) => display_highres_image(bool),
         });
     }();
 

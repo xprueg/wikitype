@@ -6,17 +6,18 @@ void function NavController() {
         self.related_nodes = ƒƒ(".navOption", self.node).slice(1);
         self.related_article_buffer;
 
+        º.emit`shortcut :set`('^n', (e) => {
+            if (self.node.dataset.isVisible === "true")
+                return;
+
+            º.emit`nav :displayOptions`(º.req`article :getRawData`());
+            º.emit`article :unloadArticle`();
+        });
+
         º.listen({
             "nav :displayOptions": (article_data) => (show(), render_options(article_data)),
             "nav :select": (choice) => (hide(), select(choice)),
             "nav :forceHide": () => hide(),
-            "shortcut :ctrln": () => {
-                if (self.node.dataset.isVisible === "true")
-                    return;
-
-                º.emit`nav :displayOptions`(º.req`article :getRawData`());
-                º.emit`article :unloadArticle`();
-            },
         });
     }();
 

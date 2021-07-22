@@ -395,15 +395,10 @@ void function ThemeController() {
         set_theme_to(self.active_theme);
         apply(transpile(self.user));
 
-        º.emit`shortcut: set`('^+', () => {
-            self.user.__uFontFactor += .05;
-            apply(transpile(self.user));
-        });
-
-        º.emit`shortcut: set`('^-', () => {
-            self.user.__uFontFactor -= .05;
-            apply(transpile(self.user));
-        });
+        º.emit`shortcut :setMultiple`(
+            ['^+', (e) => (self.user.__uFontFactor += .05, apply(transpile(self.user)))],
+            ['^-', (e) => (self.user.__uFontFactor -= .05, apply(transpile(self.user)))],
+        );
 
         º.respond({
             "theme::val": (key) => val(key),

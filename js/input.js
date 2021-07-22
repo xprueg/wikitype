@@ -13,18 +13,22 @@ void function InputController() {
 
         self.current_key_is_dead = false;
 
-        document.body.addEventListener("keydown", keydown_evt);
-        document.body.addEventListener("keyup", keyup_evt);
+        document.body.addEventListener("keydown", key_event);
+        document.body.addEventListener("keyup", key_event);
 
         ƒ("body").appendChild(self.input);
 
         º.listen({
-            'shortcut: set': (shortcut, callback) => {
+            'shortcut :set': (shortcut, keydown, keyup = () => {}) => {
                 if (self.shortcuts.has(shortcut))
                     console.assert(`The shortcut [${shortcut}] has already been set.`);
 
-                self.shortcuts.set(shortcut, callback);
+                self.shortcuts.set(shortcut, { keydown, keyup });
             },
+            'shortcut :setMultiple': (...shortcuts) => {
+                shortcuts.forEach((shortcut) => º.emit`shortcut :set`(...shortcut));
+            },
+            'input :clear': () => clear_input(),
         });
 
         focus_input();
@@ -40,58 +44,15 @@ void function InputController() {
         self.input.value = String();
     }
 
-    function keydown_evt(e) {
+    function key_event(e) {
         const key = e.key;
-        const ctrl = e.ctrlKey || e.metaKey;
-        const shift = e.shiftKey;
+        const ctrl = e.ctrlKey || e.metaKey ? '^' : String();
+        const shortcut = `${ctrl}${key}`;
         self.current_key_is_dead = (key === "Dead");
 
         focus_input();
 
-        switch(key) {
-            case "Tab":
-                º.emit`article :showHighResImage`(true);
-                e.preventDefault();
-                break;
-            case "Enter": {
-                const url = º.req`article :getUrl`();
-                if (url)
-                    window.open(url);
-            } break;
-        }
-
-        if (ctrl) {
-            // TODO: Change all modules to use the 'shortcut :set' syntax to
-            // prevent having to hardcore them here.
-            switch(key) {
-                case "s":
-                    º.emit`article :advanceToken`();
-                    clear_input();
-                    break;
-                case "n":
-                    º.emit`shortcut :ctrln`();
-                    break;
-                default: {
-                    const shortcut = `^${key}`;
-
-                    if (self.shortcuts.has(shortcut))
-                        self.shortcuts.get(shortcut)();
-                }   break;
-            }
-        }
-    }
-
-    function keyup_evt(e) {
-        const key = e.key;
-        const ctrl = e.ctrlKey || e.metaKey;
-        const shift = e.shiftKey;
-
-        switch(key) {
-            case "Tab":
-                º.emit`article :showHighResImage`(false);
-                e.preventDefault();
-                break;
-        }
+        self.shortcuts.get(shortcut)?.[e.type](e);
     }
 
     function input_evt(kbevt) {
