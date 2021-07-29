@@ -39,6 +39,7 @@ void function ShortcutController() {
         if (shortcut) {
             e.preventDefault();
             e.stopPropagation();
+            e.stopImmediatePropagation();
             shortcut(e);
         }
     }

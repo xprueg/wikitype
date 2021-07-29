@@ -159,6 +159,7 @@ void function ArticleController() {
         reposition();
 
         º.emit`spinner :spawn`(self.article_node);
+        º.emit`nav :displayOptions`(self.current._raw);
         self.current = undefined;
     }
 
@@ -169,7 +170,6 @@ void function ArticleController() {
 
         if (active_token) {
             if (!next_token) {
-                º.emit`nav :displayOptions`(self.current._raw);
                 unload_article();
                 return;
             }
@@ -253,7 +253,6 @@ void function InputController() {
     }();
 
     function focus_input() {
-        console.log(document.activeElement);
         if (document.activeElement !== self.input) {
             const range = document.createRange();
             const selection = window.getSelection();

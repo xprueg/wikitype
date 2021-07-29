@@ -6,8 +6,21 @@ void function NavController() {
         self.related_nodes = ƒƒ(".navOption", self.node).slice(1);
         self.related_article_buffer;
 
+        hide();
+
+        document.body.addEventListener("keydown", (e) => {
+            if (is_hidden())
+                return;
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            select(e.key);
+            hide()
+        }, true);
+
         º.emit`shortcut :set`('^n', (e) => {
-            if (self.node.dataset.isVisible === "true")
+            if (!is_hidden())
                 return;
 
             º.emit`nav :displayOptions`(º.req`article :getRawData`());
@@ -15,8 +28,8 @@ void function NavController() {
         });
 
         º.listen({
-            "nav :displayOptions": (article_data) => (show(), render_options(article_data)),
-            "nav :select": (choice) => (hide(), select(choice)),
+            "nav :displayOptions": (article_data) => (render_options(article_data),
+                                                      show()),
             "nav :forceHide": () => hide(),
         });
     }();
@@ -27,6 +40,10 @@ void function NavController() {
 
     function hide() {
         self.node.dataset.isVisible = false;
+    }
+
+    function is_hidden() {
+        return self.node.dataset.isVisible === String("false");
     }
 
     function reset_options() {
