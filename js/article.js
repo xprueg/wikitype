@@ -195,6 +195,9 @@ void function ArticleController() {
 
         // Store reference.
         self.token_node = next_token;
+        º.emit`input :focus`();
+        º.emit`theme :setCustomVar`("article-token-x", `${self.token_node.offsetLeft}px`);
+        º.emit`theme :setCustomVar`("article-token-y", `${self.token_node.offsetTop}px`);
     }
 
     /// Randomly repositions the article frame.
@@ -228,5 +231,85 @@ void function ArticleController() {
         `;
 
         º.emit`article :resizedTo`(width, height);
+    }
+}();
+
+void function InputController() {
+    const self = Object.create(null);
+
+    void function init() {
+        self.current_key_is_dead = false;
+        self.input = articleInput;
+        self.input.addEventListener("input", input_evt);
+
+        document.body.addEventListener("keydown", key_event);
+
+        º.listen({
+            'input :clear': () => clear_input(),
+            'input :focus': () => focus_input(),
+        });
+
+        focus_input();
+    }();
+
+    function focus_input() {
+        console.log(document.activeElement);
+        if (document.activeElement !== self.input) {
+            const range = document.createRange();
+            const selection = window.getSelection();
+
+            self.input.focus();
+            range.selectNodeContents(self.input);
+            range.collapse(false);
+            selection.empty();
+            selection.addRange(range);
+        }
+    }
+
+    function clear_input() {
+        self.input.textContent = String();
+    }
+
+    function key_event(e) {
+        const key = e.key;
+        self.current_key_is_dead = (key === "Dead");
+        focus_input();
+    }
+
+    function input_evt(kbevt) {
+        const input_txt = self.input.textContent.replace(/\u00A0/g, "\x20");
+        const token_txt = º.req`article :getActiveTokenText`();
+
+        // Don't updated on dead key as it will show up as mistyped text.
+        if (self.current_key_is_dead)
+            return;
+
+        if (!token_txt) {
+            º.emit`nav :select`(input_txt);
+            clear_input();
+            return;
+        }
+
+        let upcoming_txt = String();
+        let mistyped_txt = String();
+
+        if (token_txt.indexOf(input_txt) === 0) {
+            if (token_txt.length === input_txt.length) {
+                º.emit`article :advanceToken`();
+                return void clear_input();
+            }
+
+            upcoming_txt = token_txt.substr(input_txt.length);
+        } else {
+            for (let i = 0; i < input_txt.length; ++i) {
+                if (input_txt[i] !== token_txt[i]) {
+                    upcoming_txt += token_txt.substr(i);
+                    mistyped_txt = input_txt.substr(i);
+                    break;
+                }
+            }
+        }
+
+        º.emit`article :updateProgressToken`(upcoming_txt, mistyped_txt);
     }
 }();

@@ -15,12 +15,6 @@ html, body {
     height: 100%;
 }
 
-[type="text"] {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
-
 .bold {
     font-weight: bold;
 }
@@ -159,6 +153,25 @@ main {
 #articleCropBox {
     position: relative;
     height: 100%;
+}
+
+#articleInput {
+    position: absolute;
+    pointer-events: none;
+    left: var(--k-article-token-x);
+    top: var(--k-article-token-y);
+    font: inherit;
+    border: 0;
+    background: none;
+    color: transparent;
+    z-index: 100000;
+    caret-color: var(--article-caret-color);
+    /* Makes the carret visible on an empty node */
+    min-width: 1px;
+}
+
+#articleInput:focus {
+    outline: none;
 }
 
 /*/ Navigation /*/
@@ -353,7 +366,7 @@ nav[data-is-visible=true] {
     white-space: pre;
 }
 
-#articleExtract {
+#articleExtract, #articleInput {
     font: var(--article-extract-font);
     font-feature-settings: var(--article-extract-font-feature-settings);
 }

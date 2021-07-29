@@ -48,13 +48,17 @@
             <div id="articleBleedBox">
                 <div id="articleCropBox">
                     <div id="article">
-                        <div id="articleFrame"></div>
                         <template id="tokenTemplate">
                             <span class="token" data-word></span>
                         </template>
                         <template id="progressTokenTemplate">
                             <span id="progressToken" data-upcoming data-mistyped></span>
                         </template>
+
+                        <div id="articleFrame"></div>
+                        <span id="articleInput" contenteditable
+                               type="text" autocomplete="off"
+                               autocorrect="off" spellcheck="off"></span>
                         <div id="articleContentWrapper">
                             <p id="articleExtract"></p>
                             <img id="articleThumbnail" src="data:," alt/>
@@ -116,7 +120,6 @@
         <script src="js/shortcut.js"></script>
         <script src="js/settings.js"></script>
         <script src="js/clock.js"></script>
-        <script src="js/input.js"></script>
         <script src="js/theme.js"></script>
         <script src="js/history.js"></script>
         <script src="js/wiki.js"></script>

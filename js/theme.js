@@ -62,6 +62,7 @@ void function ThemeController() {
                 __articleBaseHeight:          '800px',
                 __articleHeightShift:         '50px',
                 __articleLoadingSpinnerColor: 'hsl(var(--c-random-hue), 93.98%, 20%)',
+                __articleCaretColor:          'black',
                 __articleFrameBackground: `
                     linear-gradient(
                         0deg,
@@ -157,6 +158,7 @@ void function ThemeController() {
                 __articleBaseHeight:          '500px',
                 __articleHeightShift:         '50px',
                 __articleLoadingSpinnerColor: 'hsl(0, 0%, 100%, .7)',
+                __articleCaretColor:          'black',
                 __articleFrameBackground: `
                     /* top middle handle */
                     radial-gradient(
@@ -322,6 +324,7 @@ void function ThemeController() {
                 __articleBaseHeight:          '500px',
                 __articleHeightShift:         '50px',
                 __articleLoadingSpinnerColor: 'hsl(54.89, 79.66%, 76.86%)',
+                __articleCaretColor:          'transparent',
                 __articleFrameBackground: `
                     /* top border */
                     linear-gradient(var(--bright), var(--bright))
@@ -364,7 +367,7 @@ void function ThemeController() {
                 __articleThumbnailFilter:       '',
 
                 // Extract
-                __articleExtractFont:                'calc(34px * var(--u-font-factor))/1.5em JetBrains Mono',
+                __articleExtractFont:                'calc(30px * var(--u-font-factor))/1.5em JetBrains Mono',
                 __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
                                                       "cv10", "cv11"`,
                 __articleImageBorderColor:           'var(--bright)',
@@ -416,6 +419,7 @@ void function ThemeController() {
             "article :unloadArticle": () => {
                 apply({ "--k-rand-article-bound": Math.random() });
             },
+            "theme :setCustomVar": (k, v) => apply({ [`--k-${k}`]: v }),
         });
     }();
 
