@@ -24,7 +24,72 @@ void function ThemeController() {
                 __mainPadding: '20px',
                 __lap: '30px',
                 __kRandArticleBound: 0,
-                // __uFontFactor: self.user.__uFontFactor,
+            }),
+
+            zen: transpile({
+                name:   'Zen',
+                extend: 'base',
+
+                // Theme specific
+                __lap: "0px",
+
+                // Colors
+                __dark:   'hsl(220, 9%, 9%)',
+                __bright: 'white',
+
+                // Border
+                __globalBorderSize:  '0',
+                __globalBorderColor: 'transparent',
+
+                // Background
+                __bodyBackground:  'var(--bright)',
+                __asideBackground: 'var(--bright)',
+
+                // History
+                __historyBase:     'hsl(0, 0%, 80%)',
+                __historyContrast: 'var(--bright)',
+
+                // Article
+                __articleBaseWidth:           'min(80vw, 1400px)',
+                __articleWidthShift:          '0px',
+                __articleBaseHeight:          '100vh',
+                __articleHeightShift:         '0px',
+                __articleXShift:              '0',
+                __articleYShift:              '0',
+                __articleLoadingSpinnerColor: 'var(--dark)',
+                __articleCaretColor:          'var(--dark)',
+                __articleFrameBackground:     'none',
+
+                // Thumbnail
+                __articleThumbnailBorder:       'none',
+                __articleThumbnailMixBlendMode: 'none',
+                __articleThumbnailFilter:       '',
+
+                // Extract
+                __articleExtractFont:                '500 calc(40px * var(--u-font-factor))/1.45em Inter',
+                __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
+                                                      "cv10", "cv11"`,
+
+                // Tokens
+                __tokenUpcomingColor:      'hsl(0, 0%, 10%)',
+                __tokenUpcomingBackground: 'transparent',
+                __tokenActiveColor:        'hsl(0, 0%, 60%)',
+                __tokenActiveBackground:   'transparent',
+                __tokenProgressColor:      'hsl(0, 0%, 10%)',
+                __tokenProgressBackground: 'transparent',
+                __tokenProgressTextShadow: 'none',
+                __tokenTypedColor:         'hsl(0, 0%, 60%)',
+                __tokenTypedBackground:    'transparent',
+                __tokenErrorColor:         'hsl(5.62, 0%, 77.5%)',
+                __tokenErrorBackground:    'hsla(5.62, 0%, 42%, 1)',
+
+                // Navigation
+                __upcomingOptionBackground: 'var(--bright)',
+                __upcomingOptionColor:      'var(--dark)',
+
+                // Aside Thumbnails
+                __asideThumbnailMixBlendMode: '',
+                __asideThumbnailFilter:       'grayscale(1) contrast(.1)',
             }),
 
             pstr: transpile({
@@ -61,6 +126,8 @@ void function ThemeController() {
                 __articleWidthShift:          '50px',
                 __articleBaseHeight:          '800px',
                 __articleHeightShift:         '50px',
+                __articleXShift:              '1',
+                __articleYShift:              '1',
                 __articleLoadingSpinnerColor: 'hsl(var(--c-random-hue), 93.98%, 20%)',
                 __articleCaretColor:          'black',
                 __articleFrameBackground: `
@@ -93,7 +160,6 @@ void function ThemeController() {
                 __articleExtractFont:                'calc(32px * var(--u-font-factor))/1.5em Inter',
                 __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
                                                       "cv10", "cv11"`,
-                __articleImageBorderColor:           'var(--bright)',
 
                 // Tokens
                 __tokenUpcomingColor:      'black',
@@ -157,6 +223,8 @@ void function ThemeController() {
                 __articleWidthShift:          '50px',
                 __articleBaseHeight:          '500px',
                 __articleHeightShift:         '50px',
+                __articleXShift:              '1',
+                __articleYShift:              '1',
                 __articleLoadingSpinnerColor: 'hsl(0, 0%, 100%, .7)',
                 __articleCaretColor:          'black',
                 __articleFrameBackground: `
@@ -253,7 +321,6 @@ void function ThemeController() {
                 __articleExtractFont:                'calc(32px * var(--u-font-factor))/1.5em Inter',
                 __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
                                                       "cv10", "cv11"`,
-                __articleImageBorderColor:           'var(--bright)',
 
                 // Tokens
                 __tokenUpcomingColor:      'var(--bright)',
@@ -323,6 +390,8 @@ void function ThemeController() {
                 __articleWidthShift:          '50px',
                 __articleBaseHeight:          '500px',
                 __articleHeightShift:         '50px',
+                __articleXShift:              '1',
+                __articleYShift:              '1',
                 __articleLoadingSpinnerColor: 'hsl(54.89, 79.66%, 76.86%)',
                 __articleCaretColor:          'transparent',
                 __articleFrameBackground: `
@@ -370,7 +439,6 @@ void function ThemeController() {
                 __articleExtractFont:                'calc(30px * var(--u-font-factor))/1.5em JetBrains Mono',
                 __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
                                                       "cv10", "cv11"`,
-                __articleImageBorderColor:           'var(--bright)',
 
                 // Tokens
                 __tokenUpcomingColor:      'var(--bright)',
@@ -412,8 +480,8 @@ void function ThemeController() {
             "setting :themeUpdated": (theme) => (reset_theme(), set_theme_to(theme)),
             "article :resizedTo": (w, h) => {
                 apply({
-                    "--article-frame-width": `${w}px`,
-                    "--article-frame-height": `${h}px`,
+                    "--article-frame-width": `${w}`,
+                    "--article-frame-height": `${h}`,
                 });
             },
             "article :unloadArticle": () => {
