@@ -21,6 +21,11 @@ void function ArticleController() {
         self.token_node;
         self.current;
 
+        self.flags = {
+            DONT_DISPLAY_NAVIGATION: 1 << 0,
+            DISPLAY_NAVIGATION: 1 << 1,
+        };
+
         reposition();
         window.addEventListener("resize", () => reposition());
 
@@ -37,7 +42,14 @@ void function ArticleController() {
                 (e) => (display_highres_image(true), e.preventDefault()),
                 (e)  => (display_highres_image(false), e.preventDefault())],
             ['^s',
-                (e) => (advance_token(), º.emit`input :clear`())]
+                (e) => (advance_token(), º.emit`input :clear`())],
+            ['^n',
+                (e) => {
+                    if (!self.current)
+                        return;
+
+                    unload_article();
+                }],
          );
 
         º.respond({
@@ -116,7 +128,7 @@ void function ArticleController() {
     function set_contents(article_data) {
         // If there is already an article loaded clear it first.
         if (self.current)
-            unload_article();
+            unload_article(self.flags.DONT_DISPLAY_NAVIGATION);
 
         const article = self.current = new Article(article_data);
 
@@ -142,7 +154,7 @@ void function ArticleController() {
         º.emit`spinner :kill`(self.article_node);
     }
 
-    function unload_article() {
+    function unload_article(display_navigation = self.flags.DISPLAY_NAVIGATION) {
         if (!self.current)
             return;
 
@@ -158,8 +170,10 @@ void function ArticleController() {
         // Reposition frame.
         reposition();
 
-        º.emit`spinner :spawn`(self.article_node);
-        º.emit`nav :displayOptions`(self.current._raw);
+        if (display_navigation === self.flags.DISPLAY_NAVIGATION) {
+            º.emit`spinner :spawn`(self.article_node);
+            º.emit`nav :displayOptions`(self.current._raw);
+        }
         self.current = undefined;
     }
 

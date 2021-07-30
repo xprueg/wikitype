@@ -19,14 +19,6 @@ void function NavController() {
             hide()
         }, true);
 
-        º.emit`shortcut :set`('^n', (e) => {
-            if (!is_hidden())
-                return;
-
-            º.emit`nav :displayOptions`(º.req`article :getRawData`());
-            º.emit`article :unloadArticle`();
-        });
-
         º.listen({
             "nav :displayOptions": (article_data) => (render_options(article_data),
                                                       show()),
