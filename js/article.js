@@ -65,6 +65,7 @@ void function ArticleController() {
             },
             "article :setContents": (article_data) => set_contents(article_data),
             "article :unloadArticle": () => unload_article(),
+            "setting :themeUpdated": () => reposition(),
         });
     }();
 
@@ -220,28 +221,47 @@ void function ArticleController() {
     function reposition() {
         const rand = (val) => Math.floor(Math.random() * val);
         const wrapper = ƒ("#articleCropBox").getBoundingClientRect();
-        const padding = º.req`theme::px`("--main-padding");
-        const article_base_width = º.req`theme::px`("--article-base-width");
-        const article_width_shift = º.req`theme::px`("--article-width-shift");
-        const article_base_height = º.req`theme::px`("--article-base-height");
-        const article_height_shift = º.req`theme::px`("--article-height-shift");
+        const article_base_width = º.req`theme::val`("--article-base-width");
+        const article_width_shift = º.req`theme::val`("--article-width-shift");
+        const article_base_height = º.req`theme::val`("--article-base-height");
+        const article_height_shift = º.req`theme::val`("--article-height-shift");
+        const article_x_shift = º.req`theme::val`("--article-x-shift");
+        const article_y_shift = º.req`theme::val`("--article-y-shift");
 
         const max_width = wrapper.width;
-        const width = Math.min(
-            article_base_width + rand((rand(1) > .5 ? 1 : -1) * article_width_shift),
-            max_width
-        );
+        const width = `min(
+            calc(
+                ${article_base_width}
+                + ${Math.random()}
+                * (${Math.random() > .5 ? 1 : -1} * ${article_width_shift})
+            ),
+            ${max_width}px
+        )`;
+
         const max_height = wrapper.height;
-        const height = Math.min(
-            article_base_height + rand((rand(1) > .5 ? 1 : -1) * article_height_shift),
-            max_height
-        );
-        const left = rand(wrapper.width - width);
-        const top = rand(wrapper.height - height);
+        const height = `min(
+            calc(
+                ${article_base_height}
+                + ${Math.random()}
+                * (${Math.random() > .5 ? 1 : -1} * ${article_height_shift})
+            ),
+            ${max_height}px
+        )`;
+
+        const left = `calc(
+            (${wrapper.width}px - ${width}) / 2
+            + ((${Math.random() > .5 ? 1 : -1} * ((${wrapper.width}px - ${width}) / 2))
+            * ${Math.random()}) * ${article_x_shift}
+        )`;
+        const top = `calc(
+            (${wrapper.height}px - ${height}) / 2
+            + ((${Math.random() > .5 ? 1 : -1} * ((${wrapper.height}px - ${height}) / 2))
+            * ${Math.random()}) * ${article_y_shift}
+        )`;
 
         self.article_node.style.cssText = `
-            left: ${left}px; top: ${top}px;
-            width: ${width}px; height: ${height}px;
+            left: ${left}; top: ${top};
+            width: ${width}; height: ${height};
         `;
 
         º.emit`article :resizedTo`(width, height);
