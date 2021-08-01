@@ -17,6 +17,7 @@ void function HistoryController() {
 
             º.emit`nav :forceHide`();
             º.emit`article :setContents`(self.cache.get(e.target.textContent));
+            º.emit`input :clear`();
         }, true);
 
         º.listen({
