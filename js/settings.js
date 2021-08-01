@@ -18,7 +18,7 @@ void function SettingsController() {
                 type: "radio",
                 default_option: "zen",
                 options: {
-                    zen: { name: "Zen" },
+                    zen: { name: "Zensur" },
                     neon: { name: "Neon"  },
                     term: { name: "Terminal" },
                     pstr: { name: "Poster" },

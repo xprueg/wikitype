@@ -23,11 +23,12 @@ void function ThemeController() {
                 __uiButtonBorderRadius: '100px',
                 __mainPadding: '20px',
                 __lap: '30px',
+                __articleExtractLetterSpacing: 'normal',
                 __kRandArticleBound: 0,
             }),
 
             zen: transpile({
-                name:   'Zen',
+                name:   'Zensur',
                 extend: 'base',
 
                 // Theme specific
@@ -50,14 +51,14 @@ void function ThemeController() {
                 __historyContrast: 'var(--bright)',
 
                 // Article
-                __articleBaseWidth:           'min(80vw, 1400px)',
+                __articleBaseWidth:           '100%',
                 __articleWidthShift:          '0px',
                 __articleBaseHeight:          '100vh',
                 __articleHeightShift:         '0px',
                 __articleXShift:              '0',
                 __articleYShift:              '0',
                 __articleLoadingSpinnerColor: 'var(--dark)',
-                __articleCaretColor:          'var(--dark)',
+                __articleCaretColor:          'var(--bright)',
                 __articleFrameBackground:     'none',
 
                 // Thumbnail
@@ -66,29 +67,29 @@ void function ThemeController() {
                 __articleThumbnailFilter:       '',
 
                 // Extract
-                __articleExtractFont:                '500 calc(40px * var(--u-font-factor))/1.45em Inter',
-                __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
-                                                      "cv10", "cv11"`,
+                __articleExtractFont:                '400 calc(38px * var(--u-font-factor))/1.42em Inter',
+                __articleExtractLetterSpacing:       '-0.016em',
+                __articleExtractFontFeatureSettings: '"ss01", "ss02", "case", "cv10", "cv11"',
 
                 // Tokens
-                __tokenUpcomingColor:      'hsl(0, 0%, 10%)',
+                __tokenUpcomingColor:      'var(--dark)',
                 __tokenUpcomingBackground: 'transparent',
-                __tokenActiveColor:        'hsl(0, 0%, 60%)',
-                __tokenActiveBackground:   'transparent',
-                __tokenProgressColor:      'hsl(0, 0%, 10%)',
-                __tokenProgressBackground: 'transparent',
+                __tokenActiveColor:        'transparent',
+                __tokenActiveBackground:   'var(--dark)',
+                __tokenProgressColor:      'var(--dark)',
+                __tokenProgressBackground: 'var(--bright)',
                 __tokenProgressTextShadow: 'none',
-                __tokenTypedColor:         'hsl(0, 0%, 60%)',
-                __tokenTypedBackground:    'transparent',
-                __tokenErrorColor:         'hsl(5.62, 0%, 77.5%)',
-                __tokenErrorBackground:    'hsla(5.62, 0%, 42%, 1)',
+                __tokenTypedColor:         'transparent',
+                __tokenTypedBackground:    'var(--dark)',
+                __tokenErrorColor:         'var(--bright)',
+                __tokenErrorBackground:    'var(--dark)',
 
                 // Navigation
                 __upcomingOptionBackground: 'var(--bright)',
                 __upcomingOptionColor:      'var(--dark)',
 
                 // Aside Thumbnails
-                __asideThumbnailMixBlendMode: '',
+                __asideThumbnailMixBlendMode: 'hard-light',
                 __asideThumbnailFilter:       'grayscale(1) contrast(.1)',
             }),
 

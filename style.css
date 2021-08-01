@@ -297,7 +297,6 @@ nav[data-is-visible=true] {
     top: 0; right: 0;
     bottom: 0; left: 0;
     overflow: hidden;
-    padding: 30px;
 }
 
 #articleThumbnail[src="data:,"],
@@ -369,6 +368,7 @@ nav[data-is-visible=true] {
 #articleExtract, #articleInput {
     font: var(--article-extract-font);
     font-feature-settings: var(--article-extract-font-feature-settings);
+    letter-spacing: var(--article-extract-letter-spacing);
 }
 
 .typedToken {
