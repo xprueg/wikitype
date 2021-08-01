@@ -67,7 +67,7 @@ void function ThemeController() {
                 __articleThumbnailFilter:       '',
 
                 // Extract
-                __articleExtractFont:                '400 calc(38px * var(--u-font-factor))/1.42em Inter',
+                __articleExtractFont:                '400 calc((1vw * 3.2) * var(--u-font-factor))/1.42em Inter',
                 __articleExtractLetterSpacing:       '-0.016em',
                 __articleExtractFontFeatureSettings: '"ss01", "ss02", "case", "cv10", "cv11"',
 
