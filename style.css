@@ -395,6 +395,7 @@ footer {
     z-index: var(--z-footer);
     display: flex;
     justify-content: center;
+    overflow: hidden;
 }
 
 #shortcuts {
