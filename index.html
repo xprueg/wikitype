@@ -15,6 +15,7 @@
         <script src="js/loading.js"></script>
     </head>
     <body>
+
         <nav>
             <div id="navSelect">
                 <div class="navOption">
@@ -37,62 +38,60 @@
             <span class="clock"></span>
         </aside>
 
-        <main>
-            <header>
-                <template id="historyEntryTemplate">
-                    <li><span></span></li>
-                </template>
-                <ol class="history"></ol>
-            </header>
+        <header>
+            <template id="historyEntryTemplate">
+                <li><span></span></li>
+            </template>
+            <ol class="history"></ol>
+        </header>
 
-            <div id="articleBleedBox">
-                <div id="articleCropBox">
-                    <div id="article">
-                        <template id="tokenTemplate">
-                            <span class="token" data-word></span>
-                        </template>
-                        <template id="progressTokenTemplate">
-                            <span id="progressToken" data-upcoming data-mistyped></span>
-                        </template>
+        <div id="articleBleedBox">
+            <div id="articleCropBox">
+                <div id="article">
+                    <template id="tokenTemplate">
+                        <span class="token" data-word></span>
+                    </template>
+                    <template id="progressTokenTemplate">
+                        <span id="progressToken" data-upcoming data-mistyped></span>
+                    </template>
 
-                        <div id="articleFrame"></div>
-                        <span id="articleInput" contenteditable
-                               type="text" autocomplete="off"
-                               autocorrect="off" spellcheck="false"></span>
-                        <div id="articleContentWrapper">
-                            <p id="articleExtract"></p>
-                            <img id="articleThumbnail" src="data:," alt/>
-                            <img id="articleImage" src="data:," alt/>
-                        </div>
+                    <div id="articleFrame"></div>
+                    <span id="articleInput" contenteditable
+                           type="text" autocomplete="off"
+                           autocorrect="off" spellcheck="false"></span>
+                    <div id="articleContentWrapper">
+                        <p id="articleExtract"></p>
+                        <img id="articleThumbnail" src="data:," alt/>
+                        <img id="articleImage" src="data:," alt/>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <footer>
-                <dl id="shortcuts">
-                    <div>
-                        <dt><b>^</b><b>N</b></dt>
-                        <dd>Skip Article</dd>
-                    </div>
-                    <div>
-                        <dt><b>^</b><b>S</b></dt>
-                        <dd>Skip Word</dd>
-                    </div>
-                    <div>
-                        <dt><b>^</b><b>+</b><b>–</b></dt>
-                        <dd>Adjust Fontsize</dd>
-                    </div>
-                    <div>
-                        <dt><b class="extended">⇥</b></dt>
-                        <dd>Enlargen Thumbnail</dd>
-                    </div>
-                    <div>
-                        <dt><b class="extended">↩</b></dt>
-                        <dd>Open Article in Wikipedia</dd>
-                    </div>
-                </dl>
-            </footer>
-        </main>
+        <footer>
+            <dl id="shortcuts">
+                <div>
+                    <dt><b>^</b><b>N</b></dt>
+                    <dd>Skip Article</dd>
+                </div>
+                <div>
+                    <dt><b>^</b><b>S</b></dt>
+                    <dd>Skip Word</dd>
+                </div>
+                <div>
+                    <dt><b>^</b><b>+</b><b>–</b></dt>
+                    <dd>Adjust Fontsize</dd>
+                </div>
+                <div>
+                    <dt><b class="extended">⇥</b></dt>
+                    <dd>Enlargen Thumbnail</dd>
+                </div>
+                <div>
+                    <dt><b class="extended">↩</b></dt>
+                    <dd>Open Article in Wikipedia</dd>
+                </div>
+            </dl>
+        </footer>
 
         <div id="settingsWrapper">
             <div id="settingsWrapperInner">

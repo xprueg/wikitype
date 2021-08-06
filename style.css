@@ -40,7 +40,13 @@ html {
 /*/ body /*/
 
 body {
-    display: flex;
+    display: grid;
+    grid-template-areas:
+        "aside history   settings"
+        "aside article   settings"
+        "aside shortcuts settings";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: var(--aside-width) 1fr var(--aside-width);
     background: var(--body-background);
     border: var(--global-border-size) solid var(--global-border-color);
 }
@@ -59,10 +65,8 @@ aside {
     font-size: 30px;
     line-height: calc(var(--aside-width) + 0.215em);
     white-space: nowrap;
-    width: var(--aside-width);
     border-left: var(--global-border-size) solid var(--global-border-color);
     overflow: hidden;
-    flex-shrink: 0;
     box-sizing: content-box;
     background: var(--aside-background);
 }
@@ -75,7 +79,7 @@ aside {
 
 header {
     position: relative;
-    grid-area: header;
+    grid-area: history;
     display: flex;
     overflow: hidden;
     padding: var(--main-padding);
@@ -88,7 +92,6 @@ header {
 
 .history {
     display: flex;
-    align-items: center;
     font-size: 30px;
     color: var(--history-base);
 }
@@ -135,18 +138,8 @@ header {
 
 /*/ Article Area /*/
 
-main {
-    display: flex;
-    flex-direction: column;
-    border-right: none;
-    border-top: none;
-    position: relative;
-    overflow: hidden;
-    flex-grow: 1;
-}
-
 #articleBleedBox {
-    flex-grow: 1;
+    grid-area: article;
     padding: calc(var(--main-padding) + var(--lap));
 }
 
@@ -398,7 +391,7 @@ nav[data-is-visible=true] {
 /*** FOOTER/SHORTCUTS ***/
 /************************/
 footer {
-    grid-area: footer;
+    grid-area: shortcuts;
     z-index: var(--z-footer);
     display: flex;
     justify-content: center;
@@ -457,6 +450,7 @@ footer {
     /* FIXME: The settings Wrapper does overlay the outer border. */
     --settings-wrapper-width: min(40vw, 550px);
 
+    grid-area: settings;
     background: var(--aside-background);
     width: var(--aside-width);
     flex-shrink: 0;
