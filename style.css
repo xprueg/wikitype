@@ -179,8 +179,6 @@ nav {
     bottom: 0;
     align-items: center;
     justify-content: center;
-    --option-height: 60px;
-    --option-font-size: 32px;
     z-index: var(--z-navigation);
     display: flex;
     opacity: 0;
@@ -193,7 +191,8 @@ nav[data-is-visible=true] {
 }
 
 #navSelect {
-    max-width: 500px;
+    // TODO: Also subtract borders and some padding.
+    max-width: min(900px, calc(100vw - var(--aside-width) * 2));
 }
 
 .navOption {
@@ -206,18 +205,17 @@ nav[data-is-visible=true] {
 }
 
 [data-navOptionIdx] {
-    width: var(--option-height);
-    height: var(--option-height);
+    width: var(--upcoming-option-height);
+    height: var(--upcoming-option-height);
     background: var(--upcoming-option-background);
     color: var(--upcoming-option-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: var(--option-font-size);
-    border-radius: var(--option-height);
+    font-size: var(--upcoming-option-font-size);
+    border-radius: var(--upcoming-option-height);
     border-bottom-right-radius: 0;
     flex-shrink: 0;
-    box-shadow: 5px 5px 0 0 var(--dark);
 }
 
 [data-navOptionIdx="0"]::before { content: ""; }
@@ -227,30 +225,33 @@ nav[data-is-visible=true] {
 [data-is-available="false"] [data-navOptionIdx]::before { content: ""; }
 
 .navOptionTitle {
-    height: var(--option-height);
-    font-size: var(--option-font-size);
+    height: var(--upcoming-option-height);
+    font-size: var(--upcoming-option-font-size);
     background: var(--upcoming-option-background);
     color: var(--upcoming-option-color);
-    display: flex;
-    align-items: center;
     padding: 0 1.5ex;
-    border-radius: var(--option-height);
+    border-radius: var(--upcoming-option-height);
     border-bottom-left-radius: 0;
     white-space: nowrap;
-    box-shadow: 5px 5px 0 0 var(--dark);
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+    line-height: var(--upcoming-option-height);
+}
+
+.navOption:first-child .navOptionTitle {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: var(--upcoming-option-height);
+    margin-left: -1px;
+}
+
+.navOption:first-child [data-navOptionIdx] {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: var(--upcoming-option-height);
 }
 
 [data-is-available="false"] .navOptionTitle:empty::before {
     content: "L̷͇̇ő̷͓a̴̗͑d̷̲͌i̷͉͛n̶͚̈g̸͓̽…̴̯̂";
-}
-
-.grid {
-    position: fixed;
-    top: 0;
-    left: 54px;
-    right: 2px;
-    bottom: 0;
-    pointer-events: none;
 }
 
 /*/ Loading Spinner /*/

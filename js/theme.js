@@ -25,6 +25,10 @@ void function ThemeController() {
                 __lap: '30px',
                 __articleExtractLetterSpacing: 'normal',
                 __kRandArticleBound: 0,
+
+                // Navigation
+                __upcomingOptionHeight:     '80px',
+                __upcomingOptionFontSize:   '46px',
             }),
 
             zen: transpile({
@@ -85,8 +89,8 @@ void function ThemeController() {
                 __tokenErrorBackground:    'var(--dark)',
 
                 // Navigation
-                __upcomingOptionBackground: 'var(--bright)',
-                __upcomingOptionColor:      'var(--dark)',
+                __upcomingOptionBackground: 'var(--dark)',
+                __upcomingOptionColor:      'var(--bright)',
 
                 // Aside Thumbnails
                 __asideThumbnailMixBlendMode: 'hard-light',
@@ -176,8 +180,8 @@ void function ThemeController() {
                 __tokenErrorBackground:    'hsl(5.62, 80%, 49%)',
 
                 // Navigation
-                __upcomingOptionBackground: 'var(--bright)',
-                __upcomingOptionColor:      'var(--dark)',
+                __upcomingOptionBackground: 'var(--dark)',
+                __upcomingOptionColor:      'var(--bright)',
 
                 // Aside Thumbnails
                 __asideThumbnailMixBlendMode: 'soft-light',
