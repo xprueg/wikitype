@@ -30,11 +30,11 @@ html {
     overflow: hidden;
 
     /* Interface */
-    --z-footer: 20;
-    --z-navigation: 10;
-    --z-header: 20;
-    --z-image-preview: 30;
-    // FIXME: Article is overlapped by Shortcuts.
+    --z-footer: 0;
+    --z-navigation: 2;
+    --z-header: 0;
+    --z-image-preview: 8;
+    --z-aside: 4;
 }
 
 /*/ body /*/
@@ -69,6 +69,8 @@ aside {
     overflow: hidden;
     box-sizing: content-box;
     background: var(--aside-background);
+    z-index: var(--z-aside);
+    width: var(--aside-width);
 }
 
 .clock {
@@ -183,6 +185,7 @@ nav {
     display: flex;
     opacity: 0;
     transition: opacity 125ms ease-in-out;
+    pointer-events: none;
 }
 
 nav[data-is-visible=true] {
@@ -448,13 +451,14 @@ footer {
 /*** SETTINGS ***/
 /****************/
 #settingsWrapper {
-    /* FIXME: The settings Wrapper does overlay the outer border. */
     --settings-wrapper-width: min(40vw, 550px);
 
     grid-area: settings;
     background: var(--aside-background);
-    width: var(--aside-width);
     flex-shrink: 0;
+    z-index: var(--z-aside);
+    width: var(--aside-width);
+    border-left: var(--global-border-size) solid var(--global-border-color);
 }
 
 #settingsWrapperInner {
@@ -462,18 +466,22 @@ footer {
     color: var(--dark);
     position: relative;
     left: 0;
+    height: 100%;
     display: flex;
     transition: left 500ms ease,
+                width 500ms ease,
                 box-shadow 500ms ease;
-    width: calc(var(--aside-width) + var(--settings-wrapper-width));
+    width: var(--aside-width);
     z-index: 10000;
-    /* left: -var(--settings-wrapper-width); */
+    overflow: hidden;
 }
 
 #settingsWrapper:hover #settingsWrapperInner {
     box-shadow: 0 0 100px 10px var(--dark);
     left: calc(-1 * var(--settings-wrapper-width));
+    width: calc(var(--aside-width) + var(--settings-wrapper-width));
     transition: left 500ms ease,
+                width 500ms ease,
                 box-shadow 500ms ease,
                 background 256ms ease;
 }
@@ -498,6 +506,7 @@ footer {
 
 #settings {
     width: var(--settings-wrapper-width);
+    min-width: var(--settings-wrapper-width);
     height: 100vh;
     padding: calc(var(--main-padding) * 2);
     color: var(--dark);
