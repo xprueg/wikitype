@@ -31,7 +31,7 @@ void function ThemeController() {
                 __upcomingOptionFontSize:   '46px',
             }),
 
-            zen: transpile({
+            zens: transpile({
                 name:   'Zensur',
                 extend: 'base',
 
@@ -330,9 +330,8 @@ void function ThemeController() {
                 __uiButtonBorderRadius: '0',
 
                 // Theme specific
-                __cHandleSize:      '10px',
-                __cSmallHandleSize: '3px',
                 __cBorderSize:      '2px',
+                __cLargeBorderSize: '30px',
 
                 // Colors
                 __dark:   'hsl(30, 1.41%, 10.84%)',
@@ -371,37 +370,36 @@ void function ThemeController() {
                 __articleLoadingSpinnerColor: 'hsl(54.89, 79.66%, 76.86%)',
                 __articleCaretColor:          'transparent',
                 __articleFrameBackground: `
-                    /* top border */
+                    /* BORDER TOP */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) - var(--c-border-size))
-                        calc(var(--lap) - var(--c-border-size))/
-                        calc(var(--article-frame-width) + var(--c-border-size) * 2)
+                        var(--article-frame-x) var(--article-frame-y)/
+                        var(--article-frame-width)
                         var(--c-border-size)
                         no-repeat,
-                    /* right border */
+                    /* BORDER RIGHT */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) + var(--article-frame-width))
-                        calc(var(--lap) - var(--c-border-size))/
-                        calc(var(--c-border-size) * 15)
-                        calc(var(--article-frame-height) + var(--c-border-size) * 2)
+                        calc(var(--article-frame-x) + var(--article-frame-width) - var(--c-border-size))
+                        calc(var(--article-frame-y))/
+                        var(--c-large-border-size)
+                        calc(var(--article-frame-height) + var(--c-border-size))
                         no-repeat,
-                    /* bottom border */
+                    /* BORDER BOTTOM */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) - var(--c-border-size))
-                        calc(var(--lap) + var(--article-frame-height))/
-                        calc(var(--article-frame-width) + var(--c-border-size) * 2)
+                        var(--article-frame-x)
+                        calc(var(--article-frame-y) + var(--article-frame-height))/
+                        var(--article-frame-width)
                         var(--c-border-size)
                         no-repeat,
-                    /* left border */
+                    /* BORDER LEFT */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) - var(--c-border-size) * 15)
-                        calc(var(--lap) - var(--c-border-size))/
-                        calc(var(--c-border-size) * 15)
-                        calc(var(--article-frame-height) + var(--c-border-size) * 2)
+                        calc(var(--article-frame-x) - var(--c-large-border-size))
+                        calc(var(--article-frame-y))/
+                        var(--c-large-border-size)
+                        calc(var(--article-frame-height) + var(--c-border-size))
                         no-repeat,
-                    /* background */
-                    linear-gradient(hsla(30, 1.41%, 27.84%, .6), hsla(30, 1.41%, 27.84%, .6))
-                        var(--lap) var(--lap)/
+                    /* BACKGROUND */
+                    linear-gradient(hsla(30, 1%, 28%, .6), hsla(30, 1%, 28%, .5), hsla(30, 1%, 28%, .6))
+                        var(--article-frame-x) var(--article-frame-y)/
                         var(--article-frame-width) var(--article-frame-height)
                         no-repeat
                 `,
@@ -412,7 +410,7 @@ void function ThemeController() {
                 __articleThumbnailFilter:       '',
 
                 // Extract
-                __articleExtractFont:                'calc(30px * var(--u-font-factor))/1.5em JetBrains Mono',
+                __articleExtractFont:                'calc(30px * var(--u-font-factor))/1.5em "JetBrains Mono", monospace',
                 __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
                                                       "cv10", "cv11"`,
 

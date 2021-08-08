@@ -16,9 +16,9 @@ void function SettingsController() {
             },
             theme: {
                 type: "radio",
-                default_option: "neon",
+                default_option: "zens",
                 options: {
-                    zen: { name: "Zensur" },
+                    zens: { name: "Zensur" },
                     neon: { name: "Neon"  },
                     term: { name: "Terminal" },
                     pstr: { name: "Poster" },
