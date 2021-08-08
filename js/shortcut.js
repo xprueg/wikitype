@@ -26,7 +26,7 @@ void function ShortcutController() {
     }
 
     function generate_identifier(e) {
-        const key = e.key;
+        const key = e.code.replace("Key", String()).toLowerCase();
         const ctrl = e.ctrlKey || e.metaKey ? '^' : String();
 
         return `${ctrl}${key}`;

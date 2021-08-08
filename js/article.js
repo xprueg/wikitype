@@ -32,13 +32,13 @@ void function ArticleController() {
         // Always start in a loading state.
         º.emit`spinner :spawn`(self.article_node);
         º.emit`shortcut :setMultiple`(
-            ['Enter',
+            ['enter',
                 (e) => {
                     const url = self.current?.desktop_url;
                     if (url)
                         window.open(url);
                 }],
-            ['Tab',
+            ['tab',
                 (e) => (display_highres_image(true), e.preventDefault()),
                 (e)  => (display_highres_image(false), e.preventDefault())],
             ['^s',
