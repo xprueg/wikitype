@@ -100,11 +100,12 @@ void function ThemeController() {
                 extend: 'base',
 
                 // Theme specific
+                __lap: "40px",
                 __cRandomHue: "calc(360 * var(--k-rand-article-bound))",
                 __cArticleFrameBackgroundSize: `
-                    0 0/
+                    var(--article-frame-x) var(--article-frame-y)/
                     calc(var(--article-frame-width) + var(--lap) * 2)
-                    calc(var(--article-frame-height) + var(--lap))
+                    calc(var(--article-frame-height))
                     no-repeat
                 `,
 
@@ -521,6 +522,10 @@ void function ThemeController() {
         return Number(val(key).replace(/px$/, String()));
     }
 
+    /// Returns the property converted to an absolute pixel value.
+    ///
+    /// [>] key: str
+    /// [<] int
     function as_px(key) {
         const [_, v, unit] = val(key).match(/(\d+)(.+)/);
 
