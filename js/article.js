@@ -54,6 +54,7 @@ void function ArticleController() {
 
         º.respond({
             "article :getRawData": () => self.current?._raw,
+            "article :getActiveToken": () => self.token_node,
             "article :getActiveTokenText": () => self.token_node?.dataset?.word,
         });
 
@@ -210,9 +211,8 @@ void function ArticleController() {
 
         // Store reference.
         self.token_node = next_token;
+        º.emit`article :advancedToken`(self.token_node);
         º.emit`input :focus`();
-        º.emit`theme :setCustomVar`("article-token-x", `${self.token_node.offsetLeft}px`);
-        º.emit`theme :setCustomVar`("article-token-y", `${self.token_node.offsetTop}px`);
     }
 
     /// Randomly repositions the article frame.

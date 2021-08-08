@@ -452,7 +452,11 @@ void function ThemeController() {
         });
 
         º.listen({
-            "setting :themeUpdated": (theme) => (reset_theme(), set_theme_to(theme)),
+            "setting :themeUpdated": (theme) => {
+                reset_theme();
+                set_theme_to(theme);
+                º.emit`article :advancedToken`(º.req`article :getActiveToken`());
+            },
             "article :resizedTo": (x, y, w, h) => {
                 apply({
                     "--article-frame-x": `${x}`,
@@ -461,10 +465,15 @@ void function ThemeController() {
                     "--article-frame-height": `${h}`,
                 });
             },
+            "article :advancedToken": (node) => {
+                apply({
+                    "--k-article-token-x": `${node.offsetLeft}px`,
+                    "--k-article-token-y": `${node.offsetTop}px`,
+                });
+            },
             "article :unloadArticle": () => {
                 apply({ "--k-rand-article-bound": Math.random() });
             },
-            "theme :setCustomVar": (k, v) => apply({ [`--k-${k}`]: v }),
         });
     }();
 
