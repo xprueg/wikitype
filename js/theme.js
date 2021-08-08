@@ -55,12 +55,10 @@ void function ThemeController() {
                 __historyContrast: 'var(--bright)',
 
                 // Article
-                __articleBaseWidth:           '100%',
+                __articleBaseWidth:           '100vw',
                 __articleWidthShift:          '0px',
                 __articleBaseHeight:          '100vh',
                 __articleHeightShift:         '0px',
-                __articleXShift:              '0',
-                __articleYShift:              '0',
                 __articleLoadingSpinnerColor: 'var(--dark)',
                 __articleCaretColor:          'var(--bright)',
                 __articleFrameBackground:     'none',
@@ -131,8 +129,6 @@ void function ThemeController() {
                 __articleWidthShift:          '50px',
                 __articleBaseHeight:          '800px',
                 __articleHeightShift:         '50px',
-                __articleXShift:              '1',
-                __articleYShift:              '1',
                 __articleLoadingSpinnerColor: 'hsl(var(--c-random-hue), 93.98%, 20%)',
                 __articleCaretColor:          'black',
                 __articleFrameBackground: `
@@ -193,9 +189,15 @@ void function ThemeController() {
                 extend: 'base',
 
                 // Theme specific
-                __cHandleSize:      '10px',
-                __cSmallHandleSize: '3px',
+                __cHandleSize:      '4.5px',
+                __chs:              'var(--c-handle-size)',
+                __cSmallHandleSize: '2px',
                 __cBorderSize:      '2px',
+                __cbs:              'var(--c-border-size)',
+                __cfx:              'var(--article-frame-x)',
+                __cfy:              'var(--article-frame-y)',
+                __cfw:              'var(--article-frame-width)',
+                __cfh:              'var(--article-frame-height)',
 
                 // Colors
                 __dark:   'black',
@@ -206,7 +208,7 @@ void function ThemeController() {
                 __globalBorderColor: 'transparent',
 
                 // Background
-                __bodyBackground:  `
+                __bodyBackground: `
                     linear-gradient(45deg,
                         hsla(0, 0%, 100%, .04) 25%, transparent 25%, transparent 75%,
                         hsla(0, 0%, 100%, .04) 75%, hsla(0, 0%, 100%, .04))
@@ -228,93 +230,63 @@ void function ThemeController() {
                 __articleWidthShift:          '50px',
                 __articleBaseHeight:          '500px',
                 __articleHeightShift:         '50px',
-                __articleXShift:              '1',
-                __articleYShift:              '1',
                 __articleLoadingSpinnerColor: 'hsl(0, 0%, 100%, .7)',
                 __articleCaretColor:          'black',
                 __articleFrameBackground: `
-                    /* top middle handle */
+                    /* TOP LEFT HANDLE */
                     radial-gradient(
                         circle at
-                            calc(var(--lap) + var(--article-frame-width) / 2)
-                            calc(var(--lap) + var(--c-border-size) / 2),
-                        var(--bright), var(--bright) var(--c-small-handle-size), transparent var(--c-small-handle-size), transparent),
-                    /* bottom middle handle */
+                            calc(var(--cfx) + var(--cbs) / 2)
+                            calc(var(--cfy) + var(--cbs) / 2),
+                        transparent var(--c-small-handle-size),
+                        var(--bright) var(--c-small-handle-size), var(--bright) var(--c-handle-size),
+                        transparent var(--c-handle-size)
+                    ),
+                    /* TOP RIGHT HANDLE */
+                    radial-gradient(
+                        circle at calc(
+                            var(--cfx) + var(--cfw) - var(--cbs) / 2)
+                            calc(var(--cfy) + var(--cbs) / 2),
+                        transparent var(--c-small-handle-size),
+                        var(--bright) var(--c-small-handle-size), var(--bright) var(--c-handle-size),
+                        transparent var(--c-handle-size)
+                    ),
+                    /* BOTTOM LEFT HANDLE */
                     radial-gradient(
                         circle at
-                            calc(var(--lap) + var(--article-frame-width) / 2)
-                            calc(var(--lap) - var(--c-border-size) / 2 + var(--article-frame-height)),
-                        var(--bright), var(--bright) var(--c-small-handle-size), transparent var(--c-small-handle-size), transparent),
-                    /* left middle handle */
+                            calc(var(--cfx) + var(--cbs) / 2)
+                            calc(var(--cfy) + var(--cfh) + var(--cbs) / 2),
+                        transparent var(--c-small-handle-size),
+                        var(--bright) var(--c-small-handle-size), var(--bright) var(--c-handle-size),
+                        transparent var(--c-handle-size)
+                    ),
+                    /* BOTTOM RIGHT HANDLE */
                     radial-gradient(
-                        circle at
-                            calc(var(--lap) + var(--c-border-size) / 2)
-                            calc(var(--lap) + var(--c-border-size) / 2 + var(--article-frame-height) / 2),
-                        var(--bright), var(--bright) var(--c-small-handle-size), transparent var(--c-small-handle-size), transparent),
-                    /* right middle handle */
-                    radial-gradient(
-                        circle at
-                            calc(var(--lap) + var(--article-frame-width) - var(--c-border-size) / 2)
-                            calc(var(--lap) + var(--c-border-size) / 2 + var(--article-frame-height) / 2),
-                        var(--bright), var(--bright) var(--c-small-handle-size), transparent var(--c-small-handle-size), transparent),
+                        circle at calc(
+                            var(--cfx) + var(--cfw) - var(--cbs) / 2)
+                            calc(var(--cfy) + var(--cfh) + var(--cbs) / 2),
+                        transparent var(--c-small-handle-size),
+                        var(--bright) var(--c-small-handle-size), var(--bright) var(--c-handle-size),
+                        transparent var(--c-handle-size)
+                    ),
 
-                    /* top left handle cutout */
-                    linear-gradient(var(--dark), var(--dark))
-                        calc(var(--lap) + var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)
-                        calc(var(--lap) + var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)/
-                        calc(var(--c-handle-size) - var(--c-border-size) * 2) calc(var(--c-handle-size) - var(--c-border-size) * 2) no-repeat,
-                    /* top left handle */
+                    /* BORDER TOP */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) + var(--c-border-size) / 2 - var(--c-handle-size) / 2)
-                        calc(var(--lap) + var(--c-border-size) / 2 - var(--c-handle-size) / 2)/
-                        var(--c-handle-size) var(--c-handle-size) no-repeat,
-                    /* bottom left handle cutout */
-                    linear-gradient(var(--dark), var(--dark))
-                        calc(var(--lap) + var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)
-                        calc(var(--lap) + var(--article-frame-height) - var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)/
-                        calc(var(--c-handle-size) - var(--c-border-size) * 2) calc(var(--c-handle-size) - var(--c-border-size) * 2) no-repeat,
-                    /* bottom left handle */
+                        calc(var(--chs) + var(--cfx)) var(--cfy)/
+                        calc(var(--cfw) - var(--chs) * 2) var(--c-border-size) no-repeat,
+                    /* BORDER RIGHT */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) + var(--c-border-size) / 2 - var(--c-handle-size) / 2)
-                        calc(var(--lap) + var(--article-frame-height) - var(--c-border-size) / 2 - var(--c-handle-size) / 2)/
-                        var(--c-handle-size) var(--c-handle-size) no-repeat,
-                    /* top right handle cutout */
-                    linear-gradient(var(--dark), var(--dark))
-                        calc(var(--lap) + var(--article-frame-width) - var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)
-                        calc(var(--lap) + var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)/
-                        calc(var(--c-handle-size) - var(--c-border-size) * 2) calc(var(--c-handle-size) - var(--c-border-size) * 2) no-repeat,
-                    /* top right handle */
+                        calc(var(--cfx) + var(--cfw) - var(--c-border-size))
+                        calc(var(--chs) + var(--cfy))/
+                        var(--c-border-size) calc(var(--cfh) - var(--chs) * 2 + var(--cbs)) no-repeat,
+                    /* BORDER BOTTOM */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) + var(--article-frame-width) - var(--c-border-size) / 2 - var(--c-handle-size) / 2)
-                        calc(var(--lap) + var(--c-border-size) / 2 - var(--c-handle-size) / 2)/
-                        var(--c-handle-size) var(--c-handle-size) no-repeat,
-                    /* bottom right handle cutout */
-                    linear-gradient(var(--dark), var(--dark))
-                        calc(var(--lap) + var(--article-frame-width) - var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)
-                        calc(var(--lap) + var(--article-frame-height) - var(--c-border-size) / 2 - (var(--c-handle-size) - var(--c-border-size) * 2) / 2)/
-                        calc(var(--c-handle-size) - var(--c-border-size) * 2) calc(var(--c-handle-size) - var(--c-border-size) * 2) no-repeat,
-                    /* bottom right handle */
+                        calc(var(--chs) + var(--cfx)) calc(var(--cfy) + var(--cfh))/
+                        calc(var(--cfw) - var(--chs) * 2) var(--c-border-size) no-repeat,
+                    /* BORDER LEFT */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) + var(--article-frame-width) - var(--c-border-size) / 2 - var(--c-handle-size) / 2)
-                        calc(var(--lap) + var(--article-frame-height) - var(--c-border-size) / 2 - var(--c-handle-size) / 2)/
-                        var(--c-handle-size) var(--c-handle-size) no-repeat,
-
-                    /* top border */
-                    linear-gradient(var(--bright), var(--bright))
-                        var(--lap) var(--lap)/
-                        var(--article-frame-width) var(--c-border-size) no-repeat,
-                    /* right border */
-                    linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap) + var(--article-frame-width) - var(--c-border-size)) var(--lap)/
-                        var(--c-border-size) var(--article-frame-height) no-repeat,
-                    /* bottom border */
-                    linear-gradient(var(--bright), var(--bright))
-                        var(--lap) calc(var(--lap) + var(--article-frame-height) - var(--c-border-size))/
-                        var(--article-frame-width) var(--c-border-size) no-repeat,
-                    /* left border */
-                    linear-gradient(var(--bright), var(--bright))
-                        calc(var(--lap)) var(--lap)/
-                        var(--c-border-size) var(--article-frame-height) no-repeat
+                        var(--cfx) calc(var(--chs) + var(--cfy))/
+                        var(--c-border-size) calc(var(--cfh) - var(--chs) * 2 + var(--cbs)) no-repeat
                 `,
 
                 // Thumbnail
@@ -395,8 +367,6 @@ void function ThemeController() {
                 __articleWidthShift:          '50px',
                 __articleBaseHeight:          '500px',
                 __articleHeightShift:         '50px',
-                __articleXShift:              '1',
-                __articleYShift:              '1',
                 __articleLoadingSpinnerColor: 'hsl(54.89, 79.66%, 76.86%)',
                 __articleCaretColor:          'transparent',
                 __articleFrameBackground: `
@@ -479,12 +449,15 @@ void function ThemeController() {
         º.respond({
             "theme::val": (key) => val(key),
             "theme::px": (key) => px(key),
+            "theme :as_px": (key) => as_px(key),
         });
 
         º.listen({
             "setting :themeUpdated": (theme) => (reset_theme(), set_theme_to(theme)),
-            "article :resizedTo": (w, h) => {
+            "article :resizedTo": (x, y, w, h) => {
                 apply({
+                    "--article-frame-x": `${x}`,
+                    "--article-frame-y": `${y}`,
                     "--article-frame-width": `${w}`,
                     "--article-frame-height": `${h}`,
                 });
@@ -546,5 +519,20 @@ void function ThemeController() {
     /// [<] int
     function px(key) {
         return Number(val(key).replace(/px$/, String()));
+    }
+
+    function as_px(key) {
+        const [_, v, unit] = val(key).match(/(\d+)(.+)/);
+
+        switch(unit) {
+            case "px":
+                return +v;
+            case "vw":
+                return window.innerWidth / 100 * +v;
+            case "vh":
+                return window.innerHeight / 100 * +v;
+            default:
+                throw Error(`Unkown unit '${unit}'.`);
+        }
     }
 }();
