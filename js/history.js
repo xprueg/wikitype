@@ -32,7 +32,7 @@ void function HistoryController() {
 
         if (!is_related) {
             li.dataset.chain = "start";
-            ƒƒ(".footer-image").forEach((img) => {
+            ƒƒ(".history-image").forEach((img) => {
                 img.classList.add("hidden");
                 setTimeout(
                     () => img.remove(),
@@ -70,7 +70,7 @@ void function HistoryController() {
             const img_pos = thumbnail_node.getBoundingClientRect();
 
             clone.removeAttribute("id");
-            clone.classList.add("footer-image");
+            clone.classList.add("history-image");
             clone.style.left = `${img_pos.x}px`;
             clone.style.top = `${img_pos.y}px`;
 

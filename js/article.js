@@ -160,7 +160,7 @@ void function ArticleController() {
         if (!self.current)
             return;
 
-        // Create image clone for footer.
+        // Create image clone for history.
         º.emit`history :cloneImage`(self.thumbnail_node);
 
         // Reset all article nodes.
