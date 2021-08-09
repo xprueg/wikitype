@@ -246,8 +246,14 @@ void function ArticleController() {
             max_height
         ));
 
-        const left = Math.round((wrapper.width - width) / 2);
-        const top = Math.round((wrapper.height - height) / 2);
+        const left = Math.round(
+            (wrapper.width - width) / 2 +
+            ((Math.random() > .5 ? 1 : -1) * ((wrapper.width - width) / 2) * Math.random())
+        );
+        const top = Math.round(
+            (wrapper.height - height) / 2 +
+            ((Math.random() > .5 ? 1 : -1) * ((wrapper.height - height) / 2) * Math.random())
+        );
 
         self.article_node.style.cssText = `
             left: ${left}px; top: ${top}px;
