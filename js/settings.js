@@ -16,12 +16,12 @@ void function SettingsController() {
             },
             theme: {
                 type: "radio",
-                default_option: "zens",
+                default_option: "note",
                 options: {
                     zens: { name: "Zensur" },
                     neon: { name: "Neon"  },
                     term: { name: "Terminal" },
-                    pstr: { name: "Poster" },
+                    note: { name: "Note" },
                 },
             }
         };

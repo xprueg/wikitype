@@ -95,23 +95,16 @@ void function ThemeController() {
                 __asideThumbnailFilter:       'grayscale(1) contrast(.1)',
             }),
 
-            pstr: transpile({
-                name:   'Poster',
+            note: transpile({
+                name:   'Note',
                 extend: 'base',
 
                 // Theme specific
-                __lap: "40px",
-                __cRandomHue: "calc(360 * var(--k-rand-article-bound))",
-                __cArticleFrameBackgroundSize: `
-                    var(--article-frame-x) var(--article-frame-y)/
-                    calc(var(--article-frame-width) + var(--lap) * 2)
-                    calc(var(--article-frame-height))
-                    no-repeat
-                `,
+                __lap: "50px",
 
                 // Colors
-                __dark:   'hsl(0, 5.71%, 13.73%)',
-                __bright: 'hsl(180, 2.22%, 91.18%)',
+                __dark:   'hsl(56.47, 87.79%, 12.51%)',
+                __bright: 'hsl(56.47, 8.1%, 55.93%)',
 
                 // Border
                 __globalBorderSize:  '0',
@@ -127,30 +120,30 @@ void function ThemeController() {
 
                 // Article
                 __articleBaseWidth:           '700px',
-                __articleWidthShift:          '50px',
-                __articleBaseHeight:          '800px',
-                __articleHeightShift:         '50px',
-                __articleLoadingSpinnerColor: 'hsl(var(--c-random-hue), 93.98%, 20%)',
+                __articleWidthShift:          '0px',
+                __articleBaseHeight:          '700px',
+                __articleHeightShift:         '0px',
+                __articleLoadingSpinnerColor: 'hsl(56, 86%, 15%)',
                 __articleCaretColor:          'black',
                 __articleFrameBackground: `
                     linear-gradient(
-                        0deg,
-                        transparent, transparent 48%,
-                        hsla(0, 0%, 100%, .03) 50%,
-                        hsla(0, 0%, 0%, .04) 50%, hsla(0, 0%, 0%, .02) 52%,
-                        hsla(0, 0%, 0%, .01) 60%, transparent)
-                        var(--c-article-frame-background-size),
+                        135deg,
+                        var(--bright), var(--bright) 50%, hsla(0, 0%, 0%, .2) 50%)
+                        var(--article-frame-x) var(--article-frame-y)/
+                        calc(var(--lap) * .5) calc(var(--lap) * .5)
+                        no-repeat,
                     linear-gradient(
-                        90deg,
-                        transparent, transparent 48%,
-                        hsla(0, 0%, 100%, .03) 50%,
-                        hsla(0, 0%, 0%, .04) 50%, hsla(0, 0%, 0%, .02) 52%,
-                        hsla(0, 0%, 0%, .01) 60%, transparent)
-                        var(--c-article-frame-background-size),
+                        hsl(56, 98%, 59%), hsl(56, 98%, 59%))
+                        var(--article-frame-x) var(--article-frame-y)/
+                        var(--article-frame-width)
+                        var(--article-frame-height)
+                        no-repeat,
                     linear-gradient(
-                        hsl(var(--c-random-hue), 93.98%, 67.45%),
-                        hsl(var(--c-random-hue), 93.98%, 67.45%))
-                        var(--c-article-frame-background-size)
+                        hsla(0, 0%, 0%, .2), hsla(0, 0%, 0%, .2))
+                        calc(var(--article-frame-x) + 10px) calc(var(--article-frame-y) + 10px)/
+                        var(--article-frame-width)
+                        var(--article-frame-height)
+                        no-repeat
                 `,
 
                 // Thumbnail
@@ -159,22 +152,22 @@ void function ThemeController() {
                 __articleThumbnailFilter:       'grayscale(1)',
 
                 // Extract
-                __articleExtractFont:                'calc(32px * var(--u-font-factor))/1.5em Inter',
+                __articleExtractFont:                'calc(34px * var(--u-font-factor))/1.38em Inter',
                 __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
                                                       "cv10", "cv11"`,
 
                 // Tokens
-                __tokenUpcomingColor:      'black',
+                __tokenUpcomingColor:      'hsl(56, 86%, 15%)',
                 __tokenUpcomingBackground: 'transparent',
-                __tokenActiveColor:        'hsl(var(--c-random-hue), 93.98%, 76%)',
-                __tokenActiveBackground:   'hsla(var(--c-random-hue), 0%, 100%, 0.04)',
-                __tokenProgressColor:      'black',
-                __tokenProgressBackground: 'hsla(0, 0%, 100%, 0.5)',
+                __tokenActiveColor:        'hsl(56, 89%, 58%)',
+                __tokenActiveBackground:   'transparent',
+                __tokenProgressColor:      'hsl(56, 86%, 15%)',
+                __tokenProgressBackground: 'hsl(56, 100%, 85%)',
                 __tokenProgressTextShadow: 'none',
-                __tokenTypedColor:         'hsl(var(--c-random-hue), 93.98%, 76%)',
+                __tokenTypedColor:         'hsl(56, 89%, 58%)',
                 __tokenTypedBackground:    'transparent',
-                __tokenErrorColor:         'hsl(5.62, 65.75%, 19%)',
-                __tokenErrorBackground:    'hsl(5.62, 80%, 49%)',
+                __tokenErrorColor:         'hsl(13.06, 78.57%, 48.44%)',
+                __tokenErrorBackground:    'hsla(26.11, 88.68%, 17.22%, 1)',
 
                 // Navigation
                 __upcomingOptionBackground: 'var(--dark)',
