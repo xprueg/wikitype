@@ -450,12 +450,47 @@ void function ThemeController() {
                 set_theme_to(theme);
                 º.emit`article :advancedToken`(º.req`article :getActiveToken`());
             },
-            "article :resizedTo": (x, y, w, h) => {
+            "theme :repositionArticle": (article_node) => {
+                const invert = () => (Math.random() > .5 ? 1 : -1);
+
+                const main_padding = º.req`theme::px`("--main-padding");
+                const {x, y, width: w, height: h} = ƒ("article").getBoundingClientRect();
+                const ref = {
+                    left: main_padding,
+                    top: y + main_padding,
+                    width: w - main_padding * 2,
+                    height: h - main_padding * 2,
+                };
+
+                const article_base_width = º.req`theme :as_px`("--article-base-width");
+                const article_width_shift = º.req`theme :as_px`("--article-width-shift");
+                const article_base_height = º.req`theme :as_px`("--article-base-height");
+                const article_height_shift = º.req`theme :as_px`("--article-height-shift");
+
+                const width = Math.round(Math.min(
+                    article_base_width +
+                    Math.random() * (invert() * article_width_shift),
+                    ref.width
+                ));
+                const height = Math.round(Math.min(
+                    article_base_height +
+                    Math.random() * (invert() * article_height_shift),
+                    ref.height
+                ));
+                const left = Math.round(
+                    (ref.width - width) / 2 +
+                    (invert() * ((ref.width - width) / 2) * Math.random())
+                );
+                const top = Math.round(
+                    (ref.height - height) / 2 +
+                    (invert() * ((ref.height - height) / 2) * Math.random())
+                );
+
                 apply({
-                    "--article-frame-x": `${x}`,
-                    "--article-frame-y": `${y}`,
-                    "--article-frame-width": `${w}`,
-                    "--article-frame-height": `${h}`,
+                    "--article-frame-x": `${ref.left + left}px`,
+                    "--article-frame-y": `${ref.top + top}px`,
+                    "--article-frame-width": `${width}px`,
+                    "--article-frame-height": `${height}px`,
                 });
             },
             "article :advancedToken": (node) => {

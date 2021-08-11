@@ -14,7 +14,7 @@ void function ArticleController() {
     }
 
     void function init() {
-        self.article_node = ƒ("#article");
+        self.article_node = ƒ("#articleContentWrapper");
         self.extract_node = ƒ("#articleExtract");
         self.thumbnail_node = ƒ("#articleThumbnail");
         self.image_node = ƒ("#articleImage");
@@ -26,8 +26,11 @@ void function ArticleController() {
             DISPLAY_NAVIGATION: 1 << 1,
         };
 
-        reposition();
-        window.addEventListener("resize", () => reposition());
+        º.emit`theme :repositionArticle`(self.article_node);
+        window.addEventListener(
+            "resize",
+            () => º.emit`theme :repositionArticle`(self.article_node)
+        );
 
         // Always start in a loading state.
         º.emit`spinner :spawn`(self.article_node);
@@ -66,7 +69,7 @@ void function ArticleController() {
             },
             "article :setContents": (article_data) => set_contents(article_data),
             "article :unloadArticle": () => unload_article(),
-            "setting :themeUpdated": () => reposition(),
+            "setting :themeUpdated": () => º.emit`theme :repositionArticle`(self.article_node),
         });
     }();
 
@@ -170,7 +173,7 @@ void function ArticleController() {
         self.token_node = null;
 
         // Reposition frame.
-        reposition();
+        º.emit`theme :repositionArticle`(self.article_node);
 
         if (display_navigation === self.flags.DISPLAY_NAVIGATION) {
             º.emit`spinner :spawn`(self.article_node);
@@ -213,58 +216,6 @@ void function ArticleController() {
         self.token_node = next_token;
         º.emit`article :advancedToken`(self.token_node);
         º.emit`input :focus`();
-    }
-
-    /// Randomly repositions the article frame.
-    ///
-    /// [<] Void
-    function reposition() {
-        // FIXME: Remove padding from #articleBleedBox and apply it here. Then the
-        // css variables that are set by article :resizedTo can be used for both
-        // the background and the article.
-
-        const rand = (val) => Math.floor(Math.random() * val);
-        const wrapper = ƒ("#articleCropBox").getBoundingClientRect();
-        const main_padding = º.req`theme::px`("--main-padding");
-        const lap = º.req`theme::px`("--lap");
-        const article_base_width = º.req`theme :as_px`("--article-base-width");
-        const article_width_shift = º.req`theme :as_px`("--article-width-shift");
-        const article_base_height = º.req`theme :as_px`("--article-base-height");
-        const article_height_shift = º.req`theme :as_px`("--article-height-shift");
-
-        const max_width = wrapper.width;
-        const width = Math.round(Math.min(
-            article_base_width +
-            Math.random() * ((Math.random() > .5 ? 1 : -1) * article_width_shift),
-            max_width
-        ));
-
-        const max_height = wrapper.height;
-        const height = Math.round(Math.min(
-            article_base_height +
-            Math.random() * ((Math.random() > .5 ? 1 : -1) * article_height_shift),
-            max_height
-        ));
-
-        const left = Math.round(
-            (wrapper.width - width) / 2 +
-            ((Math.random() > .5 ? 1 : -1) * ((wrapper.width - width) / 2) * Math.random())
-        );
-        const top = Math.round(
-            (wrapper.height - height) / 2 +
-            ((Math.random() > .5 ? 1 : -1) * ((wrapper.height - height) / 2) * Math.random())
-        );
-
-        self.article_node.style.cssText = `
-            left: ${left}px; top: ${top}px;
-            width: ${width}px; height: ${height}px;
-        `;
-        º.emit`article :resizedTo`(
-            `${left + main_padding + lap}px`,
-            `${Math.round(ƒ("header").getBoundingClientRect().height) + top + main_padding + lap}px`,
-            `${width}px`,
-            `${height}px`,
-        );
     }
 }();
 

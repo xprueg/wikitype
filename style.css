@@ -139,37 +139,6 @@ header {
     color: var(--history-contrast);
 }
 
-/*/ Article Area /*/
-
-#articleBleedBox {
-    grid-area: article;
-    padding: calc(var(--main-padding) + var(--lap));
-}
-
-#articleCropBox {
-    position: relative;
-    height: 100%;
-}
-
-#articleInput {
-    position: absolute;
-    pointer-events: none;
-    left: var(--k-article-token-x);
-    top: var(--k-article-token-y);
-    font: inherit;
-    border: 0;
-    background: none;
-    color: transparent;
-    z-index: 100000;
-    caret-color: var(--article-caret-color);
-    /* Makes the carret visible on an empty node */
-    min-width: 1px;
-}
-
-#articleInput:focus {
-    outline: none;
-}
-
 /*/ Navigation /*/
 
 nav {
@@ -270,7 +239,35 @@ nav[data-is-visible=true] {
     color: var(--article-loading-spinner-color);
 }
 
-/*/ Article Frame /*/
+/*** ——— Article ——— ***/
+
+article {
+    --article-frame-timing: 512ms ease-in-out;
+    grid-area: article;
+    position: relative;
+}
+
+#articleInput {
+    position: absolute;
+    pointer-events: none;
+    left: var(--k-article-token-x);
+    top: var(--k-article-token-y);
+    font: inherit;
+    border: 0;
+    background: none;
+    color: transparent;
+    z-index: 100000;
+    caret-color: var(--article-caret-color);
+    /* Makes the carret visible on an empty node */
+    min-width: 1px;
+}
+
+#articleInput:focus {
+    outline: none;
+}
+
+
+/*** ——— Article Frame ——— ***/
 
 #articleFrame {
     /* TODO: Include border */
@@ -280,24 +277,20 @@ nav[data-is-visible=true] {
     width: calc(100vw - var(--aside-width) * 2);
     height: 100vw;
     background: var(--article-frame-background);
-    transition: all 512ms ease-out;
+    transition: background var(--article-frame-timing);
     z-index: -1;
-}
-
-/*/ Article /*/
-
-#article {
-    position: absolute;
-    transition: left 512ms ease-out, top 512ms ease-out,
-                width 512ms ease-out, height 512ms ease-out;
 }
 
 #articleContentWrapper {
     position: absolute;
-    top: 0; right: 0;
-    bottom: 0; left: 0;
+    top: var(--article-frame-y);
+    left: var(--article-frame-x);
+    width: var(--article-frame-width);
+    height: var(--article-frame-height);
     overflow: hidden;
     padding: var(--lap);
+    transition: left var(--article-frame-timing), top var(--article-frame-timing),
+                width var(--article-frame-timing), height var(--article-frame-timing);
 }
 
 #articleThumbnail[src="data:,"],
@@ -392,6 +385,7 @@ nav[data-is-visible=true] {
     max-width: var(--history-image-max-size);
     transform-origin: center;
     z-index: var(--z-history-image);
+    pointer-events: none;
     /* FIXME: Animating transform will prevent the animation of mix-blend-mode. */
     transition: all var(--timing) ease-in-out, z-index 0s linear;
 }
