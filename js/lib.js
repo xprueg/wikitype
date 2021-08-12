@@ -53,7 +53,7 @@ function µƒ(url, fallback_value) {
 
         return res.json();
     }).catch((err) => {
-        alert("No Internet");
+        // alert("No Internet");
         throw Error("No Internet");
     });
 }
