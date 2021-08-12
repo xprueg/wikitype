@@ -28,14 +28,6 @@ html, body {
 html {
     font-family: Inter;
     overflow: hidden;
-
-    /* Interface */
-    --z-footer: 0;
-    --z-navigation: 2;
-    --z-header: 0;
-    --z-image-preview: 8;
-    --z-aside: 4;
-    --z-history-image: 5;
 }
 
 /*/ body /*/
@@ -70,7 +62,6 @@ aside {
     overflow: hidden;
     box-sizing: content-box;
     background: var(--aside-background);
-    z-index: var(--z-aside);
     width: var(--aside-width);
 }
 
@@ -87,7 +78,6 @@ header {
     overflow: hidden;
     padding: var(--main-padding);
     padding-bottom: 0;
-    z-index: var(--z-header);
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -149,11 +139,11 @@ nav {
     bottom: 0;
     align-items: center;
     justify-content: center;
-    z-index: var(--z-navigation);
     display: flex;
     opacity: 0;
     transition: opacity 125ms ease-in-out;
     pointer-events: none;
+    z-index: 2;
 }
 
 nav[data-is-visible=true] {
@@ -245,6 +235,7 @@ article {
     --article-frame-timing: 512ms ease-in-out;
     grid-area: article;
     position: relative;
+    z-index: 1;
 }
 
 #articleInput {
@@ -256,7 +247,6 @@ article {
     border: 0;
     background: none;
     color: transparent;
-    z-index: 100000;
     caret-color: var(--article-caret-color);
     /* Makes the carret visible on an empty node */
     min-width: 1px;
@@ -318,8 +308,8 @@ article {
     object-fit: contain;
     max-height: var(--original-height);
     max-width: var(--original-width);
-    z-index: var(--z-image-preview);
     border: none;
+    z-index: 10;
 }
 
 .token {
@@ -384,7 +374,6 @@ article {
     max-height: var(--history-image-max-size);
     max-width: var(--history-image-max-size);
     transform-origin: center;
-    z-index: var(--z-history-image);
     pointer-events: none;
     /* FIXME: Animating transform will prevent the animation of mix-blend-mode. */
     transition: all var(--timing) ease-in-out, z-index 0s linear;
@@ -395,7 +384,6 @@ article {
 /************************/
 footer {
     grid-area: shortcuts;
-    z-index: var(--z-footer);
     display: flex;
     justify-content: center;
     overflow: hidden;
@@ -456,9 +444,14 @@ footer {
     grid-area: settings;
     background: var(--aside-background);
     flex-shrink: 0;
-    z-index: var(--z-aside);
     width: var(--aside-width);
     border-left: var(--global-border-size) solid var(--global-border-color);
+    transition: z-index 0ms 500ms linear;
+}
+
+#settingsWrapper:hover {
+    transition: z-index 500ms linear;
+    z-index: 2;
 }
 
 #settingsWrapperInner {
@@ -472,7 +465,6 @@ footer {
                 width 500ms ease,
                 box-shadow 500ms ease;
     width: var(--aside-width);
-    z-index: 10000;
     overflow: hidden;
 }
 
