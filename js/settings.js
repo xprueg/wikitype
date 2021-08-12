@@ -16,7 +16,7 @@ void function SettingsController() {
             },
             theme: {
                 type: "radio",
-                default_option: "note",
+                default_option: "zens",
                 options: {
                     zens: { name: "Zensur" },
                     neon: { name: "Neon"  },
