@@ -95,8 +95,8 @@ void function ThemeController() {
                 __upcomingOptionColor:      'var(--bright)',
 
                 // Aside Thumbnails
-                __asideThumbnailMixBlendMode: 'hard-light',
-                __asideThumbnailFilter:       'grayscale(1) contrast(.1)',
+                __asideThumbnailMixBlendMode: 'normal',
+                __asideThumbnailFilter:       'opacity(.3) contrast(4)',
             }),
 
             note: transpile({
