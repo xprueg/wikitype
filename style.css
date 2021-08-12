@@ -269,6 +269,7 @@ article {
     background: var(--article-frame-background);
     transition: background var(--article-frame-timing);
     z-index: -1;
+    pointer-events: none;
 }
 
 #articleContentWrapper {
