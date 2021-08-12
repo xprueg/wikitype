@@ -79,12 +79,14 @@ void function ThemeController() {
                 __tokenUpcomingColor:      'var(--dark)',
                 __tokenUpcomingBackground: 'transparent',
                 __tokenActiveColor:        'transparent',
-                __tokenActiveBackground:   'var(--dark)',
+                __tokenActiveBackground:   `linear-gradient(var(--dark), var(--dark)) 0 0/
+                                            calc(100% - 1ex) 100% no-repeat`,
                 __tokenProgressColor:      'var(--dark)',
                 __tokenProgressBackground: 'var(--bright)',
                 __tokenProgressTextShadow: 'none',
                 __tokenTypedColor:         'transparent',
-                __tokenTypedBackground:    'var(--dark)',
+                __tokenTypedBackground:    `linear-gradient(var(--dark), var(--dark)) 0 0/
+                                            calc(100% - 1ex) 100% no-repeat`,
                 __tokenErrorColor:         'var(--bright)',
                 __tokenErrorBackground:    'var(--dark)',
 
