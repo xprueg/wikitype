@@ -166,6 +166,9 @@ void function ArticleController() {
         // Create image clone for history.
         º.emit`history :cloneImage`(self.thumbnail_node);
 
+        // Clear input
+        º.emit`input :clear`();
+
         // Reset all article nodes.
         self.extract_node.querySelectorAll("span").forEach((node) => node.remove());
         self.image_node.src = "data:,";
@@ -179,6 +182,7 @@ void function ArticleController() {
             º.emit`spinner :spawn`(self.article_node);
             º.emit`nav :displayOptions`(self.current._raw);
         }
+
         self.current = undefined;
     }
 
