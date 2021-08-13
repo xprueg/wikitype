@@ -58,7 +58,6 @@ aside {
     font-size: 30px;
     line-height: calc(var(--aside-width) + 0.215em);
     white-space: nowrap;
-    border-left: var(--global-border-size) solid var(--global-border-color);
     overflow: hidden;
     box-sizing: content-box;
     background: var(--aside-background);
@@ -454,7 +453,6 @@ footer {
     background: var(--aside-background);
     flex-shrink: 0;
     width: var(--aside-width);
-    border-left: var(--global-border-size) solid var(--global-border-color);
     transition: z-index 0ms 500ms linear;
 }
 
