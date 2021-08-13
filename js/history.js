@@ -43,6 +43,7 @@ void function HistoryController() {
         }
 
         span.innerText = article_data.titles.normalized;
+        span.dataset.lang = article_data.lang;
         self.node.insertBefore(li, self.node.children.length
                                    ? self.node.children[0] : null);
 
