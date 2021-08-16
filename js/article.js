@@ -83,6 +83,9 @@ void function ArticleController() {
                    // Replaces Whitespace
                    .replace(/\s+/g, "\x20")
 
+                   // Replaces Fraction Slash ( ⁄ )
+                   .replace(/[\u2044]/, "\x2F")
+
                    // Replaces Hyphens ( ‐ ‑ ‒ – — ― − )
                    .replace(/[\u2010-\u2015\u2212]/g, "\x2D")
 
