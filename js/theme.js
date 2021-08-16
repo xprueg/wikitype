@@ -29,6 +29,11 @@ void function ThemeController() {
                 // Navigation
                 __upcomingOptionHeight:     '80px',
                 __upcomingOptionFontSize:   '46px',
+
+                // Article
+                __articleCaretWidth:          '1px',
+                __articleCaretColor:          'var(--dark)',
+                __articleCaretScaleY:         '1',
             }),
 
             zens: transpile({
@@ -60,7 +65,9 @@ void function ThemeController() {
                 __articleBaseHeight:          '100vh',
                 __articleHeightShift:         '0px',
                 __articleLoadingSpinnerColor: 'var(--dark)',
-                __articleCaretColor:          'var(--bright)',
+                __articleCaretWidth:          '2px',
+                __articleCaretColor:          'var(--dark)',
+                __articleCaretScaleY:         '1.2',
                 __articleFrameBackground:     'none',
 
                 // Thumbnail
@@ -79,8 +86,7 @@ void function ThemeController() {
                 __tokenUpcomingColor:      'var(--dark)',
                 __tokenUpcomingBackground: 'transparent',
                 __tokenActiveColor:        'transparent',
-                __tokenActiveBackground:   `linear-gradient(var(--dark), var(--dark)) 0 0/
-                                            calc(100% - 1ex) 100% no-repeat`,
+                __tokenActiveBackground:   `var(--dark)`,
                 __tokenProgressColor:      'var(--dark)',
                 __tokenProgressBackground: 'var(--bright)',
                 __tokenProgressTextShadow: 'none',
@@ -128,7 +134,6 @@ void function ThemeController() {
                 __articleBaseHeight:          '700px',
                 __articleHeightShift:         '0px',
                 __articleLoadingSpinnerColor: 'hsl(56, 86%, 15%)',
-                __articleCaretColor:          'black',
                 __articleFrameBackground: `
                     linear-gradient(
                         135deg,
@@ -229,7 +234,7 @@ void function ThemeController() {
                 __articleBaseHeight:          '500px',
                 __articleHeightShift:         '50px',
                 __articleLoadingSpinnerColor: 'hsl(0, 0%, 100%, .7)',
-                __articleCaretColor:          'black',
+                __articleCaretWidth:          '0',
                 __articleFrameBackground: `
                     /* TOP LEFT HANDLE */
                     radial-gradient(
@@ -365,7 +370,7 @@ void function ThemeController() {
                 __articleBaseHeight:          '500px',
                 __articleHeightShift:         '50px',
                 __articleLoadingSpinnerColor: 'hsl(54.89, 79.66%, 76.86%)',
-                __articleCaretColor:          'transparent',
+                __articleCaretWidth:          '0',
                 __articleFrameBackground: `
                     /* BORDER TOP */
                     linear-gradient(var(--bright), var(--bright))
@@ -498,9 +503,12 @@ void function ThemeController() {
                 });
             },
             "article :advancedToken": (node) => {
+                const rect = node.getBoundingClientRect();
                 apply({
                     "--k-article-token-x": `${node.offsetLeft}px`,
                     "--k-article-token-y": `${node.offsetTop}px`,
+                    "--k-article-token-w": `${Math.round(rect.width)}px`,
+                    "--k-article-token-h": `${Math.round(rect.height)}px`,
                 });
             },
             "article :unloadArticle": () => {

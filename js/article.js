@@ -63,9 +63,8 @@ void function ArticleController() {
 
         º.listen({
             "article :advanceToken": () => advance_token(),
-            "article :updateProgressToken": (upcoming, mistyped) => {
+            "article :updateProgressToken": (upcoming) => {
                 ƒ("#progressToken", self.article).dataset.upcoming = upcoming;
-                ƒ("#progressToken", self.article).dataset.mistyped = mistyped;
             },
             "article :setContents": (article_data) => set_contents(article_data),
             "article :unloadArticle": () => unload_article(),
@@ -212,14 +211,12 @@ void function ArticleController() {
         // Set next token.
         const progress_token = ª(ƒ("#progressTokenTemplate"), "#progressToken");
         progress_token.dataset.upcoming = next_token.dataset.word;
-        progress_token.dataset.mistyped = String();
         next_token.appendChild(progress_token);
         next_token.setAttribute("id", "activeToken");
 
         // Store reference.
         self.token_node = next_token;
         º.emit`article :advancedToken`(self.token_node);
-        º.emit`input :focus`();
     }
 }();
 
@@ -284,7 +281,8 @@ void function InputController() {
         if (token_txt.indexOf(input_txt) === 0) {
             if (token_txt.length === input_txt.length) {
                 º.emit`article :advanceToken`();
-                return void clear_input();
+                clear_input();
+                return;
             }
 
             upcoming_txt = token_txt.substr(input_txt.length);
@@ -298,6 +296,7 @@ void function InputController() {
             }
         }
 
-        º.emit`article :updateProgressToken`(upcoming_txt, mistyped_txt);
+        self.input.dataset.mistyped = mistyped_txt;
+        º.emit`article :updateProgressToken`(upcoming_txt);
     }
 }();
