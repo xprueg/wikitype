@@ -256,6 +256,7 @@ void function InputController() {
 
     function clear_input() {
         self.input.textContent = String();
+        self.input.dataset.mistyped = String();
     }
 
     function key_event(e) {
