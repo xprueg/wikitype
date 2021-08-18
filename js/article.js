@@ -14,6 +14,7 @@ void function ArticleController() {
     }
 
     void function init() {
+        self.node = ƒ("article");
         self.article_node = ƒ("#articleContentWrapper");
         self.extract_node = ƒ("#articleExtract");
         self.thumbnail_node = ƒ("#articleThumbnail");
@@ -34,6 +35,7 @@ void function ArticleController() {
 
         // Always start in a loading state.
         º.emit`spinner :spawn`(self.article_node);
+
         º.emit`shortcut :setMultiple`(
             ['enter',
                 (e) => {
@@ -159,6 +161,7 @@ void function ArticleController() {
         }
 
         º.emit`spinner :kill`(self.article_node);
+        self.node.dataset.isLoaded = true;
     }
 
     function unload_article(display_navigation = self.flags.DISPLAY_NAVIGATION) {
@@ -186,6 +189,7 @@ void function ArticleController() {
         }
 
         self.current = undefined;
+        self.node.dataset.isLoaded = false;
     }
 
     function advance_token() {
