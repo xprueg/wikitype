@@ -33,6 +33,9 @@ void function WikiController() {
             "wikiapi :fetchRandomArticle": (lang_code) => {
                 return load_random_article(lang_code);
             },
+            "wikiapi :fetchArticleByFullUrl": (url) => {
+                return load_article_by_full_url(url);
+            },
             "wikiapi :fetchRelatedArticles": (article_data) => {
                 return load_related_articles(article_data)
             },
@@ -78,10 +81,27 @@ void function WikiController() {
         if (cached_article)
             return µµ(cached_article);
 
-        return µƒ(self.url.random(lang_code)).then(x => {
-            prefetch_related_articles(x);
+        return µƒ(self.url.random(lang_code)).then((article_data) => {
+            prefetch_related_articles(article_data);
 
-            return x;
+            return article_data;
+        });
+    }
+
+    function load_article_by_full_url(wiki_url) {
+        // https://lang.wikipedia.org/wiki/xyz
+        // https://lang.wikipedia.org/api/rest_v1/page/summary/xyz
+        wiki_url = wiki_url.replace(
+            new RegExp(String.raw`(https://[a-z]{2}.wikipedia.org)/wiki/(.+)`),
+            (_, domain, title) => {
+                return `${domain}/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+            }
+        );
+
+        return µƒ(wiki_url).then((article_data) => {
+            prefetch_related_articles(article_data);
+
+            return article_data;
         });
     }
 }();
