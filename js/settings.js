@@ -81,20 +81,18 @@ void function SettingsController() {
     function render_dom(root, options) {
         const buffer = Array();
 
-        Object.keys(options).sort().forEach((key, i, arr) => {
+        Object.keys(options)
+              .sort((a, b) => options[a].name.localeCompare(options[b].name))
+              .forEach((key, i, arr) => {
             const state = options[key];
-            const fragment = ª(ƒ("#settingsOptionTemplate"), "span");
+            const fragment = ª(ƒ("#settingsOptionTemplate"), "li");
+
+            state.node = fragment;
             fragment.textContent = state.name;
             fragment.dataset.ref = key;
             fragment.dataset.isSelected = state.is_selected;
+
             buffer.push(fragment);
-
-            if (i === arr.length - 2) {
-                buffer.push(document.createTextNode(" or "));
-            } else if (i < arr.length - 2)
-                buffer.push(document.createTextNode(", "));
-
-            state.node = fragment;
         });
 
         root.append(...buffer);
