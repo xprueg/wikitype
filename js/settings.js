@@ -149,13 +149,13 @@ void function SettingsController() {
                              .map(([key, state]) => key)
                              .sort();
 
-        status_txt += selected.splice(0, lang.display_limit).join(", ");
+        status_txt += selected.splice(0, lang.display_limit).join(" / ");
 
         if (selected.length)
-            status_txt += ` +${selected.length}`;
+            status_txt += ` + ${selected.length}`;
 
         // Spacer
-        status_txt += " & ";
+        status_txt += "  &  ";
 
         // Theme
         status_txt += º.req`theme :getSelected`();

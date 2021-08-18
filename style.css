@@ -520,6 +520,7 @@ footer {
     line-height: calc(var(--aside-width) + 0.215em);
     width: var(--aside-width);
     pointer-events: none;
+    white-space: pre;
 }
 
 #settingsStatus {
