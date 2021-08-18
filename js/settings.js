@@ -142,22 +142,27 @@ void function SettingsController() {
     }
 
     function update_status_bar() {
-        let buffer = String();
+        const [lang, theme] = [self.settings.language, self.settings.theme];
+        let status_txt = String();
 
-        buffer += Object.entries(self.settings.language.options)
-                        .filter(([key, state]) => state.is_selected)
-                        .map(([key, state]) => key)
-                        .sort()
-                        .join(", ");
+        // Languages
+        let selected = Object.entries(lang.options)
+                             .filter(([key, state]) => state.is_selected)
+                             .map(([key, state]) => key)
+                             .sort();
 
-        buffer += " & ";
+        status_txt += selected.splice(0, lang.display_limit).join(", ");
 
-        Object.entries(self.settings.theme.options).forEach(([key, state]) => {
-            if (state.is_selected) {
-                buffer += key;
-            }
-        });
+        if (selected.length)
+            status_txt += ` +${selected.length}`;
 
-        self.status_bar.textContent = buffer;
+        // Spacer
+        status_txt += " & ";
+
+        // Theme
+        status_txt += º.req`theme :getSelected`();
+
+        // Update status bar
+        self.status_bar.textContent = status_txt;
     }
 }();
