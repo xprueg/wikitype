@@ -145,13 +145,13 @@ void function ThemeController() {
                         hsl(56, 98%, 59%), hsl(56, 98%, 59%))
                         var(--article-frame-x) var(--article-frame-y)/
                         var(--article-frame-width)
-                        var(--article-frame-height)
+                        calc(var(--article-frame-height) - var(--lap))
                         no-repeat,
                     linear-gradient(
                         hsla(0, 0%, 0%, .2), hsla(0, 0%, 0%, .2))
                         calc(var(--article-frame-x) + 10px) calc(var(--article-frame-y) + 10px)/
                         var(--article-frame-width)
-                        var(--article-frame-height)
+                        calc(var(--article-frame-height) - var(--lap))
                         no-repeat
                 `,
 
