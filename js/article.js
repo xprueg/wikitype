@@ -231,11 +231,9 @@ void function InputController() {
     const self = Object.create(null);
 
     void function init() {
-        self.current_key_is_dead = false;
         self.input = articleInput;
         self.input.addEventListener("input", input_evt);
-
-        document.body.addEventListener("keydown", key_event);
+        document.body.addEventListener("keydown", focus_input);
 
         º.listen({
             'input :clear': () => clear_input(),
@@ -263,18 +261,14 @@ void function InputController() {
         self.input.dataset.mistyped = String();
     }
 
-    function key_event(e) {
-        const key = e.key;
-        self.current_key_is_dead = (key === "Dead");
-        focus_input();
-    }
-
     function input_evt(kbevt) {
         const input_txt = self.input.textContent.replace(/\u00A0/g, "\x20");
         const token_txt = º.req`article :getActiveTokenText`();
 
-        // Don't updated on dead key as it will show up as mistyped text.
-        if (self.current_key_is_dead)
+        // Don't update on composing keys as it will show up as mistyped text.
+        // However if there is already mistyped text then add it to it, otherwise it
+        // will appear in front of it.
+        if (kbevt.inputType === "insertCompositionText" && !self.input.dataset.mistyped.length)
             return;
 
         if (!token_txt) {
