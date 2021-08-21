@@ -476,7 +476,7 @@ footer {
     --settings-wrapper-width: min(40vw, 550px);
 
     grid-area: settings;
-    background: var(--aside-background);
+    background: var(--settings-background);
     flex-shrink: 0;
     width: var(--aside-width);
     transition: z-index 0ms 500ms linear;
@@ -488,8 +488,8 @@ footer {
 }
 
 #settingsWrapperInner {
-    background: var(--aside-background);
-    color: var(--dark);
+    background: var(--settings-background);
+    color: var(--settings-color);
     position: relative;
     left: 0;
     height: 100%;
@@ -535,13 +535,13 @@ footer {
     width: var(--settings-wrapper-width);
     min-width: var(--settings-wrapper-width);
     height: 100vh;
-    color: var(--dark);
+    color: var(--settings-color);
     overflow-y: auto;
     cursor: default;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
-    border-left: 1px solid var(--dark);
+    border-left: 1px solid var(--settings-border-color);
 }
 
 #settings h3 {
@@ -570,7 +570,7 @@ footer {
 }
 
 #settings .settingsOption:not(:last-child) {
-    border-bottom: 1px solid var(--dark);
+    border-bottom: 1px solid var(--settings-border-color);
 }
 
 #settings .settingsOption::before {

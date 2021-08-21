@@ -33,6 +33,14 @@ void function ThemeController() {
                 __articleCaretWidth:          '1px',
                 __articleCaretColor:          'var(--dark)',
                 __articleCaretScaleY:         '1',
+
+                // Aside
+                __asideColor: 'var(--dark)',
+
+                // Settings
+                __settingsBackground:  'var(--aside-background)',
+                __settingsColor:       'var(--aside-color)',
+                __settingsBorderColor: 'var(--dark)',
             }),
 
             zens: transpile({
@@ -354,7 +362,13 @@ void function ThemeController() {
                     ),
                     hsl(30, 1.41%, 10%)
                 `,
-                __asideBackground: 'var(--bright)',
+                __asideColor:      'var(--bright)',
+                __asideBackground: 'transparent',
+
+                // Settings
+                __settingsBackground: 'var(--dark)',
+                __settingsColor:      'var(--bright)',
+                __settingsBorderColor: 'var(--bright)',
 
                 // History
                 __historyBase:     'var(--bright)',
