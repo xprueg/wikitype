@@ -20,7 +20,6 @@ void function ThemeController() {
         self.themes = {
             base: transpile({
                 __asideWidth: '70px',
-                __uiButtonBorderRadius: '100px',
                 __mainPadding: '20px',
                 __lap: '30px',
                 __articleExtractLetterSpacing: 'normal',
@@ -327,9 +326,6 @@ void function ThemeController() {
             term: transpile({
                 name:   'Terminal',
                 extend: 'base',
-
-                // Override
-                __uiButtonBorderRadius: '0',
 
                 // Theme specific
                 __cBorderSize:      '2px',

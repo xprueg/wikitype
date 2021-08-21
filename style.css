@@ -118,7 +118,7 @@ header {
     position: relative;
     display: inline-flex;
     box-shadow: inset 0 0 0 2px var(--history-base);
-    border-radius: var(--ui-button-border-radius);
+    border-radius: 100vw;
     padding: .25ex .9ex;
 }
 
@@ -430,7 +430,7 @@ footer {
     padding: 2ex 3ex;
     font-size: 14px;
     color: var(--dark);
-    border-radius: var(--ui-button-border-radius);
+    border-radius: 100vw;
 }
 
 #shortcuts div {
