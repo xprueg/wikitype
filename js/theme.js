@@ -168,9 +168,8 @@ void function ThemeController() {
                 __articleThumbnailFilter:       'grayscale(1)',
 
                 // Extract
-                __articleExtractFont:                'calc(34px * var(--u-font-factor))/1.38em Inter',
-                __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
-                                                      "cv10", "cv11"`,
+                __articleExtractFont:                'calc(34px * var(--u-font-factor))/1.4em Grafier-Regular',
+                __articleExtractFontFeatureSettings: '"ss02"',
 
                 // Tokens
                 __tokenUpcomingColor:      'hsl(56, 86%, 15%)',
