@@ -51,7 +51,7 @@ aside {
     display: flex;
     justify-content: space-between;
     padding: var(--main-padding) 0;
-    color: var(--dark);
+    color: var(--aside-color);
     grid-area: aside;
     writing-mode: tb;
     transform: rotate(180deg);
