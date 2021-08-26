@@ -335,32 +335,34 @@ void function ThemeController() {
                 extend: 'base',
 
                 // Theme specific
-                __cBorderSize:      '2px',
-                __cLargeBorderSize: '30px',
+                __lap: '0px',
 
                 // Colors
-                __dark:   'hsl(30, 1.41%, 10.84%)',
-                __bright: 'hsl(54.89, 79.66%, 76.86%)',
+                __dark:   'hsl(80, 55%, 8%)',
+                __bright: 'hsl(83, 97%, 58%)',
 
                 // Border
                 __globalBorderSize:  '0',
                 __globalBorderColor: 'transparent',
 
                 // Background
-                __bodyBackground:  `
-                    radial-gradient(circle at bottom center, hsla(30, 1.41%, 27.84%, .3), transparent),
+                __bodyBackground: `
+                    radial-gradient(circle at center center,
+                       var(--dark), transparent),
                     repeating-linear-gradient(
                         180deg,
-                        hsla(0, 0%, 0%, .2), hsla(0, 0%, 0%, .2) 2px,
+                        hsla(80, 100%, 1%, .2), hsla(80, 100%, 1%, .2) 2px,
                         transparent 2px, transparent 4px
                     ),
                     repeating-linear-gradient(
                         270deg,
-                        hsla(0, 0%, 0%, .2), hsla(0, 0%, 0%, .2) 1px,
+                        hsla(80, 100%, 1%, .2), hsla(80, 100%, 1%, .2) 1px,
                         transparent 1px, transparent 50px
                     ),
-                    hsl(30, 1.41%, 10%)
+                    hsl(80, 35%, 8%)
                 `,
+
+                // Aside
                 __asideColor:      'var(--bright)',
                 __asideBackground: 'transparent',
 
@@ -378,63 +380,42 @@ void function ThemeController() {
                 __articleWidthShift:          '50px',
                 __articleBaseHeight:          '500px',
                 __articleHeightShift:         '50px',
-                __articleLoadingSpinnerColor: 'hsl(54.89, 79.66%, 76.86%)',
+                __articleLoadingSpinnerColor: 'var(--bright)',
                 __articleCaretWidth:          '0',
                 __articleFrameBackground: `
-                    /* BORDER TOP */
-                    linear-gradient(var(--bright), var(--bright))
-                        var(--article-frame-x) var(--article-frame-y)/
-                        var(--article-frame-width)
-                        var(--c-border-size)
-                        no-repeat,
-                    /* BORDER RIGHT */
-                    linear-gradient(var(--bright), var(--bright))
-                        calc(var(--article-frame-x) + var(--article-frame-width) - var(--c-border-size))
-                        calc(var(--article-frame-y))/
-                        var(--c-large-border-size)
-                        calc(var(--article-frame-height) + var(--c-border-size))
-                        no-repeat,
-                    /* BORDER BOTTOM */
-                    linear-gradient(var(--bright), var(--bright))
-                        var(--article-frame-x)
-                        calc(var(--article-frame-y) + var(--article-frame-height))/
-                        var(--article-frame-width)
-                        var(--c-border-size)
-                        no-repeat,
-                    /* BORDER LEFT */
-                    linear-gradient(var(--bright), var(--bright))
-                        calc(var(--article-frame-x) - var(--c-large-border-size))
-                        calc(var(--article-frame-y))/
-                        var(--c-large-border-size)
-                        calc(var(--article-frame-height) + var(--c-border-size))
-                        no-repeat,
-                    /* BACKGROUND */
-                    linear-gradient(hsla(30, 1%, 28%, .6), hsla(30, 1%, 28%, .5), hsla(30, 1%, 28%, .6))
-                        var(--article-frame-x) var(--article-frame-y)/
-                        var(--article-frame-width) var(--article-frame-height)
-                        no-repeat
+                    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='105px' height='103px'%3E%3Cpolygon fill='hsla(83,50%,11%,.3)' points='104.32 45.456 104.32 56.976 60.256 53.808 97.696 77.136 91.072 86.352 57.376 57.84 74.08 98.736 63.136 102.48 52.48 59.568 41.824 102.48 30.88 98.736 47.584 57.84 13.888 86.352 7.264 77.136 44.704 53.808 0.64 56.976 0.64 45.456 44.704 48.912 7.264 25.584 13.888 16.08 47.584 44.88 30.88 3.696 41.824 0.24 52.48 43.152 63.136 0.24 74.08 3.696 57.376 44.88 91.072 16.08 97.696 25.584 60.256 48.912'%3E%3C/polygon%3E%3C/svg%3E")
+                    calc(var(--article-frame-x) + var(--article-frame-width) / 2 - 50px)
+                    calc(var(--article-frame-y) + var(--article-frame-height) / 2 - 50px)/
+                    100px 100px
                 `,
 
                 // Thumbnail
-                __articleThumbnailBorder:       '0',
-                __articleThumbnailMixBlendMode: 'luminosity',
-                __articleThumbnailFilter:       '',
+                __articleThumbnailBorder:       'solid 2px var(--bright)',
+                __articleThumbnailMixBlendMode: 'color-dodge',
+                __articleThumbnailFilter:       'grayscale(0)',
 
                 // Extract
-                __articleExtractFont:                'calc(30px * var(--u-font-factor))/1.5em "JetBrains Mono", monospace',
+                __articleExtractFont:                `calc(30px * var(--u-font-factor))/
+                                                      1.5em "JetBrains Mono", monospace`,
                 __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
                                                       "cv10", "cv11"`,
 
                 // Tokens
-                __tokenUpcomingColor:      'var(--bright)',
-                __tokenUpcomingBackground: 'transparent',
-                __tokenActiveColor:        'hsla(54.37, 59.26%, 89.41%, 0.39)',
-                __tokenActiveBackground:   'hsla(54.37, 59.26%, 89.41%, 0.04)',
-                __tokenProgressColor:      'hsl(30, 1.41%, 27.84%)',
-                __tokenProgressBackground: 'hsl(54.89, 79.66%, 76.86%)',
-                __tokenProgressTextShadow: '0 0 30px hsl(54.89, 79.66%, 76.86%)',
-                __tokenTypedColor:         'hsla(54.37, 59.26%, 89.41%, 0.39)',
-                __tokenTypedBackground:    'transparent',
+                __tokenUpcomingColor:      'var(--dark)',
+                __tokenUpcomingBackground: 'var(--bright)',
+                __tokenActiveColor:        'hsla(83, 25%, 16.4%, 0.92)',
+                __tokenActiveBackground:   `linear-gradient(var(--bright), var(--bright))
+                                                0 100%/100% 50% no-repeat,
+                                            linear-gradient(var(--dark), var(--dark))
+                                                0 0/100% 100% no-repeat`,
+                __tokenProgressColor:      'var(--dark)',
+                __tokenProgressBackground: 'var(--bright)',
+                __tokenProgressTextShadow: '',
+                __tokenTypedColor:         'var(--token-active-color)',
+                __tokenTypedBackground:    `linear-gradient(var(--bright), var(--bright))
+                                                0 100%/100% 0% no-repeat,
+                                            linear-gradient(var(--dark), var(--dark))
+                                                0 0/100% 100% no-repeat`,
                 __tokenErrorColor:         'hsl(360, 100%, 9.25%)',
                 __tokenErrorBackground:    'hsl(360, 100%, 59.25%)',
 
