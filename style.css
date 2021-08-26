@@ -422,11 +422,10 @@ footer {
 #shortcuts {
     display: inline-flex;
     justify-content: center;
-    background: var(--bright);
     padding: 2ex 3ex;
     font-size: 14px;
-    color: var(--dark);
     border-radius: 100vw;
+    background: var(--shortcut-background);
 }
 
 #shortcuts div {
@@ -434,6 +433,7 @@ footer {
     display: flex;
     align-items: center;
     flex-direction: row;
+    color: var(--shortcut-text);
 }
 
 #shortcuts div:not(:last-child)::after {
@@ -454,8 +454,8 @@ footer {
     width: 20px;
     height: 20px;
     border-radius: 3px;
-    background: var(--dark);
-    color: var(--bright);
+    background: var(--shortcut-text);
+    color: var(--shortcut-box);
     font-size: 12px;
     align-items: center;
     justify-content: center;

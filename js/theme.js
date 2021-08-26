@@ -41,6 +41,11 @@ void function ThemeController() {
                 __settingsBackground:  'var(--aside-background)',
                 __settingsColor:       'var(--aside-color)',
                 __settingsBorderColor: 'var(--dark)',
+
+                // Shortcuts
+                __shortcutBackground: 'transparent',
+                __shortcutText:       'var(--dark)',
+                __shortcutBox:        'var(--bright)',
             }),
 
             zens: transpile({
@@ -328,6 +333,9 @@ void function ThemeController() {
                 // Aside Thumbnails
                 __asideThumbnailMixBlendMode: 'difference',
                 __asideThumbnailFilter:       '',
+
+                // Shortcuts
+                __shortcutBackground: 'var(--bright)',
             }),
 
             term: transpile({
@@ -426,6 +434,10 @@ void function ThemeController() {
                 // Aside Thumbnails
                 __asideThumbnailMixBlendMode: 'soft-light',
                 __asideThumbnailFilter:       'grayscale(1)',
+
+                // Shortcuts
+                __shortcutText:       'var(--bright)',
+                __shortcutBox:        'var(--dark)',
             }),
         };
 
