@@ -41,7 +41,7 @@ void function NavController() {
     function reset_options() {
         self.related_nodes.forEach((node) => {
             node.dataset.isAvailable = false;
-            ƒ(".navOptionTitle", node).textContent = String();
+            ƒ(".navOptionTitle", node).textContent = String("L̷͇̇ő̷͓a̴̗͑d̷̲͌i̷͉͛n̶͚̈g̸͓̽…̴̯̂");
         });
     }
 
@@ -77,7 +77,7 @@ void function NavController() {
                     ƒ(".navOptionTitle", node).textContent = article_data.titles.normalized;
                 } else {
                     node.dataset.isAvailable = false;
-                    ƒ(".navOptionTitle", node).textContent = ["⸘̶̨̘̔̒⁈̵̺͔͐͠¿̶̜͚̾⁉̶̮͈͛̑⸘̴͕̦̊͗", "⸘̷͙͙̽⁈̸͔͇̽͝⸘̸̘̤̘̀¿̶̰̉͘⁉̸̹̜́̿̂⸘̶̤̠̽̚⁈̴͕̋͊̈́⸘̴͚͋̐"];
+                    ƒ(".navOptionTitle", node).textContent = "⸘̶̨̘̔̒⁈̵̺͔͐͠¿̶̜͚̾⁉̶̮͈͛̑⸘̴͕̦̊͗⸘̷͙͙̽⁈̸͔͇̽͝⸘̸̘̤̘̀¿̶̰̉͘⁉̸̹̜́̿̂⸘̶̤̠̽̚⁈̴͕̋͊̈́⸘̴͚͋̐";
                 }
             });
         });

@@ -217,10 +217,6 @@ nav[data-is-visible=true] {
     border-bottom-right-radius: var(--upcoming-option-height);
 }
 
-[data-is-available="false"] .navOptionTitle:empty::before {
-    content: "L̷͇̇ő̷͓a̴̗͑d̷̲͌i̷͉͛n̶͚̈g̸͓̽…̴̯̂";
-}
-
 /*/ Loading Spinner /*/
 
 #loadingSpinner {
