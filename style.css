@@ -64,6 +64,10 @@ aside {
     width: var(--aside-width);
 }
 
+.logo {
+    font-weight: bold;
+}
+
 .clock {
     font-weight: normal;
 }
@@ -544,7 +548,6 @@ footer {
     margin-left: 20px;
     margin-top: 3ex;
     margin-bottom: .5ex;
-    font-family: Trash;
     text-transform: uppercase;
     font-size: 1.5rem;
 }

@@ -90,7 +90,7 @@ void function ThemeController() {
                 // Extract
                 __articleExtractFont:
                     `400 clamp(20px, calc(1vw * 3 * var(--u-font-factor)), 60px)/
-                     1.35em Amer-Expa-Regular, GTAmericaLC-ExpRg`,
+                     1.35em GTAmericaLC-ExpRg`,
                 __articleExtractLetterSpacing:       '0',
                 __articleExtractFontFeatureSettings: '"kern", "liga", "ss05", "ss02", "onum"',
 
