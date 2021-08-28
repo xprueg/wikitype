@@ -15,10 +15,6 @@ html, body {
     height: 100%;
 }
 
-.bold {
-    font-weight: bold;
-}
-
 .hidden {
     opacity: 0;
 }
