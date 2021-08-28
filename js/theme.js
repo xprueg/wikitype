@@ -38,8 +38,8 @@ void function ThemeController() {
                 __asideColor: 'var(--dark)',
 
                 // Settings
-                __settingsBackground:  'var(--aside-background)',
-                __settingsColor:       'var(--aside-color)',
+                __settingsBackground:  'var(--bright)',
+                __settingsColor:       'var(--dark)',
                 __settingsBorderColor: 'var(--dark)',
 
                 // Shortcuts
@@ -65,7 +65,6 @@ void function ThemeController() {
 
                 // Background
                 __bodyBackground:  'var(--bright)',
-                __asideBackground: 'var(--bright)',
 
                 // History
                 __historyBase:     'hsl(0, 0%, 80%)',
@@ -134,7 +133,6 @@ void function ThemeController() {
 
                 // Background
                 __bodyBackground:  'var(--bright)',
-                __asideBackground: 'var(--bright)',
 
                 // History
                 __historyBase:     'var(--dark)',
@@ -223,6 +221,9 @@ void function ThemeController() {
 
                 // Background
                 __bodyBackground: `
+                    linear-gradient(90deg,
+                        var(--bright), var(--bright) var(--aside-width),
+                        transparent var(--aside-width)),
                     linear-gradient(45deg,
                         hsla(0, 0%, 100%, .04) 25%, transparent 25%, transparent 75%,
                         hsla(0, 0%, 100%, .04) 75%, hsla(0, 0%, 100%, .04))
@@ -233,7 +234,6 @@ void function ThemeController() {
                         calc(50px / 2) calc(50px / 2)/50px 50px,
                     radial-gradient(at 0% 0%, magenta, cyan)
                 `,
-                __asideBackground: 'var(--bright)',
 
                 // History
                 __historyBase:     'var(--bright)',
@@ -372,7 +372,6 @@ void function ThemeController() {
 
                 // Aside
                 __asideColor:      'var(--bright)',
-                __asideBackground: 'transparent',
 
                 // Settings
                 __settingsBackground: 'var(--dark)',

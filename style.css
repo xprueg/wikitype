@@ -64,7 +64,6 @@ aside {
     white-space: nowrap;
     overflow: hidden;
     box-sizing: content-box;
-    background: var(--aside-background);
     width: var(--aside-width);
     z-index: var(--z-elevated);
 }
