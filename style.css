@@ -42,6 +42,10 @@ body {
     grid-template-columns: var(--aside-width) 1fr var(--aside-width);
     background: var(--body-background);
     border: var(--global-border-size) solid var(--global-border-color);
+
+    --z-base: 2;
+    --z-elevated: 4;
+    --z-peak: 8;
 }
 
 /*/ Sidebar /*/
@@ -62,6 +66,7 @@ aside {
     box-sizing: content-box;
     background: var(--aside-background);
     width: var(--aside-width);
+    z-index: var(--z-elevated);
 }
 
 .logo {
@@ -84,6 +89,7 @@ header {
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+    z-index: var(--z-elevated);
 }
 
 .history {
@@ -154,7 +160,7 @@ nav {
     opacity: 0;
     transition: opacity 125ms ease-in-out;
     pointer-events: none;
-    z-index: 2;
+    z-index: var(--z-elevated);
 }
 
 nav[data-is-visible=true] {
@@ -242,7 +248,7 @@ article {
     --article-frame-timing: 512ms ease-in-out;
     grid-area: article;
     position: relative;
-    z-index: 1;
+    z-index: var(--z-base);
 }
 
 #articleInput {
@@ -255,7 +261,7 @@ article {
     color: var(--token-active-color);
     caret-color: transparent;
     background: var(--token-active-background);
-    z-index: 10;
+    z-index: var(--z-peak);
     white-space: nowrap;
 }
 
@@ -306,7 +312,6 @@ article[data-is-loaded=false] #articleInput {
     height: 100vw;
     background: var(--article-frame-background);
     transition: background var(--article-frame-timing);
-    z-index: -1;
     pointer-events: none;
 }
 
@@ -352,7 +357,7 @@ article[data-is-loaded=false] #articleInput {
     max-height: var(--original-height);
     max-width: var(--original-width);
     border: none;
-    z-index: 10;
+    z-index: var(--z-peak);
 }
 
 .token {
@@ -364,7 +369,7 @@ article[data-is-loaded=false] #articleInput {
 }
 
 #activeToken {
-    z-index: 1;
+    z-index: var(--z-elevated);
 }
 
 #progressToken {
@@ -421,6 +426,7 @@ footer {
     display: flex;
     justify-content: center;
     overflow: hidden;
+    z-index: var(--z-elevated);
 }
 
 #shortcuts {
@@ -479,12 +485,7 @@ footer {
     background: var(--settings-background);
     flex-shrink: 0;
     width: var(--aside-width);
-    transition: z-index 0ms 500ms linear;
-}
-
-#settingsWrapper:hover {
-    transition: z-index 500ms linear;
-    z-index: 2;
+    z-index: var(--z-elevated);
 }
 
 #settingsWrapperInner {
