@@ -546,6 +546,7 @@ footer {
     margin-bottom: .5ex;
     text-transform: uppercase;
     font-size: 1.5rem;
+    font-family: Trash;
 }
 
 #settings .options {
