@@ -35,6 +35,7 @@ void function ArticleController() {
 
         // Always start in a loading state.
         º.emit`spinner :spawn`(self.article_node);
+        self.node.dataset.isLoaded = false;
 
         º.emit`shortcut :setMultiple`(
             ['enter',
