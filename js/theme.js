@@ -13,39 +13,97 @@ void function ThemeController() {
     void function init() {
         self.node = ƒ('html');
         self.active_theme = º.req`theme :getSelected`();
+
         // Variables that can be controlled by the user.
         self.user = {
             __uFontFactor: 1,
         };
+
         self.themes = {
             base: transpile({
-                __asideWidth: '70px',
-                __mainPadding: '20px',
-                __lap: '30px',
-                __articleExtractLetterSpacing: 'normal',
+                name: "Base",
+
+                // Constants
                 __kRandArticleBound: 0,
+                __kArticleTokenX: 0,
+                __kArticleTokenY: 0,
+                __kArticleTokenW: 0,
+                __kArticleTokenH: 0,
+                __ArticleFrameX: 0,
+                __ArticleFrameY: 0,
+                __ArticleFrameWidth: 0,
+                __ArticleFrameHeight: 0,
 
-                // Navigation
-                __upcomingOptionHeight:     '80px',
-                __upcomingOptionFontSize:   '46px',
-
-                // Article
-                __articleCaretWidth:          '1px',
-                __articleCaretColor:          'var(--dark)',
-                __articleCaretScaleY:         '1',
+                // General
+                __mainPadding:       "20px",
+                __dark:              "black",
+                __bright:            "white",
+                __globalBorderSize:  "0",
+                __globalBorderColor: "transparent",
+                __bodyBackground:    "var(--bright)",
 
                 // Aside
-                __asideColor: 'var(--dark)',
+                __asideWidth:                 "70px",
+                __asideColor:                 "var(--dark)",
+                __asideThumbnailMixBlendMode: "normal",
+                __asideThumbnailFilter:       String(),
+
+                // History
+                __historyBase:     "var(--dark)",
+                __historyContrast: "var(--bright)",
+
+                // Navigation
+                __upcomingOptionHeight:   "80px",
+                __upcomingOptionFontSize: "46px",
 
                 // Settings
-                __settingsBackground:  'var(--bright)',
-                __settingsColor:       'var(--dark)',
-                __settingsBorderColor: 'var(--dark)',
+                __settingsBackground:  "var(--bright)",
+                __settingsColor:       "var(--dark)",
+                __settingsBorderColor: "var(--dark)",
 
                 // Shortcuts
-                __shortcutBackground: 'transparent',
-                __shortcutText:       'var(--dark)',
-                __shortcutBox:        'var(--bright)',
+                __shortcutBackground: "transparent",
+                __shortcutText:       "var(--dark)",
+                __shortcutBox:        "var(--bright)",
+
+                // Article
+                __lap:                        "0",
+                __articleBaseWidth:           "100vw",
+                __articleWidthShift:          "0px",
+                __articleBaseHeight:          "100vh",
+                __articleHeightShift:         "0px",
+                __articleLoadingSpinnerColor: "var(--dark)",
+
+                // Caret
+                __articleCaretWidth:          "1px",
+                __articleCaretColor:          "var(--dark)",
+                __articleCaretScaleY:         "1",
+
+                // Background
+                __articleFrameBackground: String(),
+
+                // Thumbnail
+                __articleThumbnailBorder:       String(),
+                __articleThumbnailMixBlendMode: String(),
+                __articleThumbnailFilter:       String(),
+
+                // Font
+                __articleExtractFont:                "400 30px/1.5em system-ui",
+                __articleExtractLetterSpacing:       "normal",
+                __articleExtractFontFeatureSettings: String(),
+
+                // Tokens
+                __tokenUpcomingColor:      "var(--dark)",
+                __tokenUpcomingBackground: "transparent",
+                __tokenActiveColor:        "gray",
+                __tokenActiveBackground:   "transparent",
+                __tokenProgressColor:      "var(--dark)",
+                __tokenProgressBackground: "transparent",
+                __tokenProgressTextShadow: String(),
+                __tokenTypedColor:         "gray",
+                __tokenTypedBackground:    "var(--bright)",
+                __tokenErrorColor:         "var(--bright)",
+                __tokenErrorBackground:    "red",
             }),
 
             zens: transpile({
@@ -240,6 +298,7 @@ void function ThemeController() {
                 __historyContrast: 'var(--dark)',
 
                 // Article
+                __lap: "30px",
                 __articleBaseWidth:           '800px',
                 __articleWidthShift:          '50px',
                 __articleBaseHeight:          '500px',
@@ -269,7 +328,7 @@ void function ThemeController() {
                     radial-gradient(
                         circle at
                             calc(var(--cfx) + var(--cbs) / 2)
-                            calc(var(--cfy) + var(--cfh) + var(--cbs) / 2),
+                            calc(var(--cfy) + var(--cfh) + var(--cbs) / 2 - var(--lap)),
                         transparent var(--c-small-handle-size),
                         var(--bright) var(--c-small-handle-size), var(--bright) var(--c-handle-size),
                         transparent var(--c-handle-size)
@@ -278,7 +337,7 @@ void function ThemeController() {
                     radial-gradient(
                         circle at calc(
                             var(--cfx) + var(--cfw) - var(--cbs) / 2)
-                            calc(var(--cfy) + var(--cfh) + var(--cbs) / 2),
+                            calc(var(--cfy) + var(--cfh) + var(--cbs) / 2 - var(--lap)),
                         transparent var(--c-small-handle-size),
                         var(--bright) var(--c-small-handle-size), var(--bright) var(--c-handle-size),
                         transparent var(--c-handle-size)
@@ -292,15 +351,15 @@ void function ThemeController() {
                     linear-gradient(var(--bright), var(--bright))
                         calc(var(--cfx) + var(--cfw) - var(--c-border-size))
                         calc(var(--chs) + var(--cfy))/
-                        var(--c-border-size) calc(var(--cfh) - var(--chs) * 2 + var(--cbs)) no-repeat,
+                        var(--c-border-size) calc(var(--cfh) - var(--chs) * 2 + var(--cbs) - var(--lap)) no-repeat,
                     /* BORDER BOTTOM */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--chs) + var(--cfx)) calc(var(--cfy) + var(--cfh))/
+                        calc(var(--chs) + var(--cfx)) calc(var(--cfy) + var(--cfh) - var(--lap))/
                         calc(var(--cfw) - var(--chs) * 2) var(--c-border-size) no-repeat,
                     /* BORDER LEFT */
                     linear-gradient(var(--bright), var(--bright))
                         var(--cfx) calc(var(--chs) + var(--cfy))/
-                        var(--c-border-size) calc(var(--cfh) - var(--chs) * 2 + var(--cbs)) no-repeat
+                        var(--c-border-size) calc(var(--cfh) - var(--chs) * 2 + var(--cbs) - var(--lap)) no-repeat
                 `,
 
                 // Thumbnail
