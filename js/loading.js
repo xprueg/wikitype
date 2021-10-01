@@ -18,12 +18,16 @@ void function Spinner() {
         const spinner = document.createElement("div");
         spinner.setAttribute("id", "loadingSpinner");
 
+        const chars = º.req`theme::val`("--article-loading-spinner-chars");
+        const delay = º.req`theme::val`("--article-loading-spinner-delay");
         self.spinner.set(node, new Map([
             ["spinner", node.appendChild(spinner)],
             ["idx", 0],
-            ["chars", "-\\|/"],
-            ["id", setInterval(update_spinner.bind(node), 128)],
+            ["chars", chars],
+            ["id", setInterval(update_spinner.bind(node), delay)],
         ]));
+
+        update_spinner.call(node);
     }
 
     function kill_spinner(node) {

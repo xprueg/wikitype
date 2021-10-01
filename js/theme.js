@@ -75,6 +75,8 @@ void function ThemeController() {
                 __articleBaseHeight:          "100vh",
                 __articleHeightShift:         "0px",
                 __articleLoadingSpinnerColor: "var(--dark)",
+                __articleLoadingSpinnerChars: "-\\|/",
+                __articleLoadingSpinnerDelay: "128",
 
                 // Caret
                 __articleCaretWidth:          "1px",
@@ -136,6 +138,8 @@ void function ThemeController() {
                 __articleBaseHeight:          '100vh',
                 __articleHeightShift:         '0px',
                 __articleLoadingSpinnerColor: 'var(--dark)',
+                __articleLoadingSpinnerChars: "→↘↓↘",
+                __articleLoadingSpinnerDelay: "360",
                 __articleCaretWidth:          '2px',
                 __articleCaretColor:          'var(--dark)',
                 __articleCaretScaleY:         '1.2',
@@ -150,8 +154,8 @@ void function ThemeController() {
                 __articleExtractFont:
                     `400 clamp(20px, calc(1vw * 3 * var(--u-font-factor)), 60px)/
                      1.35em GTAmericaLC-ExpRg`,
-                __articleExtractLetterSpacing:       '0',
-                __articleExtractFontFeatureSettings: '"kern", "liga", "ss05", "ss02", "onum"',
+                __articleExtractLetterSpacing:       "0",
+                __articleExtractFontFeatureSettings: '"kern", "liga", "onum", "ss02", "ss03", "ss05"',
 
                 // Tokens
                 __tokenUpcomingColor:      'var(--dark)',
@@ -444,6 +448,8 @@ void function ThemeController() {
                 __articleBaseHeight:          '500px',
                 __articleHeightShift:         '50px',
                 __articleLoadingSpinnerColor: 'var(--bright)',
+                __articleLoadingSpinnerChars: "░ ▒ ",
+                __articleLoadingSpinnerDelay: "512",
                 __articleCaretWidth:          '0',
                 __cW: "200px",
                 __cH: "100px",

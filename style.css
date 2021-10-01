@@ -225,15 +225,13 @@ nav[data-is-visible=true] {
 /*/ Loading Spinner /*/
 
 #loadingSpinner {
-    display: flex;
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
     top: 0;
-    align-items: center;
-    justify-content: center;
     font-size: 2rem;
+    padding: var(--lap);
     color: var(--article-loading-spinner-color);
 }
 
@@ -379,7 +377,7 @@ article[data-is-loaded=false] #articleInput {
     content: attr(data-upcoming);
 }
 
-#articleExtract, #articleInput {
+#articleExtract, #articleInput, #loadingSpinner {
     font: var(--article-extract-font);
     font-feature-settings: var(--article-extract-font-feature-settings);
     letter-spacing: var(--article-extract-letter-spacing);
