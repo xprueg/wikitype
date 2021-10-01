@@ -517,10 +517,14 @@ footer {
     align-items: center;
     padding: var(--main-padding) 0;
     font-family: Trash;
-    line-height: calc(var(--aside-width) + 0.215em);
+    line-height: var(--aside-width);
     width: var(--aside-width);
     pointer-events: none;
     white-space: pre;
+}
+
+#settingsStatusBar span {
+    padding-right: 0.2ch;
 }
 
 #settingsStatus {
@@ -537,16 +541,20 @@ footer {
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
-    border-left: 1px solid var(--settings-border-color);
 }
 
 #settings h3 {
-    margin-left: 20px;
-    margin-top: 3ex;
+    margin-top: var(--main-padding);
     margin-bottom: .5ex;
     text-transform: uppercase;
     font-size: 1.5rem;
     font-family: Trash;
+    display: inline-block;
+    line-height: 1em;
+    padding: 0.6ex 1ex 0.2ex 1ex;
+    border-radius: 100vw;
+    color: var(--settings-heading-color);
+    background: var(--settings-heading-background);
 }
 
 #settings .options {
@@ -575,7 +583,7 @@ footer {
     font-weight: 100;
     font-family: Inter;
     margin: .25ex .5ex;
-    margin-left: 20px;
+    margin-left: 0;
 }
 
 #settings p:not(:last-child) {

@@ -57,8 +57,10 @@ void function ThemeController() {
                 __upcomingOptionFontSize: "46px",
 
                 // Settings
-                __settingsBackground:  "var(--bright)",
                 __settingsColor:       "var(--dark)",
+                __settingsBackground:  "var(--bright)",
+                __settingsHeadingColor: "var(--settings-background)",
+                __settingsHeadingBackground: "var(--settings-color)",
                 __settingsBorderColor: "var(--dark)",
 
                 // Shortcuts
@@ -429,6 +431,8 @@ void function ThemeController() {
                 __settingsBackground: 'var(--dark)',
                 __settingsColor:      'var(--bright)',
                 __settingsBorderColor: 'var(--bright)',
+                __settingsHeadingColor: "var(--dark)",
+                __settingsHeadingBackground: "var(--bright)",
 
                 // History
                 __historyBase:     'var(--bright)',
