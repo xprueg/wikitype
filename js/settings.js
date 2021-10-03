@@ -56,7 +56,7 @@ void function SettingsController() {
             data.node = ƒ(`#${setting}`);
             data.node.dataset.type = data.type;
 
-            init_options(data.options, data.default_option);
+            init_options(setting, data.options, data.default_option);
             render_dom(data.node, data.options);
             add_listener(setting, data.node, data.type, data.options, data.default_option);
 
@@ -67,14 +67,27 @@ void function SettingsController() {
                                                                           data.type)),
                 [`${setting} :getAll`]: () => Object.keys(data.options),
             });
+
+            º.listen({
+                [`setting :${setting}Updated`]: options => {
+                    localStorage.setItem(setting, JSON.stringify(options));
+                },
+            });
         });
 
         update_status_bar();
     }();
 
-    function init_options(options, default_option) {
+    function init_options(setting, options, default_option) {
+        const saved_options = JSON.parse(localStorage.getItem(setting));
+        if (saved_options)
+            default_option = saved_options;
+
         Object.entries(options).forEach(([key, state]) => {
-            state.is_selected = key === default_option;
+            state.is_selected = Array.isArray(default_option)
+                ? default_option.includes(key)
+                : key === default_option;
+
         });
     }
 
