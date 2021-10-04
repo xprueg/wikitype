@@ -310,10 +310,10 @@ article[data-is-loaded=false] #articleInput {
 
 #articleContentWrapper {
     position: absolute;
-    top: var(--article-frame-y);
-    left: var(--article-frame-x);
-    width: var(--article-frame-width);
-    height: var(--article-frame-height);
+    top: var(--k-article-frame-y);
+    left: var(--k-article-frame-x);
+    width: var(--k-article-frame-w);
+    height: var(--k-article-frame-h);
     padding: var(--lap);
     transition: left var(--article-frame-timing), top var(--article-frame-timing),
                 width var(--article-frame-timing), height var(--article-frame-timing);

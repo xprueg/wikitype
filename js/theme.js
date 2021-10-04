@@ -19,20 +19,22 @@ void function ThemeController() {
             __uFontFactor: 1,
         };
 
+        // Dynamically changed variables, that cannot be overwritten.
+        self.constants = {
+            __kRandArticleBound: 0,
+            __kArticleTokenX:    0,
+            __kArticleTokenY:    0,
+            __kArticleTokenW:    0,
+            __kArticleTokenH:    0,
+            __kArticleFrameX:    0,
+            __kArticleFrameY:    0,
+            __kArticleFrameW:    0,
+            __kArticleFrameH:    0,
+        };
+
         self.themes = {
             base: transpile({
                 name: "Base",
-
-                // Constants
-                __kRandArticleBound: 0,
-                __kArticleTokenX: 0,
-                __kArticleTokenY: 0,
-                __kArticleTokenW: 0,
-                __kArticleTokenH: 0,
-                __ArticleFrameX: 0,
-                __ArticleFrameY: 0,
-                __ArticleFrameWidth: 0,
-                __ArticleFrameHeight: 0,
 
                 // General
                 __mainPadding:       "20px",
@@ -212,20 +214,20 @@ void function ThemeController() {
                     linear-gradient(
                         135deg,
                         var(--bright), var(--bright) 50%, hsla(0, 0%, 0%, .2) 50%)
-                        var(--article-frame-x) var(--article-frame-y)/
+                        var(--k-article-frame-x) var(--k-article-frame-y)/
                         calc(var(--lap) * .5) calc(var(--lap) * .5)
                         no-repeat,
                     linear-gradient(
                         hsl(56, 98%, 59%), hsl(56, 98%, 59%))
-                        var(--article-frame-x) var(--article-frame-y)/
-                        var(--article-frame-width)
-                        calc(var(--article-frame-height) - var(--lap))
+                        var(--k-article-frame-x) var(--k-article-frame-y)/
+                        var(--k-article-frame-w)
+                        calc(var(--k-article-frame-h) - var(--lap))
                         no-repeat,
                     linear-gradient(
                         hsla(0, 0%, 0%, .2), hsla(0, 0%, 0%, .2))
-                        calc(var(--article-frame-x) + 10px) calc(var(--article-frame-y) + 10px)/
-                        var(--article-frame-width)
-                        calc(var(--article-frame-height) - var(--lap))
+                        calc(var(--k-article-frame-x) + 10px) calc(var(--k-article-frame-y) + 10px)/
+                        var(--k-article-frame-w)
+                        calc(var(--k-article-frame-h) - var(--lap))
                         no-repeat
                 `,
 
@@ -270,10 +272,10 @@ void function ThemeController() {
                 __cSmallHandleSize: '2px',
                 __cBorderSize:      '2px',
                 __cbs:              'var(--c-border-size)',
-                __cfx:              'var(--article-frame-x)',
-                __cfy:              'var(--article-frame-y)',
-                __cfw:              'var(--article-frame-width)',
-                __cfh:              'var(--article-frame-height)',
+                __cfx:              'var(--k-article-frame-x)',
+                __cfy:              'var(--k-article-frame-y)',
+                __cfw:              'var(--k-article-frame-w)',
+                __cfh:              'var(--k-article-frame-h)',
 
                 // Colors
                 __dark:   'black',
@@ -458,18 +460,18 @@ void function ThemeController() {
                     linear-gradient(-26.5deg,
                         transparent, transparent calc(50% - 2px), var(--c-c) 50%,
                         transparent calc(50% + 2px), transparent
-                    ) var(--article-frame-x) var(--article-frame-y)/
+                    ) var(--k-article-frame-x) var(--k-article-frame-y)/
                         calc(var(--c-w) * 2) var(--c-h),
                     linear-gradient(-26.5deg,
                         transparent, transparent calc(50% - 2px), var(--c-c) 50%,
                         transparent calc(50% + 2px), transparent
-                    ) var(--article-frame-x) var(--article-frame-y)/var(--c-w) var(--c-h),
+                    ) var(--k-article-frame-x) var(--k-article-frame-y)/var(--c-w) var(--c-h),
                     linear-gradient(
                         var(--c-c) 1px, transparent 1px)
-                        var(--article-frame-x) var(--article-frame-y)/var(--c-w) var(--c-h),
+                        var(--k-article-frame-x) var(--k-article-frame-y)/var(--c-w) var(--c-h),
                     linear-gradient(90deg,
                         var(--c-c) 1px, transparent 1px)
-                        var(--article-frame-x) var(--article-frame-y)/var(--c-w) var(--c-h),
+                        var(--k-article-frame-x) var(--k-article-frame-y)/var(--c-w) var(--c-h),
                     linear-gradient(var(--c-c), var(--c-c))
                         0 0/1px 100%
                         no-repeat,
@@ -529,6 +531,7 @@ void function ThemeController() {
 
         set_theme_to(self.active_theme);
         apply(transpile(self.user));
+        apply(transpile(self.constants));
 
         º.emit`shortcut :setMultiple`(
             ['^+', (e) => (self.user.__uFontFactor += .05, apply(transpile(self.user)))],
@@ -584,10 +587,10 @@ void function ThemeController() {
                 );
 
                 apply({
-                    "--article-frame-x": `${ref.left + left}px`,
-                    "--article-frame-y": `${ref.top + top}px`,
-                    "--article-frame-width": `${width}px`,
-                    "--article-frame-height": `${height}px`,
+                    "--k-article-frame-x": `${ref.left + left}px`,
+                    "--k-article-frame-y": `${ref.top + top}px`,
+                    "--k-article-frame-w": `${width}px`,
+                    "--k-article-frame-h": `${height}px`,
                 });
             },
             "article :advancedToken": (node) => {
