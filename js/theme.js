@@ -1,15 +1,6 @@
 void function ThemeController() {
     const self = Object.create(null);
 
-    // FIXME: Do transpile while compiling the theme instead of each on their own.
-    function transpile(x) {
-        return Object.fromEntries(Object.entries(x)
-                                        .map(([k, v]) => [k.replace(/^__/, '--')
-                                                           .replace(/([A-Z])/g, '-$1')
-                                                           .toLowerCase(), v])
-        );
-    }
-
     void function init() {
         self.node = ƒ('html');
         self.active_theme = º.req`theme :getSelected`();
@@ -33,7 +24,7 @@ void function ThemeController() {
         };
 
         self.themes = {
-            base: transpile({
+            base: {
                 name: "Base",
 
                 // General
@@ -110,9 +101,9 @@ void function ThemeController() {
                 __tokenTypedBackground:    "var(--bright)",
                 __tokenErrorColor:         "var(--bright)",
                 __tokenErrorBackground:    "red",
-            }),
+            },
 
-            zens: transpile({
+            zens: {
                 name:   'Zensur',
                 extend: 'base',
 
@@ -180,9 +171,9 @@ void function ThemeController() {
                 // Aside Thumbnails
                 __asideThumbnailMixBlendMode: 'normal',
                 __asideThumbnailFilter:       'opacity(.3) contrast(4)',
-            }),
+            },
 
-            note: transpile({
+            note: {
                 name:   'Note',
                 extend: 'base',
 
@@ -260,9 +251,9 @@ void function ThemeController() {
                 // Aside Thumbnails
                 __asideThumbnailMixBlendMode: 'soft-light',
                 __asideThumbnailFilter:       'grayscale(1)',
-            }),
+            },
 
-            neon: transpile({
+            neon: {
                 name:   'Neon',
                 extend: 'base',
 
@@ -403,9 +394,9 @@ void function ThemeController() {
 
                 // Shortcuts
                 __shortcutBackground: 'var(--bright)',
-            }),
+            },
 
-            term: transpile({
+            term: {
                 name:   'Terminal',
                 extend: 'base',
 
@@ -526,16 +517,16 @@ void function ThemeController() {
                 // Shortcuts
                 __shortcutText:       'var(--bright)',
                 __shortcutBox:        'var(--dark)',
-            }),
+            },
         };
 
         set_theme_to(self.active_theme);
-        apply(transpile(self.user));
-        apply(transpile(self.constants));
+        apply(self.user);
+        apply(self.constants);
 
         º.emit`shortcut :setMultiple`(
-            ['^+', (e) => (self.user.__uFontFactor += .05, apply(transpile(self.user)))],
-            ['^-', (e) => (self.user.__uFontFactor -= .05, apply(transpile(self.user)))],
+            ['^+', (e) => (self.user.__uFontFactor += .05, apply(self.user))],
+            ['^-', (e) => (self.user.__uFontFactor -= .05, apply(self.user))],
         );
 
         º.respond({
@@ -587,33 +578,48 @@ void function ThemeController() {
                 );
 
                 apply({
-                    "--k-article-frame-x": `${ref.left + left}px`,
-                    "--k-article-frame-y": `${ref.top + top}px`,
-                    "--k-article-frame-w": `${width}px`,
-                    "--k-article-frame-h": `${height}px`,
+                    __kArticleFrameX: `${ref.left + left}px`,
+                    __kArticleFrameY: `${ref.top + top}px`,
+                    __kArticleFrameW: `${width}px`,
+                    __kArticleFrameH: `${height}px`,
                 });
             },
             "article :advancedToken": (node) => {
                 const rect = node.getBoundingClientRect();
                 apply({
-                    "--k-article-token-x": `${node.offsetLeft}px`,
-                    "--k-article-token-y": `${node.offsetTop}px`,
-                    "--k-article-token-w": `${Math.round(rect.width)}px`,
-                    "--k-article-token-h": `${Math.round(rect.height)}px`,
+                    __kArticleTokenX: `${node.offsetLeft}px`,
+                    __kArticleTokenY: `${node.offsetTop}px`,
+                    __kArticleTokenW: `${Math.round(rect.width)}px`,
+                    __kArticleTokenH: `${Math.round(rect.height)}px`,
                 });
             },
             "article :unloadArticle": () => {
-                apply({ "--k-rand-article-bound": Math.random() });
+                apply({ __kRandArticleBound: Math.random() });
             },
         });
     }();
+
+    /// Transforms the keys from an object from Camel case to CSS variable names.
+    /// `__cssVariable' turns into `--css-variable'.
+    ///
+    /// [>] x: object{*: string}
+    /// [<] object{*: string}
+    function transpile(x) {
+        return Object.fromEntries(
+            Object.entries(x).map(
+                ([k, v]) => [k.replace(/^__/, '--')
+                              .replace(/([A-Z])/g, '-$1')
+                              .toLowerCase(), v]
+            )
+        );
+    }
 
     /// Returns the extended theme object.
     ///
     /// [>] name: string
     /// [<] object{*: str}
     function compile(name) {
-        const theme = self.themes[name];
+        const theme = transpile(self.themes[name]);
         const parent = theme.extend;
 
         if (!parent)
@@ -640,7 +646,7 @@ void function ThemeController() {
     /// [>] vars: object{*: str}
     /// [<] void
     function apply(vars) {
-        Object.entries(vars)
+        Object.entries(transpile(vars))
               .forEach(([key, value]) => self.node.style.setProperty(key, value));
    }
 
