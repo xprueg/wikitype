@@ -297,11 +297,10 @@ article[data-is-loaded=false] #articleInput {
 /*** ——— Article Frame ——— ***/
 
 #articleFrame {
-    /* TODO: Include border */
     position: fixed;
     top: 0;
-    left: calc(var(--aside-width));
-    width: calc(100vw - var(--aside-width) * 2);
+    left: calc(var(--aside-width) + var(--global-border-size));
+    width: calc(100vw - var(--aside-width) * 2 - var(--global-border-size) * 2);
     height: 100vw;
     background: var(--article-frame-background);
     transition: background var(--article-frame-timing);
