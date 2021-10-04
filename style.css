@@ -231,7 +231,7 @@ nav[data-is-visible=true] {
     bottom: 0;
     top: 0;
     font-size: 2rem;
-    padding: var(--lap);
+    padding: var(--article-padding);
     color: var(--article-loading-spinner-color);
 }
 
@@ -314,7 +314,7 @@ article[data-is-loaded=false] #articleInput {
     left: var(--k-article-frame-x);
     width: var(--k-article-frame-w);
     height: var(--k-article-frame-h);
-    padding: var(--lap);
+    padding: var(--article-padding);
     transition: left var(--article-frame-timing), top var(--article-frame-timing),
                 width var(--article-frame-timing), height var(--article-frame-timing);
 }

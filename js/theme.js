@@ -71,7 +71,7 @@ void function ThemeController() {
                 __shortcutBox:        "var(--bright)",
 
                 // Article
-                __lap:                        "0",
+                __articlePadding:             "0",
                 __articleBaseWidth:           "100vw",
                 __articleWidthShift:          "0px",
                 __articleBaseHeight:          "100vh",
@@ -117,7 +117,7 @@ void function ThemeController() {
                 extend: 'base',
 
                 // Theme specific
-                __lap: "0px",
+                __articlePadding: "0px",
 
                 // Colors
                 __dark:   'hsl(220, 9%, 9%)',
@@ -187,7 +187,7 @@ void function ThemeController() {
                 extend: 'base',
 
                 // Theme specific
-                __lap: "50px",
+                __articlePadding: "50px",
 
                 // Colors
                 __dark:   'hsl(56.47, 87.79%, 12.51%)',
@@ -215,19 +215,19 @@ void function ThemeController() {
                         135deg,
                         var(--bright), var(--bright) 50%, hsla(0, 0%, 0%, .2) 50%)
                         var(--k-article-frame-x) var(--k-article-frame-y)/
-                        calc(var(--lap) * .5) calc(var(--lap) * .5)
+                        calc(var(--article-padding) * .5) calc(var(--article-padding) * .5)
                         no-repeat,
                     linear-gradient(
                         hsl(56, 98%, 59%), hsl(56, 98%, 59%))
                         var(--k-article-frame-x) var(--k-article-frame-y)/
                         var(--k-article-frame-w)
-                        calc(var(--k-article-frame-h) - var(--lap))
+                        calc(var(--k-article-frame-h) - var(--article-padding))
                         no-repeat,
                     linear-gradient(
                         hsla(0, 0%, 0%, .2), hsla(0, 0%, 0%, .2))
                         calc(var(--k-article-frame-x) + 10px) calc(var(--k-article-frame-y) + 10px)/
                         var(--k-article-frame-w)
-                        calc(var(--k-article-frame-h) - var(--lap))
+                        calc(var(--k-article-frame-h) - var(--article-padding))
                         no-repeat
                 `,
 
@@ -306,7 +306,7 @@ void function ThemeController() {
                 __historyContrast: 'var(--dark)',
 
                 // Article
-                __lap: "30px",
+                __articlePadding: "30px",
                 __articleBaseWidth:           '800px',
                 __articleWidthShift:          '50px',
                 __articleBaseHeight:          '500px',
@@ -336,7 +336,7 @@ void function ThemeController() {
                     radial-gradient(
                         circle at
                             calc(var(--cfx) + var(--cbs) / 2)
-                            calc(var(--cfy) + var(--cfh) + var(--cbs) / 2 - var(--lap)),
+                            calc(var(--cfy) + var(--cfh) + var(--cbs) / 2 - var(--article-padding)),
                         transparent var(--c-small-handle-size),
                         var(--bright) var(--c-small-handle-size), var(--bright) var(--c-handle-size),
                         transparent var(--c-handle-size)
@@ -345,7 +345,7 @@ void function ThemeController() {
                     radial-gradient(
                         circle at calc(
                             var(--cfx) + var(--cfw) - var(--cbs) / 2)
-                            calc(var(--cfy) + var(--cfh) + var(--cbs) / 2 - var(--lap)),
+                            calc(var(--cfy) + var(--cfh) + var(--cbs) / 2 - var(--article-padding)),
                         transparent var(--c-small-handle-size),
                         var(--bright) var(--c-small-handle-size), var(--bright) var(--c-handle-size),
                         transparent var(--c-handle-size)
@@ -359,15 +359,15 @@ void function ThemeController() {
                     linear-gradient(var(--bright), var(--bright))
                         calc(var(--cfx) + var(--cfw) - var(--c-border-size))
                         calc(var(--chs) + var(--cfy))/
-                        var(--c-border-size) calc(var(--cfh) - var(--chs) * 2 + var(--cbs) - var(--lap)) no-repeat,
+                        var(--c-border-size) calc(var(--cfh) - var(--chs) * 2 + var(--cbs) - var(--article-padding)) no-repeat,
                     /* BORDER BOTTOM */
                     linear-gradient(var(--bright), var(--bright))
-                        calc(var(--chs) + var(--cfx)) calc(var(--cfy) + var(--cfh) - var(--lap))/
+                        calc(var(--chs) + var(--cfx)) calc(var(--cfy) + var(--cfh) - var(--article-padding))/
                         calc(var(--cfw) - var(--chs) * 2) var(--c-border-size) no-repeat,
                     /* BORDER LEFT */
                     linear-gradient(var(--bright), var(--bright))
                         var(--cfx) calc(var(--chs) + var(--cfy))/
-                        var(--c-border-size) calc(var(--cfh) - var(--chs) * 2 + var(--cbs) - var(--lap)) no-repeat
+                        var(--c-border-size) calc(var(--cfh) - var(--chs) * 2 + var(--cbs) - var(--article-padding)) no-repeat
                 `,
 
                 // Thumbnail
@@ -410,7 +410,7 @@ void function ThemeController() {
                 extend: 'base',
 
                 // Theme specific
-                __lap: '0px',
+                __articlePadding: '0px',
 
                 // Colors
                 __dark:   'hsl(80, 55%, 8%)',
