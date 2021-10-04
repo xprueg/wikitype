@@ -532,7 +532,7 @@ footer {
 #settings {
     width: var(--settings-wrapper-width);
     min-width: var(--settings-wrapper-width);
-    height: 100vh;
+    height: 100%;
     color: var(--settings-color);
     overflow-y: auto;
     cursor: default;
