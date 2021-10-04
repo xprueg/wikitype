@@ -31,7 +31,7 @@ void function ThemeController() {
                 __mainPadding:       "20px",
                 __dark:              "black",
                 __bright:            "white",
-                __globalBorderSize:  "0",
+                __globalBorderSize:  "0px",
                 __globalBorderColor: "transparent",
                 __bodyBackground:    "var(--bright)",
 
@@ -46,15 +46,17 @@ void function ThemeController() {
                 __historyContrast: "var(--bright)",
 
                 // Navigation
-                __upcomingOptionHeight:   "80px",
-                __upcomingOptionFontSize: "46px",
+                __upcomingOptionHeight:     "80px",
+                __upcomingOptionFontSize:   "46px",
+                __upcomingOptionBackground: "var(--dark)",
+                __upcomingOptionColor:      "var(--bright)",
 
                 // Settings
-                __settingsColor:       "var(--dark)",
-                __settingsBackground:  "var(--bright)",
-                __settingsHeadingColor: "var(--settings-background)",
+                __settingsColor:             "var(--dark)",
+                __settingsBackground:        "var(--bright)",
+                __settingsHeadingColor:      "var(--settings-background)",
                 __settingsHeadingBackground: "var(--settings-color)",
-                __settingsBorderColor: "var(--dark)",
+                __settingsBorderColor:       "var(--settings-color)",
 
                 // Shortcuts
                 __shortcutBackground: "transparent",
@@ -62,19 +64,19 @@ void function ThemeController() {
                 __shortcutBox:        "var(--bright)",
 
                 // Article
-                __articlePadding:             "0",
-                __articleBaseWidth:           "100vw",
-                __articleWidthShift:          "0px",
-                __articleBaseHeight:          "100vh",
-                __articleHeightShift:         "0px",
+                __articlePadding:             0,
+                __articleBaseWidth:           "500px",
+                __articleWidthShift:          "50px",
+                __articleBaseHeight:          "400px",
+                __articleHeightShift:         "50px",
                 __articleLoadingSpinnerColor: "var(--dark)",
                 __articleLoadingSpinnerChars: "-\\|/",
-                __articleLoadingSpinnerDelay: "128",
+                __articleLoadingSpinnerDelay: 128,
 
                 // Caret
-                __articleCaretWidth:          "1px",
-                __articleCaretColor:          "var(--dark)",
-                __articleCaretScaleY:         "1",
+                __articleCaretWidth:  "1px",
+                __articleCaretColor:  "var(--dark)",
+                __articleCaretScaleY: 1,
 
                 // Background
                 __articleFrameBackground: String(),
@@ -85,7 +87,7 @@ void function ThemeController() {
                 __articleThumbnailFilter:       String(),
 
                 // Font
-                __articleExtractFont:                "400 30px/1.5em system-ui",
+                __articleExtractFont:                "400 30px/1.4em system-ui",
                 __articleExtractLetterSpacing:       "normal",
                 __articleExtractFontFeatureSettings: String(),
 
@@ -545,7 +547,7 @@ void function ThemeController() {
                 const invert = () => (Math.random() > .5 ? 1 : -1);
 
                 const main_padding = º.req`theme::px`("--main-padding");
-                const {x, y, width: w, height: h} = ƒ("article").getBoundingClientRect();
+                const { x, y, width: w, height: h } = ƒ("article").getBoundingClientRect();
                 const ref = {
                     left: main_padding,
                     top: y + main_padding,
