@@ -117,7 +117,7 @@ void function ThemeController() {
                 __bright: 'white',
 
                 // Border
-                __globalBorderSize:  '0',
+                __globalBorderSize:  '0px',
                 __globalBorderColor: 'transparent',
 
                 // Background
@@ -187,7 +187,7 @@ void function ThemeController() {
                 __bright: 'hsl(56.47, 8.1%, 55.93%)',
 
                 // Border
-                __globalBorderSize:  '0',
+                __globalBorderSize:  '0px',
                 __globalBorderColor: 'transparent',
 
                 // Background
@@ -275,7 +275,7 @@ void function ThemeController() {
                 __bright: 'white',
 
                 // Border
-                __globalBorderSize:  '0',
+                __globalBorderSize:  '0px',
                 __globalBorderColor: 'transparent',
 
                 // Background
@@ -410,7 +410,7 @@ void function ThemeController() {
                 __bright: 'hsl(83, 97%, 58%)',
 
                 // Border
-                __globalBorderSize:  '0',
+                __globalBorderSize:  '0px',
                 __globalBorderColor: 'transparent',
 
                 // Background
