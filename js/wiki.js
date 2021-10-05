@@ -3,8 +3,9 @@ void function WikiController() {
 
     void function init() {
         self.related_articles_cache = new Map();
-        self.random_article_cache = new Map(º.req`language :getAll`()
-                                             .map((lang) => [lang, Array()]));
+        self.random_article_cache = new Map(
+            Object.keys(º.req`language :getAll`()).map((lang) => [lang, Array()])
+        );
 
         self.url = (() => {
             const headers = new Headers({
