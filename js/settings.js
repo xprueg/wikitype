@@ -78,6 +78,7 @@ void function SettingsController() {
                         __settingsHeadingColor:      "var(--settings-background)",
                         __settingsHeadingBackground: "var(--settings-color)",
                         __settingsBorderColor:       "var(--settings-color)",
+                        __settingsBoxShadow:         "0 0 100px 10px var(--dark)",
 
                         // Shortcuts
                         __shortcutBackground: "transparent",

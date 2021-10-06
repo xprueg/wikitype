@@ -24,6 +24,9 @@ html, body {
 html {
     font-family: Inter;
     overflow: hidden;
+
+    --background-timing: 512ms ease-in-out;
+
 }
 
 /*/ body /*/
@@ -37,6 +40,7 @@ body {
     grid-template-rows: auto 1fr auto;
     grid-template-columns: var(--aside-width) 1fr var(--aside-width);
     background: var(--body-background);
+    transition: background var(--background-timing);
     border: var(--global-border-size) solid var(--global-border-color);
 
     --z-base: 2;
@@ -238,7 +242,6 @@ nav[data-is-visible=true] {
 /*** ——— Article ——— ***/
 
 article {
-    --article-frame-timing: 512ms ease-in-out;
     grid-area: article;
     position: relative;
     z-index: var(--z-base);
@@ -303,7 +306,7 @@ article[data-is-loaded=false] #articleInput {
     width: calc(100vw - var(--aside-width) * 2 - var(--global-border-size) * 2);
     height: 100vw;
     background: var(--article-frame-background);
-    transition: background var(--article-frame-timing);
+    transition: background var(--background-timing);
     pointer-events: none;
 }
 
@@ -489,13 +492,14 @@ footer {
     display: flex;
     transition: left 500ms ease,
                 width 500ms ease,
-                box-shadow 500ms ease;
+                box-shadow 500ms ease,
+                background var(--background-timing);
     width: var(--aside-width);
     overflow: hidden;
 }
 
 #settingsWrapper:hover #settingsWrapperInner {
-    box-shadow: 0 0 100px 10px var(--dark);
+    box-shadow: var(--settings-box-shadow);
     left: calc(-1 * var(--settings-wrapper-width));
     width: calc(var(--aside-width) + var(--settings-wrapper-width));
     transition: left 500ms ease,
