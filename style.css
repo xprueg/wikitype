@@ -522,14 +522,14 @@ footer {
     width: var(--aside-width);
     pointer-events: none;
     white-space: pre;
+    text-transform: uppercase;
 }
+
+#settingsStatusLanguage::before { content: "|||  "; }
+#settingsStatusTheme::after { content: "  |||"; }
 
 #settingsStatusBar span {
     padding-right: 0.2ch;
-}
-
-#settingsStatus {
-    text-transform: uppercase;
 }
 
 #settings {
