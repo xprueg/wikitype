@@ -126,6 +126,7 @@ void function SettingsController() {
                         __tokenTypedBackground:    "var(--bright)",
                         __tokenErrorColor:         "var(--bright)",
                         __tokenErrorBackground:    "red",
+                        __tokenOffsetTop:          "0px",
                     },
                     zens: {
                         name:   "Zensur",

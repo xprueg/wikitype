@@ -259,6 +259,7 @@ article {
     background: var(--token-active-background);
     z-index: var(--z-peak);
     white-space: nowrap;
+    padding-top: var(--token-offset-top);
 }
 
 #articleInput:focus {
@@ -295,6 +296,7 @@ article[data-is-loaded=false] #articleInput {
     color: var(--token-error-color);
     background: var(--token-error-background);
     white-space: pre-wrap;
+    padding-top: var(--token-offset-top);
 }
 
 /*** ——— Article Frame ——— ***/
@@ -361,6 +363,7 @@ article[data-is-loaded=false] #articleInput {
     white-space: pre-wrap;
     color: var(--token-upcoming-color);
     background: var(--token-upcoming-background);
+    padding-top: var(--token-offset-top);
 }
 
 #activeToken {
@@ -373,6 +376,8 @@ article[data-is-loaded=false] #articleInput {
     text-shadow: var(--token-progress-text-shadow);
     position: absolute;
     right: 0;
+    margin-top: calc(-1 * var(--token-offset-top));
+    padding-top: var(--token-offset-top);
 }
 
 #progressToken::before {
