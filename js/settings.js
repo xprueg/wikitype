@@ -242,9 +242,9 @@ void function SettingsController() {
                         __tokenErrorColor:         "hsl(13, 78%, 48%)",
                         __tokenErrorBackground:    "hsl(26, 88%, 17%)",
                     },
-                    neon: {
-                        name:   "Neon",
-                        id:     "neon",
+                    alph: {
+                        name:   "Alpha",
+                        id:     "alph",
                         extend: "base",
 
                         // Custom
@@ -253,30 +253,56 @@ void function SettingsController() {
                         __cSmallHandleSize: "2px",
                         __cBorderSize:      "2px",
                         __cbs:              "var(--c-border-size)",
+                        __css:              "8px",
                         __cfx:              "var(--k-article-frame-x)",
                         __cfy:              "var(--k-article-frame-y)",
                         __cfw:              "var(--k-article-frame-w)",
                         __cfh:              "var(--k-article-frame-h)",
 
                         // General
-                        __dark:   "black",
-                        __bright: "white",
+                        __dark:   "white",
+                        __bright: "black",
                         __bodyBackground: `
-                            linear-gradient(90deg,
-                                var(--bright), var(--bright) var(--aside-width),
-                                transparent var(--aside-width)),
+                            /* LEFT STATIC GUIDE */
+                            linear-gradient(magenta, magenta)
+                                calc(var(--aside-width)) 0/
+                                1px 100vh no-repeat,
+                            /* RIGHT STATIC GUIDE */
+                            linear-gradient(magenta, magenta)
+                                calc(100vw - var(--aside-width) - 1px) 0/
+                                1px 100vh no-repeat,
+
+                            /* TOP ARTICLE GUIDE */
+                            linear-gradient(cyan, cyan)
+                                0 var(--cfy)/
+                                100vw 1px no-repeat,
+                            /* LEFT ARTICLE GUIDE */
+                            linear-gradient(cyan, cyan)
+                                calc(var(--aside-width) + var(--cfx)) 0/
+                                1px 100vh no-repeat,
+                            /* BOTTOM ARTICLE GUIDE */
+                            linear-gradient(cyan, cyan)
+                                0 calc(var(--cfy) + var(--cfh) + var(--cbs) / 2 - var(--article-padding))/
+                                100vw 1px no-repeat,
+                            /* RIGHT ARTICLE GUIDE */
+                            linear-gradient(cyan, cyan)
+                                calc(var(--aside-width) + var(--cfx) + var(--cfw) - var(--cbs) / 2) 0/
+                                1px 100vh no-repeat,
+
+                            /* CHECKER BACKGROUND */
                             linear-gradient(45deg,
-                                hsla(0, 0%, 100%, .04) 25%, transparent 25%, transparent 75%,
-                                hsla(0, 0%, 100%, .04) 75%, hsla(0, 0%, 100%, .04))
-                                0 0/50px 50px,
+                                hsla(0, 0%, 0%, .04) 25%, transparent 25%, transparent 75%,
+                                hsla(0, 0%, 0%, .04) 75%, hsla(0, 0%, 0%, .04))
+                                50% 50%/50px 50px,
                             linear-gradient(45deg,
-                                hsla(0, 0%, 100%, .04) 25%, transparent 25%, transparent 75%,
-                                hsla(0, 0%, 100%, .04) 75%, hsla(0, 0%, 100%, .04))
-                                calc(50px / 2) calc(50px / 2)/50px 50px,
-                            radial-gradient(at 0% 0%, magenta, cyan)
+                                hsla(0, 0%, 0%, .04) 25%, transparent 25%, transparent 75%,
+                                hsla(0, 0%, 0%, .04) 75%, hsla(0, 0%, 0%, .04))
+                                calc(50% + 50px / 2) calc(50% + 50px / 2)/50px 50px,
+                            radial-gradient(at 0% 0%, white, white)
                         `,
 
                         // Aside
+                        __asideColor:                 "var(--bright)",
                         __asideThumbnailMixBlendMode: "difference",
 
                         // History
@@ -287,56 +313,91 @@ void function SettingsController() {
                         __upcomingOptionBackground: "var(--bright)",
                         __upcomingOptionColor:      "var(--dark)",
 
+                        // Settings
+                        __settingsColor: "var(--bright)",
+                        __settingsBackground: `
+                            /* TOP ARTICLE GUIDE */
+                            linear-gradient(cyan, cyan)
+                                0 var(--cfy)/
+                                100vw 1px no-repeat,
+                            /* BOTTOM ARTICLE GUIDE */
+                            linear-gradient(cyan, cyan)
+                                0 calc(var(--cfy) + var(--cfh) + var(--cbs) / 2 - var(--article-padding))/
+                                100vw 1px no-repeat,
+
+                            /* CHECKER BACKGROUND */
+                            linear-gradient(45deg,
+                                hsla(0, 0%, 0%, .04) 25%, transparent 25%, transparent 75%,
+                                hsla(0, 0%, 0%, .04) 75%, hsla(0, 0%, 0%, .04))
+                                50% 50%/50px 50px,
+                            linear-gradient(45deg,
+                                hsla(0, 0%, 0%, .04) 25%, transparent 25%, transparent 75%,
+                                hsla(0, 0%, 0%, .04) 75%, hsla(0, 0%, 0%, .04))
+                                calc(50% + 50px / 2) calc(50% + 50px / 2)/50px 50px,
+                            radial-gradient(at 0% 0%, white, white)
+                        `,
+                        __settingsHeadingColor:      "var(--dark)",
+                        __settingsHeadingBackground: "var(--settings-color)",
+                        __settingsBorderColor:       "var(--settings-color)",
+                        __settingsBoxShadow:         "-1px 0 0 0 magenta",
+
                         // Shortcuts
-                        __shortcutBackground: "var(--bright)",
+                        __shortcutText: "var(--bright)",
+                        __shortcutBox:  "var(--dark)",
 
                         // Article
                         __articlePadding:             "30px",
                         __articleBaseWidth:           "800px",
                         __articleBaseHeight:          "500px",
                         __articleLoadingSpinnerColor: "var(--bright)",
+                        __articleLoadingSpinnerChars: "\u00B6 ",
+                        __articleLoadingSpinnerDelay: 512,
 
                         // Caret
-                        __articleCaretWidth: "0px",
+                        __articleCaretColor: "var(--bright)",
+                        __articleCaretScaleY: 0,
 
                         // Background
                         __articleFrameBackground: `
                             /* TOP LEFT HANDLE */
-                            radial-gradient(
-                                circle at
-                                    calc(var(--cfx) + var(--cbs) / 2)
-                                    calc(var(--cfy) + var(--cbs) / 2),
-                                transparent var(--c-small-handle-size),
-                                var(--bright) var(--c-small-handle-size), var(--bright) var(--c-handle-size),
-                                transparent var(--c-handle-size)
-                            ),
+                            linear-gradient(var(--dark), var(--dark))
+                                calc(var(--cfx) - var(--css) / 2 + var(--cbs) * 1.5)
+                                calc(var(--cfy) - var(--css) / 2 + var(--cbs) * 1.5)/
+                                calc(var(--css) - var(--cbs) * 2) calc(var(--css) - var(--cbs) * 2) no-repeat,
+                            linear-gradient(var(--bright), var(--bright))
+                                calc(var(--cfx) - var(--css) / 2 + var(--cbs) / 2)
+                                calc(var(--cfy) - var(--css) / 2 + var(--cbs) / 2)/
+                                var(--css) var(--css) no-repeat,
+
                             /* TOP RIGHT HANDLE */
-                            radial-gradient(
-                                circle at calc(
-                                    var(--cfx) + var(--cfw) - var(--cbs) / 2)
-                                    calc(var(--cfy) + var(--cbs) / 2),
-                                transparent var(--c-small-handle-size),
-                                var(--bright) var(--c-small-handle-size), var(--bright) var(--c-handle-size),
-                                transparent var(--c-handle-size)
-                            ),
+                            linear-gradient(var(--dark), var(--dark))
+                                calc(var(--cfx) + var(--cfw) - var(--css) / 4 - var(--cbs) / 2)
+                                calc(var(--cfy) - var(--css) / 2 + var(--cbs) * 1.5)/
+                                calc(var(--css) - var(--cbs) * 2) calc(var(--css) - var(--cbs) * 2) no-repeat,
+                            linear-gradient(var(--bright), var(--bright))
+                                calc(var(--cfx) + var(--cfw) - var(--css) / 2 - var(--cbs) / 2)
+                                calc(var(--cfy) - var(--css) / 2 + var(--cbs) / 2)/
+                                var(--css) var(--css) no-repeat,
+
                             /* BOTTOM LEFT HANDLE */
-                            radial-gradient(
-                                circle at
-                                    calc(var(--cfx) + var(--cbs) / 2)
-                                    calc(var(--cfy) + var(--cfh) + var(--cbs) / 2 - var(--article-padding)),
-                                transparent var(--c-small-handle-size),
-                                var(--bright) var(--c-small-handle-size), var(--bright) var(--c-handle-size),
-                                transparent var(--c-handle-size)
-                            ),
+                            linear-gradient(var(--dark), var(--dark))
+                                calc(var(--cfx) - var(--css) / 2 + var(--cbs) * 1.5)
+                                calc(var(--cfy) + var(--cfh) - var(--css) / 2 + var(--cbs) * 1.5 - var(--article-padding))/
+                                calc(var(--css) - var(--cbs) * 2) calc(var(--css) - var(--cbs) * 2) no-repeat,
+                            linear-gradient(var(--bright), var(--bright))
+                                calc(var(--cfx) - var(--css) / 2 + var(--cbs) / 2)
+                                calc(var(--cfy) + var(--cfh) - var(--css) / 2 + var(--cbs) / 2 - var(--article-padding))/
+                                var(--css) var(--css) no-repeat,
+
                             /* BOTTOM RIGHT HANDLE */
-                            radial-gradient(
-                                circle at calc(
-                                    var(--cfx) + var(--cfw) - var(--cbs) / 2)
-                                    calc(var(--cfy) + var(--cfh) + var(--cbs) / 2 - var(--article-padding)),
-                                transparent var(--c-small-handle-size),
-                                var(--bright) var(--c-small-handle-size), var(--bright) var(--c-handle-size),
-                                transparent var(--c-handle-size)
-                            ),
+                            linear-gradient(var(--dark), var(--dark))
+                                calc(var(--cfx) + var(--cfw) - var(--css) / 4 - var(--cbs) / 2)
+                                calc(var(--cfy) + var(--cfh) - var(--css) / 2 + var(--cbs) * 1.5 - var(--article-padding))/
+                                calc(var(--css) - var(--cbs) * 2) calc(var(--css) - var(--cbs) * 2) no-repeat,
+                            linear-gradient(var(--bright), var(--bright))
+                                calc(var(--cfx) + var(--cfw) - var(--css) / 2 - var(--cbs) / 2)
+                                calc(var(--cfy) + var(--cfh) - var(--css) / 2 + var(--cbs) / 2 - var(--article-padding))/
+                                var(--css) var(--css) no-repeat,
 
                             /* BORDER TOP */
                             linear-gradient(var(--bright), var(--bright))
@@ -361,21 +422,25 @@ void function SettingsController() {
                         __articleThumbnailBorder: "2px solid var(--bright)",
 
                         // Font
-                        __articleExtractFont: "calc(32px * var(--u-font-factor))/1.5em Inter",
-                        __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
-                                                              "cv10", "cv11"`,
-
+                        __articleExtractFont:                `calc(32px * var(--u-font-factor))/
+                                                              1.3em ObjectSans-Regular`,
+                        __articleExtractFontFeatureSettings: "'salt'",
 
                         // Tokens
                         __tokenUpcomingColor:      "var(--bright)",
-                        __tokenActiveColor:        "hsla(0, 0%, 100%, .2)",
-                        __tokenActiveBackground:   "hsla(0, 0%, 0%, .1)",
-                        __tokenProgressBackground: "var(--bright)",
-                        __tokenProgressTextShadow: "0 0 30px #f3eb95",
-                        __tokenTypedColor:         "hsla(0, 0%, 100%, .2)",
+                        __tokenActiveColor:        "hsl(0, 0%, 80%)",
+                        __tokenActiveBackground:   "transparent",
+                        __tokenProgressColor:      "var(--bright)",
+                        __tokenProgressBackground: `
+                            linear-gradient(var(--bright), var(--bright)) 0 92%/100% 2px no-repeat,
+                            linear-gradient(var(--bright), var(--bright)) 0 90%/1px 30% no-repeat,
+                            linear-gradient(var(--bright), var(--bright)) 100% 90%/1px 30% no-repeat
+                        `,
+                        __tokenTypedColor:         "hsl(0, 0%, 80%)",
                         __tokenTypedBackground:    "transparent",
                         __tokenErrorColor:         "hsl(360, 100%, 10%)",
                         __tokenErrorBackground:    "hsl(360, 100%, 60%)",
+                        __tokenOffsetTop:          ".35ex",
                     },
                     term: {
                         name:   "Terminal",
