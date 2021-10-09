@@ -34,9 +34,9 @@ html {
 body {
     display: grid;
     grid-template-areas:
-        "aside history   settings"
+        "aside shortcuts settings"
         "aside article   settings"
-        "aside shortcuts settings";
+        "aside history   settings";
     grid-template-rows: auto 1fr auto;
     grid-template-columns: var(--aside-width) 1fr var(--aside-width);
     background: var(--body-background);
@@ -84,7 +84,7 @@ header {
     display: flex;
     overflow: hidden;
     padding: var(--main-padding);
-    padding-bottom: 0;
+    padding-top: 0;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -427,12 +427,13 @@ footer {
     justify-content: center;
     overflow: hidden;
     z-index: var(--z-elevated);
+    padding: var(--main-padding);
+    padding-bottom: 0;
 }
 
 #shortcuts {
     display: inline-flex;
     justify-content: center;
-    padding: 2ex 3ex;
     font-size: 14px;
     border-radius: 100vw;
     background: var(--shortcut-background);
