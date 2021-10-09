@@ -87,6 +87,7 @@ void function SettingsController() {
                         __shortcutBox:        "var(--bright)",
 
                         // Article
+                        // FIXME: Allow to set each value separately.
                         __articlePadding:             0,
                         __articleBaseWidth:           "500px",
                         __articleWidthShift:          "50px",
@@ -432,9 +433,9 @@ void function SettingsController() {
                         __tokenActiveBackground:   "transparent",
                         __tokenProgressColor:      "var(--bright)",
                         __tokenProgressBackground: `
-                            linear-gradient(var(--bright), var(--bright)) 0 92%/100% 2px no-repeat,
-                            linear-gradient(var(--bright), var(--bright)) 0 90%/1px 30% no-repeat,
-                            linear-gradient(var(--bright), var(--bright)) 100% 90%/1px 30% no-repeat
+                            linear-gradient(var(--bright), var(--bright)) 0 90%/100% 2px no-repeat,
+                            linear-gradient(var(--bright), var(--bright)) 0 90%/1px 15% no-repeat,
+                            linear-gradient(var(--bright), var(--bright)) 100% 90%/1px 15% no-repeat
                         `,
                         __tokenTypedColor:         "hsl(0, 0%, 80%)",
                         __tokenTypedBackground:    "transparent",
