@@ -1,4 +1,4 @@
-/*/ Base /*/
+/*** ——— Reset ——— ***/
 
 * {
     margin: 0;
@@ -19,7 +19,7 @@ html, body {
     opacity: 0;
 }
 
-/*/ html /*/
+/*** ——— <html> ——— ***/
 
 html {
     font-family: Inter;
@@ -28,7 +28,7 @@ html {
     --article-change-duration: 512ms ease-in-out;
 }
 
-/*/ body /*/
+/*** ——— <body> ——— ***/
 
 body {
     display: grid;
@@ -47,7 +47,7 @@ body {
     --z-peak: 8;
 }
 
-/*/ Sidebar /*/
+/*** ——— Sidebar ——— ***/
 
 aside {
     font-family: Trash;
@@ -75,9 +75,9 @@ aside {
     font-weight: normal;
 }
 
-/*/ History /*/
+/*** ——— History ——— ***/
 
-header {
+footer {
     position: relative;
     grid-area: history;
     display: flex;
@@ -97,7 +97,7 @@ header {
 }
 
 .history::after {
-    /* This ensures that the header will have a height even before
+    /* This ensures that the footer will have a height even before
        the first entry is being pushed. */
     content: "*";
     opacity: 0;
@@ -109,7 +109,6 @@ header {
 }
 
 .history li::after {
-    /* color: var(--history-base); */
     content: " <-";
     white-space: pre;
     margin-right: -0.3ex;
@@ -144,7 +143,7 @@ header {
     align-self: center;
 }
 
-/*/ Navigation /*/
+/*** ——— Navigation ——— ***/
 
 nav {
     position: absolute;
@@ -225,7 +224,7 @@ nav[data-is-visible=true] {
     border-bottom-right-radius: var(--upcoming-option-height);
 }
 
-/*/ Loading Spinner /*/
+/*** ——— Loading Spinner ——— ***/
 
 #loadingSpinner {
     position: absolute;
@@ -417,10 +416,9 @@ article[data-is-loaded=false] #articleInput {
     transition: all var(--timing) ease-in-out, z-index 0s linear;
 }
 
-/************************/
-/*** FOOTER/SHORTCUTS ***/
-/************************/
-footer {
+/*** ——— Shortcuts ——— ***/
+
+header {
     grid-area: shortcuts;
     display: flex;
     justify-content: center;
@@ -475,9 +473,8 @@ footer {
     width: 30px;
 }
 
-/****************/
-/*** SETTINGS ***/
-/****************/
+/*** ——— Settings ——— ***/
+
 #settingsWrapper {
     --settings-wrapper-width: min(40vw, 550px);
 

@@ -47,10 +47,28 @@
         </aside>
 
         <header>
-            <template id="historyEntryTemplate">
-                <li><span></span></li>
-            </template>
-            <ol class="history"></ol>
+            <dl id="shortcuts">
+                <div>
+                    <dt><b>^</b><b>N</b></dt>
+                    <dd>Skip Article</dd>
+                </div>
+                <div>
+                    <dt><b>^</b><b>S</b></dt>
+                    <dd>Skip Word</dd>
+                </div>
+                <div>
+                    <dt><b>^</b><b>+</b><b>–</b></dt>
+                    <dd>Adjust Fontsize</dd>
+                </div>
+                <div>
+                    <dt><b class="extended">⇥</b></dt>
+                    <dd>Enlargen Thumbnail</dd>
+                </div>
+                <div>
+                    <dt><b class="extended">↩</b></dt>
+                    <dd>Open Article in Wikipedia</dd>
+                </div>
+            </dl>
         </header>
 
         <img id="articleImage" src="data:," alt/>
@@ -77,28 +95,10 @@
         </article>
 
         <footer>
-            <dl id="shortcuts">
-                <div>
-                    <dt><b>^</b><b>N</b></dt>
-                    <dd>Skip Article</dd>
-                </div>
-                <div>
-                    <dt><b>^</b><b>S</b></dt>
-                    <dd>Skip Word</dd>
-                </div>
-                <div>
-                    <dt><b>^</b><b>+</b><b>–</b></dt>
-                    <dd>Adjust Fontsize</dd>
-                </div>
-                <div>
-                    <dt><b class="extended">⇥</b></dt>
-                    <dd>Enlargen Thumbnail</dd>
-                </div>
-                <div>
-                    <dt><b class="extended">↩</b></dt>
-                    <dd>Open Article in Wikipedia</dd>
-                </div>
-            </dl>
+            <template id="historyEntryTemplate">
+                <li><span></span></li>
+            </template>
+            <ol class="history"></ol>
         </footer>
 
         <div id="settingsWrapper">
