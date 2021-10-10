@@ -27,11 +27,8 @@ void function ArticleController() {
             DISPLAY_NAVIGATION: 1 << 1,
         };
 
-        º.emit`theme :repositionArticle`(self.article_node);
-        window.addEventListener(
-            "resize",
-            () => º.emit`theme :repositionArticle`(self.article_node)
-        );
+        reposition_article();
+        window.addEventListener("resize", reposition_article);
 
         // Always start in a loading state.
         º.emit`spinner :spawn`(self.article_node);
@@ -51,10 +48,8 @@ void function ArticleController() {
                 (e) => (advance_token(), º.emit`input :clear`())],
             ['^n',
                 (e) => {
-                    if (!self.current)
-                        return;
-
-                    unload_article();
+                    if (self.current)
+                        unload_article();
                 }],
          );
 
@@ -70,8 +65,30 @@ void function ArticleController() {
                 ƒ("#progressToken", self.article).dataset.upcoming = upcoming;
             },
             "article :setContents": (article_data) => set_contents(article_data),
-            "article :unloadArticle": () => unload_article(),
-            "setting :themeUpdated": () => º.emit`theme :repositionArticle`(self.article_node),
+            "theme :beforeUpdate": () => {
+                if (!self.current)
+                    return;
+
+                let is_transition_finished = false;
+                self.article_node.addEventListener("transitionstart", function _t() {
+                    self.article_node.removeEventListener("transitionstart", _t);
+
+                    window.requestAnimationFrame(_s);
+                    function _s() {
+                        reposition_active_token();
+
+                        if (!is_transition_finished)
+                            window.requestAnimationFrame(_s);
+                    }
+                });
+
+                self.article_node.addEventListener("transitionend", function _t() {
+                    self.article_node.removeEventListener("transitionend", _t);
+                    is_transition_finished = true;
+                    reposition_active_token();
+                });
+            },
+            "theme :afterUpdate": () => reposition_article(),
         });
     }();
 
@@ -182,7 +199,7 @@ void function ArticleController() {
         self.token_node = null;
 
         // Reposition frame.
-        º.emit`theme :repositionArticle`(self.article_node);
+        reposition_article();
 
         if (display_navigation === self.flags.DISPLAY_NAVIGATION) {
             º.emit`spinner :spawn`(self.article_node);
@@ -191,6 +208,8 @@ void function ArticleController() {
 
         self.current = undefined;
         self.node.dataset.isLoaded = false;
+
+        º.emit`theme :apply`({ __kRandArticleBound: Math.random() });
     }
 
     function advance_token() {
@@ -224,7 +243,61 @@ void function ArticleController() {
 
         // Store reference.
         self.token_node = next_token;
-        º.emit`article :advancedToken`(self.token_node);
+        reposition_active_token();
+    }
+
+    function reposition_active_token() {
+        const rect = self.token_node.getBoundingClientRect();
+        º.emit`theme :apply`({
+            __kArticleTokenX: `${self.token_node.offsetLeft}px`,
+            __kArticleTokenY: `${self.token_node.offsetTop}px`,
+            __kArticleTokenW: `${Math.round(rect.width)}px`,
+            __kArticleTokenH: `${Math.round(rect.height)}px`,
+        });
+    }
+
+    function reposition_article() {
+        const invert = () => (Math.random() > .5 ? 1 : -1);
+
+        const main_padding = º.req`theme::px`("--main-padding");
+        const { x, y, width: w, height: h } = self.node.getBoundingClientRect();
+        const ref = {
+            left: main_padding,
+            top: y + main_padding,
+            width: w - main_padding * 2,
+            height: h - main_padding * 2,
+        };
+
+        const article_base_width = º.req`theme :as_px`("--article-base-width");
+        const article_width_shift = º.req`theme :as_px`("--article-width-shift");
+        const article_base_height = º.req`theme :as_px`("--article-base-height");
+        const article_height_shift = º.req`theme :as_px`("--article-height-shift");
+
+        const width = Math.round(Math.min(
+            article_base_width +
+            Math.random() * (invert() * article_width_shift),
+            ref.width
+        ));
+        const height = Math.round(Math.min(
+            article_base_height +
+            Math.random() * (invert() * article_height_shift),
+            ref.height
+        ));
+        const left = Math.round(
+            (ref.width - width) / 2 +
+            (invert() * ((ref.width - width) / 2) * Math.random())
+        );
+        const top = Math.round(
+            (ref.height - height) / 2 +
+            (invert() * ((ref.height - height) / 2) * Math.random())
+        );
+
+        º.emit`theme :apply`({
+            __kArticleFrameX: `${ref.left + left}px`,
+            __kArticleFrameY: `${ref.top + top}px`,
+            __kArticleFrameW: `${width}px`,
+            __kArticleFrameH: `${height}px`,
+        });
     }
 }();
 

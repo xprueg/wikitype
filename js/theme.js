@@ -41,65 +41,12 @@ void function ThemeController() {
 
         º.listen({
             "setting :themeUpdated": (theme) => {
+                º.emit`theme :beforeUpdate`();
                 reset_theme();
                 set_theme_to(theme);
-                º.emit`article :advancedToken`(º.req`article :getActiveToken`());
+                º.emit`theme :afterUpdate`();
             },
-            "theme :repositionArticle": (article_node) => {
-                const invert = () => (Math.random() > .5 ? 1 : -1);
-
-                const main_padding = º.req`theme::px`("--main-padding");
-                const { x, y, width: w, height: h } = ƒ("article").getBoundingClientRect();
-                const ref = {
-                    left: main_padding,
-                    top: y + main_padding,
-                    width: w - main_padding * 2,
-                    height: h - main_padding * 2,
-                };
-
-                const article_base_width = º.req`theme :as_px`("--article-base-width");
-                const article_width_shift = º.req`theme :as_px`("--article-width-shift");
-                const article_base_height = º.req`theme :as_px`("--article-base-height");
-                const article_height_shift = º.req`theme :as_px`("--article-height-shift");
-
-                const width = Math.round(Math.min(
-                    article_base_width +
-                    Math.random() * (invert() * article_width_shift),
-                    ref.width
-                ));
-                const height = Math.round(Math.min(
-                    article_base_height +
-                    Math.random() * (invert() * article_height_shift),
-                    ref.height
-                ));
-                const left = Math.round(
-                    (ref.width - width) / 2 +
-                    (invert() * ((ref.width - width) / 2) * Math.random())
-                );
-                const top = Math.round(
-                    (ref.height - height) / 2 +
-                    (invert() * ((ref.height - height) / 2) * Math.random())
-                );
-
-                apply({
-                    __kArticleFrameX: `${ref.left + left}px`,
-                    __kArticleFrameY: `${ref.top + top}px`,
-                    __kArticleFrameW: `${width}px`,
-                    __kArticleFrameH: `${height}px`,
-                });
-            },
-            "article :advancedToken": (node) => {
-                const rect = node.getBoundingClientRect();
-                apply({
-                    __kArticleTokenX: `${node.offsetLeft}px`,
-                    __kArticleTokenY: `${node.offsetTop}px`,
-                    __kArticleTokenW: `${Math.round(rect.width)}px`,
-                    __kArticleTokenH: `${Math.round(rect.height)}px`,
-                });
-            },
-            "article :unloadArticle": () => {
-                apply({ __kRandArticleBound: Math.random() });
-            },
+            "theme :apply": vars => apply(vars),
         });
     }();
 
