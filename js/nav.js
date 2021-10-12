@@ -39,9 +39,9 @@ void function NavController() {
     }
 
     function reset_options() {
-        self.related_nodes.forEach((node) => {
+        self.related_nodes.forEach(node => {
             node.dataset.isAvailable = false;
-            ƒ(".navOptionTitle", node).textContent = String("L̷͇̇ő̷͓a̴̗͑d̷̲͌i̷͉͛n̶͚̈g̸͓̽…̴̯̂");
+            ƒ(".navOptionTitle", node).textContent = "Loading…";
         });
     }
 
@@ -64,11 +64,18 @@ void function NavController() {
     function render_options(article_data) {
         reset_options();
 
+        // FIXME: Check what the response is when no related articles exist,
+        // and handle it gracefully.
         º.req`wikiapi :fetchRelatedArticles`(article_data).then((articles) => {
             self.related_article_buffer = Array();
-            self.related_nodes.forEach((node) => {
-                const article_data = articles?.pages
-                    .splice(Math.floor(Math.random() * articles.pages.length), 1)
+
+            const related_articles = articles.pages.filter(article => {
+                return !º.req`history :includesPageId`(article.pageid);
+            });
+
+            self.related_nodes.forEach(node => {
+                const article_data = related_articles
+                    .splice(Math.floor(Math.random() * related_articles.length), 1)
                     .pop();
 
                 if (article_data) {

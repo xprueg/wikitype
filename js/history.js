@@ -5,24 +5,34 @@ void function HistoryController() {
         self.node = ƒ(".history");
         self.cache = new Map();
 
-        self.node.addEventListener("click", (e) => {
+        self.node.addEventListener("click", e => {
             const node = e.target;
             if (!(node instanceof HTMLLIElement))
                 return;
 
             while(node.previousElementSibling) {
-                self.cache.delete(node.previousElementSibling.textContent);
+                self.cache.delete(node.previousElementSibling.dataset.pageid);
                 node.previousElementSibling.remove();
             }
 
             º.emit`nav :forceHide`();
-            º.emit`article :setContents`(self.cache.get(e.target.textContent));
+            º.emit`article :setContents`(self.cache.get(node.dataset.pageid));
             º.emit`input :clear`();
         }, true);
 
         º.listen({
             "history :push": (data) => push_entry(data),
             "history :cloneImage": (thumbnail_node) => clone_image(thumbnail_node),
+        });
+
+        º.respond({
+            "history :includesPageId": pageid => {
+                for (const key of self.cache.keys())
+                    if (key == pageid)
+                        return true;
+
+                return false;
+            },
         });
     }();
 
@@ -42,12 +52,13 @@ void function HistoryController() {
             });
         }
 
+        li.dataset.pageid = article_data.pageid;
         span.innerText = article_data.titles.normalized;
         span.dataset.lang = article_data.lang;
         self.node.insertBefore(li, self.node.children.length
                                    ? self.node.children[0] : null);
 
-        self.cache.set(article_data.titles.normalized, article_data);
+        self.cache.set(String(article_data.pageid), article_data);
     }
 
     function get_cloned_image_position(image) {
