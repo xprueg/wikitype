@@ -28,8 +28,8 @@ void function ShortcutController() {
     function generate_identifier(e) {
         const key = /[+-]/.test(e.key)
             ? e.key
-            : e.code.replace("Key", String()).toLowerCase();
-        const ctrl = e.ctrlKey || e.metaKey ? '^' : String();
+            : e.code.replace(/(Key|Digit)/, String()).toLowerCase();
+        const ctrl = e.ctrlKey || e.metaKey ? "^" : String();
 
         return `${ctrl}${key}`;
     }

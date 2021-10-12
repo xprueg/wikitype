@@ -2,7 +2,7 @@ void function ThemeController() {
     const self = Object.create(null);
 
     void function init() {
-        self.node = ƒ('html');
+        self.node = ƒ("html");
         self.active_theme = º.req`theme :getSelected`();
         self.themes = º.req`theme :getAll`();
 
@@ -13,7 +13,6 @@ void function ThemeController() {
 
         set_theme_to(self.active_theme);
         apply(self.user);
-        apply(self.constants);
 
         º.emit`shortcut :setMultiple`(
             ['^+', _ => (self.user.__uFontSizeScaling += .05, apply(self.user))],
@@ -22,9 +21,8 @@ void function ThemeController() {
         );
 
         º.respond({
-            "theme::val": (key) => val(key),
-            "theme::px": (key) => px(key),
-            "theme :as_px": (key) => as_px(key),
+            "theme :val": key => val(key),
+            "theme :as_px": key => as_px(key),
         });
 
         º.listen({

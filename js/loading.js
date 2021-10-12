@@ -18,8 +18,8 @@ void function Spinner() {
         const spinner = document.createElement("div");
         spinner.setAttribute("id", "loadingSpinner");
 
-        const chars = º.req`theme::val`("--article-loading-spinner-chars");
-        const delay = º.req`theme::val`("--article-loading-spinner-delay");
+        const chars = º.req`theme :val`("--article-loading-spinner-chars");
+        const delay = º.req`theme :val`("--article-loading-spinner-delay");
         self.spinner.set(node, new Map([
             ["spinner", node.appendChild(spinner)],
             ["idx", 0],

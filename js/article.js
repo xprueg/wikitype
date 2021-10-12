@@ -259,7 +259,7 @@ void function ArticleController() {
     function reposition_article() {
         const invert = () => (Math.random() > .5 ? 1 : -1);
 
-        const main_padding = º.req`theme::px`("--main-padding");
+        const main_padding = º.req`theme :as_px`("--main-padding");
         const { x, y, width: w, height: h } = self.node.getBoundingClientRect();
         const ref = {
             left: main_padding,

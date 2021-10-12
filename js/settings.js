@@ -162,7 +162,7 @@ void function SettingsController() {
                         __articleThumbnailBorder: "0px solid transparent",
 
                         // Font
-                        __articleExtractFont: `400 clamp(20px, calc(1vw * 3 * var(--u-font-factor)), 60px)/
+                        __articleExtractFont: `400 clamp(20px, calc(1vw * 3 * var(--u-font-size-scaling)), 60px)/
                                                1.35em GTAmericaLC-ExpRg`,
                         __articleExtractFontFeatureSettings: `'kern', 'liga', 'onum',
                                                               'ss02', 'ss03', 'ss05'`,
@@ -227,7 +227,7 @@ void function SettingsController() {
                         __articleThumbnailFilter:       "grayscale(1)",
 
                         // Font
-                        __articleExtractFont: `calc(34px * var(--u-font-factor))/
+                        __articleExtractFont: `calc(34px * var(--u-font-size-scaling))/
                                                1.4em Grafier-Regular`,
                         __articleExtractFontFeatureSettings: "'ss02'",
 
@@ -423,7 +423,7 @@ void function SettingsController() {
                         __articleThumbnailBorder: "2px solid var(--bright)",
 
                         // Font
-                        __articleExtractFont:                `calc(32px * var(--u-font-factor))/
+                        __articleExtractFont:                `calc(32px * var(--u-font-size-scaling))/
                                                               1.3em ObjectSans-Regular`,
                         __articleExtractFontFeatureSettings: "'salt'",
 
@@ -530,7 +530,7 @@ void function SettingsController() {
                         __articleThumbnailFilter:       "grayscale(0)",
 
                         // Font
-                        __articleExtractFont: `calc(30px * var(--u-font-factor))/
+                        __articleExtractFont: `calc(30px * var(--u-font-size-scaling))/
                                                1.5em "JetBrains Mono", monospace`,
                         __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
                                                               "cv10", "cv11"`,
