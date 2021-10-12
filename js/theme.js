@@ -8,20 +8,7 @@ void function ThemeController() {
 
         // Variables that can be controlled by the user.
         self.user = {
-            __uFontFactor: 1,
-        };
-
-        // Dynamically changed variables, that cannot be overwritten.
-        self.constants = {
-            __kRandArticleBound: 0,
-            __kArticleTokenX:    0,
-            __kArticleTokenY:    0,
-            __kArticleTokenW:    0,
-            __kArticleTokenH:    0,
-            __kArticleFrameX:    0,
-            __kArticleFrameY:    0,
-            __kArticleFrameW:    0,
-            __kArticleFrameH:    0,
+            __uFontSizeScaling: 1,
         };
 
         set_theme_to(self.active_theme);
@@ -29,8 +16,9 @@ void function ThemeController() {
         apply(self.constants);
 
         º.emit`shortcut :setMultiple`(
-            ['^+', (e) => (self.user.__uFontFactor += .05, apply(self.user))],
-            ['^-', (e) => (self.user.__uFontFactor -= .05, apply(self.user))],
+            ['^+', _ => (self.user.__uFontSizeScaling += .05, apply(self.user))],
+            ['^-', _ => (self.user.__uFontSizeScaling -= .05, apply(self.user))],
+            ['^0', _ => (self.user.__uFontSizeScaling = 1, apply(self.user))],
         );
 
         º.respond({
