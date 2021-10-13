@@ -31,19 +31,15 @@ void function WikiController() {
         })();
 
         º.respond({
-            "wikiapi :fetchRandomArticle": (lang_code) => {
-                return load_random_article(lang_code);
-            },
-            "wikiapi :fetchArticleByFullUrl": (url) => {
-                return load_article_by_full_url(url);
-            },
-            "wikiapi :fetchRelatedArticles": (article_data) => {
+            "wikiapi :fetchRandomArticle": lang_code => load_random_article(lang_code),
+            "wikiapi :fetchArticleByFullUrl": url => load_article_by_full_url(url),
+            "wikiapi :fetchRelatedArticles": article_data => {
                 return load_related_articles(article_data)
             },
         });
 
         º.listen({
-            "wikiapi :prefetchRelatedArticles": (article_data) => {
+            "wikiapi :prefetchRelatedArticles": article_data => {
                 prefetch_related_articles(article_data)
             },
         });
@@ -51,13 +47,12 @@ void function WikiController() {
 
     function prefetch_related_articles(article_data) {
         load_related_articles(article_data).then(
-            (articles) => self.related_articles_cache.set(article_data.pageid,
-                                                          articles)
+            articles => self.related_articles_cache.set(article_data.pageid, articles)
         );
     }
 
     function prefetch_random_article(lang_code) {
-        µƒ(self.url.random(lang_code)).then((article_data) => {
+        µƒ(self.url.random(lang_code)).then(article_data => {
             prefetch_related_articles(article_data);
             self.random_article_cache.get(lang_code).push(article_data);
         });
@@ -82,7 +77,7 @@ void function WikiController() {
         if (cached_article)
             return µµ(cached_article);
 
-        return µƒ(self.url.random(lang_code)).then((article_data) => {
+        return µƒ(self.url.random(lang_code)).then(article_data => {
             prefetch_related_articles(article_data);
 
             return article_data;
@@ -99,7 +94,7 @@ void function WikiController() {
             }
         );
 
-        return µƒ(wiki_url).then((article_data) => {
+        return µƒ(wiki_url).then(article_data => {
             prefetch_related_articles(article_data);
 
             return article_data;

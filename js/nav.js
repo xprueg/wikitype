@@ -8,7 +8,7 @@ void function NavController() {
 
         hide();
 
-        document.body.addEventListener("keydown", (e) => {
+        document.body.addEventListener("keydown", e => {
             if (is_hidden())
                 return;
 
@@ -16,12 +16,11 @@ void function NavController() {
             e.stopPropagation();
 
             select(e.key);
-            hide()
+            hide();
         }, true);
 
         º.listen({
-            "nav :displayOptions": (article_data) => (render_options(article_data),
-                                                      show()),
+            "nav :displayOptions": article_data => (render_options(article_data), show()),
             "nav :forceHide": () => hide(),
         });
     }();
@@ -39,6 +38,7 @@ void function NavController() {
     }
 
     function reset_options() {
+        self.related_article_buffer = Array();
         self.related_nodes.forEach(node => {
             node.dataset.status = "loading";
             ƒ(".navOptionTitle", node).textContent = String();
@@ -47,41 +47,35 @@ void function NavController() {
 
     function select(choice) {
         const article_data = self.related_article_buffer[Number(choice) - 1];
-        if (!article_data) {
-            º.req`wikiapi :fetchRandomArticle`().then((article_data) => {
+        if (article_data) {
+            º.emit`history :push`({ article_data, is_related: true });
+            º.emit`article :setContents`(article_data);
+            º.emit`wikiapi :prefetchRelatedArticles`(article_data);
+        } else {
+            º.req`wikiapi :fetchRandomArticle`().then(article_data => {
                 º.emit`history :push`({ article_data, is_related: false });
                 º.emit`article :setContents`(article_data);
             });
-
-            return;
         }
-
-        º.emit`history :push`({ article_data, is_related: true });
-        º.emit`article :setContents`(article_data);
-        º.emit`wikiapi :prefetchRelatedArticles`(article_data);
     }
 
     function render_options(article_data) {
         reset_options();
 
-        // FIXME: Check what the response is when no related articles exist,
-        // and handle it gracefully.
-        º.req`wikiapi :fetchRelatedArticles`(article_data).then((articles) => {
-            self.related_article_buffer = Array();
-
-            const related_articles = articles.pages.filter(article => {
-                return !º.req`history :includesPageId`(article.pageid);
-            });
+        º.req`wikiapi :fetchRelatedArticles`(article_data).then(articles => {
+            const related_articles = articles.pages.filter(
+                article => !º.req`history :includesPageId`(article.pageid)
+            );
 
             self.related_nodes.forEach(node => {
-                const article_data = related_articles
+                const related_article_data = related_articles
                     .splice(Math.floor(Math.random() * related_articles.length), 1)
                     .pop();
 
-                if (article_data) {
-                    self.related_article_buffer.push(article_data);
+                if (related_article_data) {
+                    self.related_article_buffer.push(related_article_data);
                     node.dataset.status = "available";
-                    ƒ(".navOptionTitle", node).textContent = article_data.titles.normalized;
+                    ƒ(".navOptionTitle", node).textContent = related_article_data.titles.normalized;
                 } else {
                     node.dataset.status = "unavailable";
                 }
