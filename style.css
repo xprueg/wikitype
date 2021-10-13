@@ -192,11 +192,14 @@ nav[data-is-visible=true] {
     flex-shrink: 0;
 }
 
-[data-navOptionIdx="0"]::before { content: ""; }
-[data-navOptionIdx="1"]::before { content: "➀"; }
-[data-navOptionIdx="2"]::before { content: "➁"; }
-[data-navOptionIdx="3"]::before { content: ""; }
-[data-is-available="false"] [data-navOptionIdx]::before { content: ""; }
+[data-navOptionIdx="0"]::before { content: "\E12B"; }
+[data-navOptionIdx="1"]::before { content: "\2780"; }
+[data-navOptionIdx="2"]::before { content: "\2781"; }
+[data-navOptionIdx="3"]::before { content: "\E12D"; }
+[data-status="unavailable"] [data-navOptionIdx]::before { content: "\E13D"; }
+[data-status="unavailable"] .navOptionTitle::after { content: "—"; }
+[data-status="loading"] [data-navOptionIdx]::before { content: "\E139"; }
+[data-status="loading"] .navOptionTitle::after { content: "Loading…"; }
 
 .navOptionTitle {
     height: var(--upcoming-option-height);

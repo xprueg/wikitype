@@ -40,8 +40,8 @@ void function NavController() {
 
     function reset_options() {
         self.related_nodes.forEach(node => {
-            node.dataset.isAvailable = false;
-            ƒ(".navOptionTitle", node).textContent = "Loading…";
+            node.dataset.status = "loading";
+            ƒ(".navOptionTitle", node).textContent = String();
         });
     }
 
@@ -80,11 +80,10 @@ void function NavController() {
 
                 if (article_data) {
                     self.related_article_buffer.push(article_data);
-                    node.dataset.isAvailable = true;
+                    node.dataset.status = "available";
                     ƒ(".navOptionTitle", node).textContent = article_data.titles.normalized;
                 } else {
-                    node.dataset.isAvailable = false;
-                    ƒ(".navOptionTitle", node).textContent = "⸘̶̨̘̔̒⁈̵̺͔͐͠¿̶̜͚̾⁉̶̮͈͛̑⸘̴͕̦̊͗⸘̷͙͙̽⁈̸͔͇̽͝⸘̸̘̤̘̀¿̶̰̉͘⁉̸̹̜́̿̂⸘̶̤̠̽̚⁈̴͕̋͊̈́⸘̴͚͋̐";
+                    node.dataset.status = "unavailable";
                 }
             });
         });
