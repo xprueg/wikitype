@@ -29,12 +29,13 @@ void function ShortcutController() {
         const key = /[+-]/.test(e.key)
             ? e.key
             : e.code.replace(/(Key|Digit)/, String()).toLowerCase();
-        const ctrl = e.ctrlKey || e.metaKey ? "^" : String();
+        const cmd = e.metaKey ? "⌘" : String();
 
-        return `${ctrl}${key}`;
+        return `${cmd}${key}`;
     }
 
     function key_event(e) {
+        console.log(e.metaKey, e.key);
         const identifier = generate_identifier(e);
         const shortcut = self.shortcuts.get(identifier)?.[e.type];
 

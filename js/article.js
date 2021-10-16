@@ -35,22 +35,16 @@ void function ArticleController() {
         self.node.dataset.isLoaded = false;
 
         º.emit`shortcut :setMultiple`(
-            ['enter',
-                (e) => {
-                    const url = self.current?.desktop_url;
-                    if (url)
-                        window.open(url);
-                }],
-            ['tab',
-                (e) => (display_highres_image(true), e.preventDefault()),
-                (e)  => (display_highres_image(false), e.preventDefault())],
-            ['^s',
-                (e) => (advance_token(), º.emit`input :clear`())],
-            ['^n',
-                (e) => {
-                    if (self.current)
-                        unload_article();
-                }],
+            ["enter", e => {
+                const url = self.current?.desktop_url;
+                if (url)
+                    window.open(url);
+            }],
+            ["tab",
+                e => (display_highres_image(true), e.preventDefault()),
+                e => (display_highres_image(false), e.preventDefault())],
+            ["⌘s", e => (advance_token(), º.emit`input :clear`())],
+            ["⌘x", e => { if (self.current) unload_article() }],
          );
 
         º.respond({

@@ -15,9 +15,9 @@ void function ThemeController() {
         apply(self.user);
 
         º.emit`shortcut :setMultiple`(
-            ['^+', _ => (self.user.__uFontSizeScaling += .05, apply(self.user))],
-            ['^-', _ => (self.user.__uFontSizeScaling -= .05, apply(self.user))],
-            ['^0', _ => (self.user.__uFontSizeScaling = 1, apply(self.user))],
+            ["⌘+", _ => (self.user.__uFontSizeScaling += .05, apply(self.user))],
+            ["⌘-", _ => (self.user.__uFontSizeScaling -= .05, apply(self.user))],
+            ["⌘0", _ => (self.user.__uFontSizeScaling = 1, apply(self.user))],
         );
 
         º.respond({
