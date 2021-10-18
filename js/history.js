@@ -36,20 +36,24 @@ void function HistoryController() {
         });
     }();
 
+    function remove_history_images() {
+        ƒƒ(".history-image").forEach((img) => {
+            img.classList.add("hidden");
+            setTimeout(
+                () => img.remove(),
+                getComputedStyle(img).getPropertyValue("--timing")
+                                     .replace(/(\s|ms)/g, String())
+            );
+        });
+    }
+
     function push_entry({ article_data, is_related }) {
         const li = ª(ƒ("#historyEntryTemplate"), "li");
         const span = li.querySelector("span");
 
         if (!is_related) {
             li.dataset.chain = "start";
-            ƒƒ(".history-image").forEach((img) => {
-                img.classList.add("hidden");
-                setTimeout(
-                    () => img.remove(),
-                    getComputedStyle(img).getPropertyValue("--timing")
-                                         .replace(/(\s|ms)/g, String())
-                );
-            });
+            remove_history_images();
         }
 
         li.dataset.pageid = article_data.pageid;
