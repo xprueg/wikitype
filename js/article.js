@@ -5,6 +5,7 @@ void function ArticleController() {
         this._raw = data;
         this.pageid = data.pageid;
         this.desktop_url = data?.content_urls?.desktop?.page;
+        this.edit_url = data?.content_urls?.desktop?.edit;
         this.thumbnail = data?.thumbnail;
         this.image = data?.originalimage ?? this.thumbnail;
         this.title = data?.titles?.normalized;
@@ -37,6 +38,11 @@ void function ArticleController() {
         º.emit`shortcut :setMultiple`(
             ["enter", e => {
                 const url = self.current?.desktop_url;
+                if (url)
+                    window.open(url);
+            }],
+            ["⌘enter", e => {
+                const url = self.current?.edit_url;
                 if (url)
                     window.open(url);
             }],
