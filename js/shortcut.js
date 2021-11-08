@@ -1,42 +1,30 @@
-void function ShortcutController() {
-    const self = Object.create(null);
+void new class Shortcut extends Controller {
+    __data() {
+        this.shortcuts = new Map();
+    }
 
-    void function init() {
-        self.shortcuts = new Map();
-        self.not_implemented = () => {};
-
-        document.body.addEventListener("keydown", key_event, true);
-        document.body.addEventListener("keyup", key_event, true);
-
-        º.listen({
-            'shortcut :set': (identifier, keydown, keyup) => {
-                add_shortcut(identifier, keydown, keyup);
+    __listen() {
+        return {
+            "shortcut :set": this.add_shortcut.bind(this),
+            "shortcut :setMultiple": (...shortcuts) => {
+                shortcuts.forEach(shortcut => this.add_shortcut(...shortcut));
             },
-            'shortcut :setMultiple': (...shortcuts) => {
-                shortcuts.forEach((shortcut) => add_shortcut(...shortcut));
-            },
+        };
+    }
+
+    __init() {
+        ["keydown", "keyup"].forEach(event => {
+            document.body.addEventListener(event, this.key_event.bind(this), true);
         });
-    }();
-
-    function add_shortcut(identifier, keydown, keyup = self.not_implemented) {
-        if (self.shortcuts.has(identifier))
-            console.assert(`The shortcut [${identifier}] has already been set.`);
-
-        self.shortcuts.set(identifier, { keydown, keyup });
     }
 
-    function generate_identifier(e) {
-        const cmd = e.metaKey ? "cmd" : String();
-        const key = /[+-]/.test(e.key) ? e.key
-                                       : e.code.replace(/(Key|Digit)/, String())
-                                               .toLowerCase();
-
-        return cmd ? `${cmd}\x20${key}` : key;
+    add_shortcut(identifier, keydown, keyup = undefined) {
+        this.shortcuts.set(identifier, { keydown, keyup });
     }
 
-    function key_event(e) {
-        const identifier = generate_identifier(e);
-        const shortcut = self.shortcuts.get(identifier)?.[e.type];
+    key_event(e) {
+        const identifier = this.generate_identifier(e);
+        const shortcut = this.shortcuts.get(identifier)?.[e.type];
 
         if (shortcut) {
             e.preventDefault();
@@ -45,4 +33,13 @@ void function ShortcutController() {
             shortcut(e);
         }
     }
-}();
+
+    generate_identifier(e) {
+        const cmd = e.metaKey ? "cmd" : String();
+        const key = /[+-]/.test(e.key) ? e.key
+                                       : e.code.replace(/(Key|Digit)/, String())
+                                               .toLowerCase();
+
+        return cmd ? `${cmd}\x20${key}` : key;
+    }
+}
