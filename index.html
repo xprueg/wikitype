@@ -17,9 +17,6 @@
         <link rel="stylesheet" type="text/css"
               href="https://server.xpr.org/~/fonts/jetbrains_mono.css">
         <link rel="stylesheet" type="text/css" href="style.css">
-        <script src="js/º.js"></script>
-        <script src="js/lib.js"></script>
-        <script src="js/loading.js"></script>
         <script defer data-domain="xpr.org"
                 src="https://plausible.io/js/plausible.js"></script>
     </head>
@@ -80,16 +77,12 @@
             <template id="tokenTemplate">
                 <span class="token" data-word></span>
             </template>
-            <template id="progressTokenTemplate">
-                <span id="progressToken" data-upcoming></span>
-            </template>
 
             <div id="articleFrame">
                 <div id="articleContentWrapper">
-                    <span id="articleInput" contenteditable
-                           type="text" autocomplete="off"
-                           autocorrect="off" spellcheck="false"
-                           data-mistyped></span>
+                    <span class="inputToken" contenteditable type="text"
+                          autocomplete="off" autocorrect="off" spellcheck="false"
+                          data-mistyped></span>
                     <div id="articleOverflow">
                         <p id="articleExtract"></p>
                         <img id="articleThumbnail" src="data:," alt/>
@@ -130,6 +123,10 @@
             </div>
         </div>
 
+        <script src="js/lib.js"></script>
+        <script src="js/º.js"></script>
+        <script src="js/controller.js"></script>
+        <script src="js/loading.js"></script>
         <script src="js/shortcut.js"></script>
         <script src="js/settings.js"></script>
         <script src="js/clock.js"></script>
@@ -144,9 +141,9 @@
                 ? º.req`wikiapi :fetchArticleByFullUrl`(entry)
                 : º.req`wikiapi :fetchRandomArticle`();
 
-            api_response.then((article_data) => {
-                º.emit`history :push`({ article_data, is_related: false });
-                º.emit`article :setContents`(article_data);
+            api_response.then((article_data_raw) => {
+                º.emit`history :push`({ article_data_raw, is_related: false });
+                º.emit`article :setContents`(article_data_raw);
             });
         </script>
     </body>

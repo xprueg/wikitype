@@ -433,7 +433,7 @@ void function SettingsController() {
                         __tokenActiveBackground:   "transparent",
                         __tokenProgressColor:      "var(--bright)",
                         __tokenProgressBackground: `
-                            linear-gradient(var(--bright), var(--bright)) 0 90%/100% 2px no-repeat,
+                            linear-gradient(var(--bright), var(--bright)) 0 92%/100% 2px no-repeat,
                             linear-gradient(var(--bright), var(--bright)) 0 90%/1px 15% no-repeat,
                             linear-gradient(var(--bright), var(--bright)) 100% 90%/1px 15% no-repeat
                         `,

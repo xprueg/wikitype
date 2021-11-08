@@ -18,7 +18,7 @@ function ø(node, type, fn) {
 /// [>] source: String
 /// [>] next: Fn(img: HTMLImageElement) -> Void
 /// [<] Void
-function π(source, next) {
+function preload_image(source, next) {
     const img = new Image();
     img.onload = () => next(img);
     img.src = source;
@@ -36,7 +36,7 @@ function µ(fn) {
 ///
 /// [>] val: *
 /// [<] Promise
-function µµ(val) {
+function resolve_promise(val) {
     return Promise.resolve(val);
 }
 
@@ -44,7 +44,7 @@ function µµ(val) {
 ///
 /// [>] url: String
 /// [<] Promise
-function µƒ(url, fallback_value) {
+function fetch_json(url, fallback_value) {
     return fetch(url).then((res) => {
         if (!res.ok) {
             if (fallback_value) return fallback_value;

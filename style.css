@@ -248,25 +248,6 @@ article {
     z-index: var(--z-base);
 }
 
-#articleInput {
-    position: absolute;
-    pointer-events: none;
-    left: var(--k-article-token-x);
-    top: var(--k-article-token-y);
-    font: inherit;
-    border: 0;
-    color: var(--token-active-color);
-    caret-color: transparent;
-    background: var(--token-active-background);
-    z-index: var(--z-peak);
-    white-space: nowrap;
-    padding-top: var(--token-offset-top);
-}
-
-#articleInput:focus {
-    outline: none;
-}
-
 article[data-is-loaded=false] #articleInput {
     display: none;
 }
@@ -274,30 +255,6 @@ article[data-is-loaded=false] #articleInput {
 @keyframes blink {
     0%, 40% { opacity: 0; }
     50%, 100% { opacity: 1; }
-}
-
-#articleInput::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    transform: scaleY(var(--article-caret-scale-y));
-    width: var(--article-caret-width);
-    background: var(--article-caret-color);
-    /* FIXME: Add variable to the body if user is typing to stop blinking. */
-    /* animation: blink 1.4s linear infinite; */
-}
-
-#articleInput::before {
-    content: attr(data-mistyped);
-    position: absolute;
-    top: 0;
-    right: 0;
-    color: var(--token-error-color);
-    background: var(--token-error-background);
-    white-space: pre-wrap;
-    padding-top: var(--token-offset-top);
 }
 
 /*** ——— Article Frame ——— ***/
@@ -358,7 +315,93 @@ article[data-is-loaded=false] #articleInput {
     z-index: var(--z-peak);
 }
 
+/* ——— Tokens ——— */
+
 .token {
+    display: inline-block;
+    position: relative;
+    white-space: pre-wrap;
+    color: var(--token-upcoming-color);
+    background: var(--token-upcoming-background);
+    padding-top: var(--token-offset-top);
+}
+
+.token::before {
+    content: attr(data-word);
+}
+
+.typedToken {
+    color: var(--token-typed-color);
+    background: var(--token-typed-background);
+}
+
+.activeToken {
+    margin-top: calc(-1 * var(--token-offset-top));
+    padding-top: var(--token-offset-top);
+}
+
+.activeToken::before {
+    opacity: 0;
+}
+
+.activeToken::after {
+    position: absolute;
+    right: 0;
+    content: attr(data-upcoming);
+    background: var(--token-progress-background);
+    color: var(--token-progress-color);
+    text-shadow: var(--token-progress-text-shadow);
+}
+
+.inputToken {
+    position: absolute;
+    font: inherit;
+    border: 0;
+    color: var(--token-active-color);
+    caret-color: transparent;
+    background: var(--token-active-background);
+    white-space: nowrap;
+    padding-top: var(--token-offset-top);
+    left: 0;
+    top: 0;
+    z-index: var(--z-elevated);
+}
+
+.inputToken:focus {
+    outline: none;
+}
+
+.inputToken::before {
+    content: attr(data-mistyped);
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: var(--token-error-color);
+    background: var(--token-error-background);
+    white-space: pre-wrap;
+    padding-top: var(--token-offset-top);
+}
+
+.inputToken::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    transform: scaleY(var(--article-caret-scale-y));
+    width: var(--article-caret-width);
+    background: var(--article-caret-color);
+}
+
+/**/
+
+#articleExtract, .inputToken, #loadingSpinner {
+    font: var(--article-extract-font);
+    font-feature-settings: var(--article-extract-font-feature-settings);
+    letter-spacing: var(--article-extract-letter-spacing);
+}
+
+/* .token {
     display: inline-block;
     position: relative;
     white-space: pre-wrap;
@@ -403,7 +446,7 @@ article[data-is-loaded=false] #articleInput {
 
 #activeToken::before {
     color: transparent;
-}
+} */
 
 .history-image {
     --timing: 500ms;

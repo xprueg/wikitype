@@ -46,15 +46,15 @@ void function NavController() {
     }
 
     function select(choice) {
-        const article_data = self.related_article_buffer[Number(choice) - 1];
-        if (article_data) {
-            º.emit`history :push`({ article_data, is_related: true });
-            º.emit`article :setContents`(article_data);
-            º.emit`wikiapi :prefetchRelatedArticles`(article_data);
+        const article_data_raw = self.related_article_buffer[Number(choice) - 1];
+        if (article_data_raw) {
+            º.emit`history :push`({ article_data_raw, is_related: true });
+            º.emit`article :setContents`(article_data_raw);
+            º.emit`wikiapi :prefetchRelatedArticles`(article_data_raw);
         } else {
-            º.req`wikiapi :fetchRandomArticle`().then(article_data => {
-                º.emit`history :push`({ article_data, is_related: false });
-                º.emit`article :setContents`(article_data);
+            º.req`wikiapi :fetchRandomArticle`().then(article_data_raw => {
+                º.emit`history :push`({ article_data_raw, is_related: false });
+                º.emit`article :setContents`(article_data_raw);
             });
         }
     }
@@ -62,7 +62,7 @@ void function NavController() {
     function render_options(article_data) {
         reset_options();
 
-        º.req`wikiapi :fetchRelatedArticles`(article_data).then(articles => {
+        º.req`wikiapi :fetchRelatedArticles`(article_data._raw).then(articles => {
             const related_articles = articles.pages.filter(
                 article => !º.req`history :includesPageId`(article.pageid)
             );

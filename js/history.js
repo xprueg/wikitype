@@ -21,8 +21,8 @@ void function HistoryController() {
         }, true);
 
         º.listen({
-            "history :push": (data) => push_entry(data),
-            "history :cloneImage": (thumbnail_node) => clone_image(thumbnail_node),
+            "history :push": article_data_raw => push_entry(article_data_raw),
+            "article :beforeUnload": thumbnail_node => clone_image(thumbnail_node),
         });
 
         º.respond({
@@ -47,7 +47,7 @@ void function HistoryController() {
         });
     }
 
-    function push_entry({ article_data, is_related }) {
+    function push_entry({ article_data_raw, is_related }) {
         const li = ª(ƒ("#historyEntryTemplate"), "li");
         const span = li.querySelector("span");
 
@@ -56,13 +56,13 @@ void function HistoryController() {
             remove_history_images();
         }
 
-        li.dataset.pageid = article_data.pageid;
-        span.innerText = article_data.titles.normalized;
-        span.dataset.lang = article_data.lang;
+        li.dataset.pageid = article_data_raw.pageid;
+        span.innerText = article_data_raw.titles.normalized;
+        span.dataset.lang = article_data_raw.lang;
         self.node.insertBefore(li, self.node.children.length
                                    ? self.node.children[0] : null);
 
-        self.cache.set(String(article_data.pageid), article_data);
+        self.cache.set(String(article_data_raw.pageid), article_data_raw);
     }
 
     function get_cloned_image_position(image) {

@@ -1,225 +1,208 @@
-void function ArticleController() {
-    const self = Object.create(null);
-
-    function Article(data) {
+class ArticleData {
+    constructor(data) {
         this._raw = data;
-        this.pageid = data.pageid;
-        this.desktop_url = data?.content_urls?.desktop?.page;
+
+        this.id = data?.pageid;
+        this.url = data?.content_urls?.desktop?.page;
         this.edit_url = data?.content_urls?.desktop?.edit;
-        this.thumbnail = data?.thumbnail;
-        this.image = data?.originalimage ?? this.thumbnail;
+        this.thumbnail = data?.thumbnail?.source;
+        this.image = data?.originalimage;
         this.title = data?.titles?.normalized;
-        this.canonical = data?.titles?.canonical;
         this.lang = data?.lang;
-        this.extract = data?.extract?.length ? data?.extract : data?.titles?.display;
+        this.extract = data?.extract?.length ? data.extract : title();
     }
 
-    void function init() {
-        self.node = ƒ("article");
-        self.article_node = ƒ("#articleContentWrapper");
-        self.extract_node = ƒ("#articleExtract");
-        self.thumbnail_node = ƒ("#articleThumbnail");
-        self.image_node = ƒ("#articleImage");
-        self.token_node;
-        self.current;
-
-        self.flags = {
-            DONT_DISPLAY_NAVIGATION: 1 << 0,
-            DISPLAY_NAVIGATION: 1 << 1,
-        };
-
-        reposition_article();
-        window.addEventListener("resize", reposition_article);
-
-        // Always start in a loading state.
-        º.emit`spinner :spawn`(self.article_node);
-        self.node.dataset.isLoaded = false;
-
-        º.emit`shortcut :setMultiple`(
-            ["enter", e => {
-                const url = self.current?.desktop_url;
-                if (url)
-                    window.open(url);
-            }],
-            ["⌘enter", e => {
-                const url = self.current?.edit_url;
-                if (url)
-                    window.open(url);
-            }],
-            ["tab",
-                e => (display_highres_image(true), e.preventDefault()),
-                e => (display_highres_image(false), e.preventDefault())],
-            ["⌘s", e => (advance_token(), º.emit`input :clear`())],
-            ["⌘x", e => { if (self.current) unload_article() }],
-         );
-
-        º.respond({
-            "article :getRawData": () => self.current?._raw,
-            "article :getActiveToken": () => self.token_node,
-            "article :getActiveTokenText": () => self.token_node?.dataset?.word,
-        });
-
-        º.listen({
-            "article :advanceToken": () => advance_token(),
-            "article :updateProgressToken": (upcoming) => {
-                ƒ("#progressToken", self.article).dataset.upcoming = upcoming;
-            },
-            "article :setContents": (article_data) => set_contents(article_data),
-            "theme :beforeUpdate": () => {
-                if (!self.current)
-                    return;
-
-                let is_transition_finished = false;
-                self.article_node.addEventListener("transitionstart", function _t() {
-                    self.article_node.removeEventListener("transitionstart", _t);
-
-                    window.requestAnimationFrame(_s);
-                    function _s() {
-                        reposition_active_token();
-
-                        if (!is_transition_finished)
-                            window.requestAnimationFrame(_s);
-                    }
-                });
-
-                self.article_node.addEventListener("transitionend", function _t() {
-                    self.article_node.removeEventListener("transitionend", _t);
-                    is_transition_finished = true;
-                    reposition_active_token();
-                });
-            },
-            "theme :afterUpdate": () => reposition_article(),
-        });
-    }();
+    static from(...args) {
+        return new ArticleData(...args);
+    }
 
     /// Splits the provided string into words and tries to make all characters typeable.
     ///
     /// [>] text: String
     /// [<] Array<String*>
-    function tokenize(text) {
-                   // Removes Trailing Whitespace
-        return text.replace(/(\s*|\n)$/, String())
-
-                   // Replaces Whitespace
+    get tokenized_extract() {
+        return this.extract
+                   // Remove Trailing Whitespace
+                   .replace(/(\s*|\n)$/, String())
+                   // Replace Whitespace
                    .replace(/\s+/g, "\x20")
-
-                   // Replaces Fraction Slash ( ⁄ )
+                   // Replace Fraction Slash ( ⁄ )
                    .replace(/[\u2044]/, "\x2F")
-
-                   // Replaces Hyphens ( ‐ ‑ ‒ – — ― − )
+                   // Replace Hyphens ( ‐ ‑ ‒ – — ― − )
                    .replace(/[\u2010-\u2015\u2212]/g, "\x2D")
-
-                   // Replaces Single Quotation Marks ( ‘ ’ ‚ ‛ )
+                   // Replace Single Quotation Marks ( ‘ ’ ‚ ‛ )
                    .replace(/[\u2018-\u201B]/g, "\x27")
-
-                   // Replaces Double Quotation Marks ( “ ” „ ‟ )
+                   // Replace Double Quotation Marks ( “ ” „ ‟ )
                    .replace(/[\u201C-\u201F]/g, "\x22")
-
-                   // Removes Combining Acute Accent ( ◌́ )
+                   // Remove Combining Acute Accent ( ◌́ )
                    .replace(/\u0301/, String())
-
                    // Split text into words
                    .match(/[^\s]+\s{0,1}/g);
     }
+}
 
-    function display_highres_image(should_render) {
-        const pid = self.current?.pageid;
-        const image = self.current?.image;
+void new class Article extends Controller {
+    __data() {
+        this.$node = ƒ("article");
+        this.$article = ƒ("#articleContentWrapper");
+        this.$extract = ƒ("#articleExtract");
+        this.$thumbnail = ƒ("#articleThumbnail");
+        this.$image = ƒ("#articleImage");
+        this.$active_token = null;
+        this.$input = ƒ(".inputToken");
+
+        this.current_article_data = null;
+
+        this.flags = {
+            DONT_DISPLAY_NAVIGATION: 1 << 0,
+            DISPLAY_NAVIGATION: 1 << 1,
+        };
+    }
+
+    __listen() {
+        return {
+            "article :setContents": this.set_contents.bind(this),
+            "theme :afterUpdate": this.reposition_article.bind(this),
+            "input :clear": this.clear_input.bind(this),
+        };
+    }
+
+    __shortcuts() {
+        return {
+            "enter": () => {
+                const url = this.current_article_data.url;
+                if (url)
+                    window.open(url);
+            },
+            "⌘enter": () => {
+                const url = this.current_article_data.edit_url;
+                if (url)
+                    window.open(url);
+            },
+            "tab": {
+                keydown: e => (this.display_highres_image(true), e.preventDefault()),
+                keyup: e => (this.display_highres_image(false), e.preventDefault()),
+            },
+            "⌘s": e => {
+                if (this.current_article_data) {
+                    this.advance_token();
+                    º.emit`input :clear`();
+                }
+            },
+            "⌘x": () => this.current_article_data && this.unload_article(),
+        };
+    }
+
+    __init() {
+        // Always start in a loading state.
+        º.emit`spinner :spawn`(this.$article);
+        this.$node.dataset.isLoaded = false;
+
+        this.reposition_article();
+
+        window.addEventListener("resize", () => this.reposition_article());
+
+        this.$input.addEventListener("input", this.input_evt.bind(this));
+        document.body.addEventListener("keydown", this.focus_input.bind(this));
+    }
+
+    display_highres_image(should_render) {
+        const id = this.current_article_data.id;
+        const image = this.current_article_data.image;
 
         // Remove source if it shouldn't be rendered.
         if (!should_render)
-            return void (self.image_node.src = "data:,");
+            return void (this.$image.src = "data:,");
 
-        // If there is not current article loaded or
+        // If there is no current article loaded or
         // the highres image is already set return.
-        if (!self.current || !image || self.image_node.src !== "data:,")
+        if (!this.current_article_data || !image || this.$image.src !== "data:,")
             return;
 
-        // Display the lowres image, scaled up, while waiting for the highres version.
-        self.image_node.src = self.current.thumbnail.source;
-        self.image_node.style.cssText = `--original-height: ${image.width}px;
+        // Display the scaled up thumbnail while waiting for the highres version.
+        this.$image.src = this.current_article_data.thumbnail;
+        this.$image.style.cssText = `--original-height: ${image.width}px;
                                          --original-width: ${image.height}px;`;
 
-        π(image.source, (img) => {
+        preload_image(image.source, img => {
             // If, while the image has been loaded, the article got changed ignore
             // the incoming highres image.
-            if (!self.current
-                || self.current.pageid !== pid
-                || self.image_node.src === "data:,")
+            if (!this.current_article_data
+                || this.current_article_data.id !== id
+                || this.$image.src === "data:,")
                 return;
 
-            self.image_node.src = img.src;
+            this.$image.src = img.src;
         });
     }
 
-    function set_contents(article_data) {
+    set_contents(article_data) {
         // If there is already an article loaded clear it first.
-        if (self.current)
-            unload_article(self.flags.DONT_DISPLAY_NAVIGATION);
+        if (this.current_article_data)
+            this.unload_article(this.flags.DONT_DISPLAY_NAVIGATION);
 
-        const article = self.current = new Article(article_data);
+        const article = this.current_article_data = ArticleData.from(article_data);
 
         // Create tokens.
-        tokenize(article.extract).forEach((word) => {
+        article.tokenized_extract.forEach((word, i) => {
             const token_node = ª(ƒ("#tokenTemplate"), ".token");
             token_node.dataset.word = word;
-            self.extract_node.appendChild(token_node);
+            token_node.classList.add("upcomingToken");
+            this.$extract.appendChild(token_node);
         });
 
         // Set active token.
-        advance_token();
+        this.advance_token();
 
         // Insert thumbnail.
-        if (article.thumbnail?.source) {
-            π(article.thumbnail.source, (img) => {
+        if (article.thumbnail) {
+            preload_image(article.thumbnail, img => {
                 // Make sure that the article hasn't been changed.
-                if (article.pageid === self.current?.pageid)
-                    self.thumbnail_node.src = img.src;
+                if (article.id === this.current_article_data?.id)
+                    this.$thumbnail.src = img.src;
             });
         }
 
-        º.emit`spinner :kill`(self.article_node);
-        self.node.dataset.isLoaded = true;
+        º.emit`spinner :kill`(this.$article);
+        this.$node.dataset.isLoaded = true;
     }
 
-    function unload_article(display_navigation = self.flags.DISPLAY_NAVIGATION) {
-        if (!self.current)
+    unload_article(display_navigation = this.flags.DISPLAY_NAVIGATION) {
+        if (!this.current_article_data)
             return;
 
         // Create image clone for history.
-        º.emit`history :cloneImage`(self.thumbnail_node);
+        º.emit`article :beforeUnload`(this.$thumbnail);
 
         // Clear input
         º.emit`input :clear`();
 
         // Reset all article nodes.
-        self.extract_node.querySelectorAll("span").forEach((node) => node.remove());
-        self.image_node.src = "data:,";
-        self.thumbnail_node.src = "data:,";
-        self.token_node = null;
+        this.$extract.querySelectorAll("span").forEach((node) => node.remove());
+        this.$image.src = "data:,";
+        this.$thumbnail.src = "data:,";
+        this.$active_token = null;
 
         // Reposition frame.
-        reposition_article();
+        this.reposition_article();
 
-        if (display_navigation === self.flags.DISPLAY_NAVIGATION) {
-            º.emit`spinner :spawn`(self.article_node);
-            º.emit`nav :displayOptions`(self.current._raw);
+        if (display_navigation === this.flags.DISPLAY_NAVIGATION) {
+            º.emit`spinner :spawn`(this.$article);
+            º.emit`nav :displayOptions`(this.current_article_data);
         }
 
-        self.current = undefined;
-        self.node.dataset.isLoaded = false;
-
-        º.emit`theme :apply`({ __kRandArticleBound: Math.random() });
+        this.current_article_data = undefined;
+        this.$node.dataset.isLoaded = false;
     }
 
-    function advance_token() {
-        const active_token = self.token_node;
+    advance_token() {
+        const active_token = this.$active_token;
         const next_token = active_token ? active_token?.nextElementSibling
-                                        : self.extract_node.children[0];
+                                        : this.$extract.children[0];
 
         if (active_token) {
             if (!next_token) {
-                unload_article();
+                this.unload_article();
                 return;
             }
 
@@ -229,38 +212,26 @@ void function ArticleController() {
                     next_token.previousElementSibling.remove();
             }
 
-            // Reset previous token.
-            active_token.removeAttribute("id");
+            // Update typed token.
+            active_token.classList.remove("activeToken");
             active_token.classList.add("typedToken");
-            active_token.querySelector("#progressToken").remove();
         }
 
         // Set next token.
-        const progress_token = ª(ƒ("#progressTokenTemplate"), "#progressToken");
-        progress_token.dataset.upcoming = next_token.dataset.word;
-        next_token.appendChild(progress_token);
-        next_token.setAttribute("id", "activeToken");
+        next_token.classList.remove("upcomingToken");
+        next_token.classList.add("activeToken");
+        next_token.dataset.upcoming = next_token.dataset.word;
+        next_token.appendChild(this.$input);
 
         // Store reference.
-        self.token_node = next_token;
-        reposition_active_token();
+        this.$active_token = next_token;
     }
 
-    function reposition_active_token() {
-        const rect = self.token_node.getBoundingClientRect();
-        º.emit`theme :apply`({
-            __kArticleTokenX: `${self.token_node.offsetLeft}px`,
-            __kArticleTokenY: `${self.token_node.offsetTop}px`,
-            __kArticleTokenW: `${Math.round(rect.width)}px`,
-            __kArticleTokenH: `${Math.round(rect.height)}px`,
-        });
-    }
-
-    function reposition_article() {
+    reposition_article() {
         const invert = () => (Math.random() > .5 ? 1 : -1);
 
-        const main_padding = º.req`theme :as_px`("--main-padding");
-        const { x, y, width: w, height: h } = self.node.getBoundingClientRect();
+        const main_padding = º.req`theme :as_px`("__mainPadding");
+        const { x, y, width: w, height: h } = this.$node.getBoundingClientRect();
         const ref = {
             left: main_padding,
             top: y + main_padding,
@@ -268,10 +239,10 @@ void function ArticleController() {
             height: h - main_padding * 2,
         };
 
-        const article_base_width = º.req`theme :as_px`("--article-base-width");
-        const article_width_shift = º.req`theme :as_px`("--article-width-shift");
-        const article_base_height = º.req`theme :as_px`("--article-base-height");
-        const article_height_shift = º.req`theme :as_px`("--article-height-shift");
+        const article_base_width = º.req`theme :as_px`("__articleBaseWidth");
+        const article_width_shift = º.req`theme :as_px`("__articleWidthShift");
+        const article_base_height = º.req`theme :as_px`("__articleBaseHeight");
+        const article_height_shift = º.req`theme :as_px`("__articleHeightShift");
 
         const width = Math.round(Math.min(
             article_base_width +
@@ -299,65 +270,51 @@ void function ArticleController() {
             __kArticleFrameH: `${height}px`,
         });
     }
-}();
 
-void function InputController() {
-    const self = Object.create(null);
-
-    void function init() {
-        self.input = articleInput;
-        self.input.addEventListener("input", input_evt);
-        document.body.addEventListener("keydown", focus_input);
-
-        º.listen({
-            'input :clear': () => clear_input(),
-            'input :focus': () => focus_input(),
-        });
-
-        focus_input();
-    }();
-
-    function focus_input() {
-        if (document.activeElement !== self.input) {
+    /// Focuses the input element if it's not the active element.
+    ///
+    /// [<] void
+    focus_input() {
+        if (document.activeElement !== this.$input) {
             const range = document.createRange();
             const selection = window.getSelection();
 
-            self.input.focus();
-            range.selectNodeContents(self.input);
+            this.$input.focus();
+            range.selectNodeContents(this.$input);
             range.collapse(false);
             selection.empty();
             selection.addRange(range);
         }
     }
 
-    function clear_input() {
-        self.input.textContent = String();
-        self.input.dataset.mistyped = String();
+    /// Clears all data from the input element.
+    ///
+    /// [<] void
+    clear_input() {
+        this.$input.textContent = String();
+        this.$input.dataset.mistyped = String();
     }
 
-    function input_evt(kbevt) {
-        const input_txt = self.input.textContent.replace(/\u00A0/g, "\x20");
-        const token_txt = º.req`article :getActiveTokenText`();
+    input_evt(e) {
+        const input_txt = this.$input.textContent.replace(/\u00A0/g, "\x20");
+        const token_txt = this.$active_token.dataset.word;
 
         // Don't update on composing keys as it will show up as mistyped text.
         // However if there is already mistyped text then add it to it, otherwise it
         // will appear in front of it.
-        if (kbevt.inputType === "insertCompositionText" && !self.input.dataset.mistyped.length)
+        if (e.inputType === "insertCompositionText" && !this.$input.dataset.mistyped.length)
             return;
 
-        if (!token_txt) {
-            º.emit`nav :select`(input_txt);
-            clear_input();
-            return;
-        }
+        if (!token_txt)
+            return this.clear_input();
 
         let upcoming_txt = String();
         let mistyped_txt = String();
 
         if (token_txt.indexOf(input_txt) === 0) {
             if (token_txt.length === input_txt.length) {
-                º.emit`article :advanceToken`();
-                clear_input();
+                this.advance_token();
+                this.clear_input();
                 return;
             }
 
@@ -372,7 +329,7 @@ void function InputController() {
             }
         }
 
-        self.input.dataset.mistyped = mistyped_txt;
-        º.emit`article :updateProgressToken`(upcoming_txt);
+        this.$input.dataset.mistyped = mistyped_txt;
+        this.$active_token.dataset.upcoming = upcoming_txt;
     }
-}();
+}

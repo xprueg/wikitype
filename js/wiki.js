@@ -17,9 +17,9 @@ void function WikiController() {
                 { headers }
             );
 
-            const related = (article_data) => {
-                const lang = article_data.lang;
-                const title = encodeURIComponent(article_data.titles.normalized);
+            const related = (article_data_raw) => {
+                const lang = article_data_raw.lang;
+                const title = encodeURIComponent(article_data_raw.titles.normalized);
 
                 return new Request(
                     `https://${lang}.wikipedia.org/api/rest_v1/page/related/${title}`,
@@ -33,41 +33,41 @@ void function WikiController() {
         º.respond({
             "wikiapi :fetchRandomArticle": lang_code => load_random_article(lang_code),
             "wikiapi :fetchArticleByFullUrl": url => load_article_by_full_url(url),
-            "wikiapi :fetchRelatedArticles": article_data => {
-                return load_related_articles(article_data)
+            "wikiapi :fetchRelatedArticles": article_data_raw => {
+                return load_related_articles(article_data_raw)
             },
         });
 
         º.listen({
-            "wikiapi :prefetchRelatedArticles": article_data => {
-                prefetch_related_articles(article_data)
+            "wikiapi :prefetchRelatedArticles": article_data_raw => {
+                prefetch_related_articles(article_data_raw)
             },
         });
     }();
 
-    function prefetch_related_articles(article_data) {
-        load_related_articles(article_data).then(
-            articles => self.related_articles_cache.set(article_data.pageid, articles)
+    function prefetch_related_articles(article_data_raw) {
+        load_related_articles(article_data_raw).then(
+            articles => self.related_articles_cache.set(article_data_raw.pageid, articles)
         );
     }
 
     function prefetch_random_article(lang_code) {
-        µƒ(self.url.random(lang_code)).then(article_data => {
-            prefetch_related_articles(article_data);
-            self.random_article_cache.get(lang_code).push(article_data);
+        fetch_json(self.url.random(lang_code)).then(article_data_raw => {
+            prefetch_related_articles(article_data_raw);
+            self.random_article_cache.get(lang_code).push(article_data_raw);
         });
     }
 
-    function load_related_articles(article_data) {
-        const article_id = article_data.pageid;
+    function load_related_articles(article_data_raw) {
+        const article_id = article_data_raw.pageid;
 
         const cached_related_articles = self.related_articles_cache.get(article_id)
         if (cached_related_articles) {
             self.related_articles_cache.delete(article_id);
-            return µµ(cached_related_articles);
+            return resolve_promise(cached_related_articles);
         }
 
-        return µƒ(self.url.related(article_data), { pages: Array() });
+        return fetch_json(self.url.related(article_data_raw), { pages: Array() });
     }
 
     function load_random_article(lang_code = º.req`language :getRandom`()) {
@@ -75,12 +75,12 @@ void function WikiController() {
 
         const cached_article = self.random_article_cache.get(lang_code).shift();
         if (cached_article)
-            return µµ(cached_article);
+            return resolve_promise(cached_article);
 
-        return µƒ(self.url.random(lang_code)).then(article_data => {
-            prefetch_related_articles(article_data);
+        return fetch_json(self.url.random(lang_code)).then(article_data_raw => {
+            prefetch_related_articles(article_data_raw);
 
-            return article_data;
+            return article_data_raw;
         });
     }
 
@@ -94,8 +94,8 @@ void function WikiController() {
             }
         );
 
-        return µƒ(wiki_url).then(article_data => {
-            prefetch_related_articles(article_data);
+        return fetch_json(wiki_url).then(article_data_raw => {
+            prefetch_related_articles(article_data_raw);
 
             return article_data;
         });

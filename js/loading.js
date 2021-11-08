@@ -1,58 +1,69 @@
-void function Spinner() {
-    const self = Object.create(null);
-
-    void function init() {
-        self.spinner = new Map();
-
-        º.listen({
-            "spinner :spawn": (node) => spawn_spinner(node),
-            "spinner :kill": (node) => kill_spinner(node),
-        });
-    }();
-
-    function spawn_spinner(node) {
-        // Prevent multiple spinner on a single node.
-        if (self.spinner.has(node))
-            return;
-
-        const spinner = document.createElement("div");
-        spinner.setAttribute("id", "loadingSpinner");
-
-        const chars = º.req`theme :val`("--article-loading-spinner-chars");
-        const delay = º.req`theme :val`("--article-loading-spinner-delay");
-        self.spinner.set(node, new Map([
-            ["spinner", node.appendChild(spinner)],
-            ["idx", 0],
-            ["chars", chars],
-            ["id", setInterval(update_spinner.bind(node), delay)],
-        ]));
-
-        update_spinner.call(node);
+void new class Spinner extends Controller {
+    __data() {
+        this.spinner = new Map();
+        this.spinner_element_id = "loadingSpinner";
     }
 
-    function kill_spinner(node) {
-        if (!self.spinner.has(node))
+    __listen() {
+        return {
+            "spinner :spawn": this.spawn.bind(this),
+            "spinner :kill": this.kill.bind(this),
+        };
+    }
+
+    /// Creates a spinner within the specified element.
+    ///
+    /// [>] $node: HTMLElement
+    /// [<] void
+    spawn($node) {
+        // Prevent multiple spinner on a single node.
+        if (this.spinner.has($node))
             return;
 
-        const data = self.spinner.get(node);
-        const spinner = data.get("spinner");
-        const id = data.get("id");
+        this.spinner.set($node, {
+            $spinner: $node.appendChild(Object.assign(
+                document.createElement("div"), { id: this.spinner_element_id }
+            )),
+            frame: 0,
+            chars: º.req`theme :val`("__articleLoadingSpinnerChars"),
+            id: setInterval(
+                () => this.update($node),
+                º.req`theme :val`("__articleLoadingSpinnerDelay")
+            ),
+        });
 
-        spinner.remove();
+        this.update($node);
+    }
+
+    /// Removes the spinner from the specified element.
+    ///
+    /// [>] $node: HTMLElement
+    /// [<] void
+    kill($node) {
+        if (!this.spinner.has($node))
+            return;
+
+        const { $spinner, id } = this.spinner.get($node);
+
+        $spinner.remove();
         clearInterval(id);
 
-        self.spinner.delete(node);
+        this.spinner.delete($node);
     }
 
-    function update_spinner() {
-        const data = self.spinner.get(this);
-        const chars = data.get("chars");
+    /// Updates the spinner within the specified element.
+    ///
+    /// [>] $node: HTMLElement
+    /// [<] void
+    update($node) {
+        const data = this.spinner.get($node);
+        const { $spinner, chars, frame } = data;
 
-        let idx = data.get("idx");
-        if (++idx > chars.length - 1)
-            idx = 0;
+        let next_frame = frame + 1;
+        if (next_frame > chars.length - 1)
+            next_frame = 0;
 
-        data.get("spinner").innerText = chars[idx];
-        data.set("idx", idx);
+        $spinner.innerText = chars[next_frame];
+        data.frame = next_frame;
     }
-}();
+}

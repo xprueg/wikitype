@@ -43,12 +43,14 @@ void function ThemeController() {
     /// [<] object{*: string}
     function transpile(x) {
         return Object.fromEntries(
-            Object.entries(x).map(
-                ([k, v]) => [k.replace(/^__/, '--')
-                              .replace(/([A-Z])/g, '-$1')
-                              .toLowerCase(), v]
-            )
+            Object.entries(x).map(([k, v]) => [__transpile(k), v])
         );
+    }
+
+    function __transpile(key) {
+        return key.replace(/^__/, '--')
+                  .replace(/([A-Z])/g, '-$1')
+                  .toLowerCase();
     }
 
     /// Returns the extended theme object.
@@ -92,7 +94,7 @@ void function ThemeController() {
     /// [>] key: str
     /// [<] str
     function val(key) {
-        return compile(self.active_theme)[key];
+        return compile(self.active_theme)[__transpile(key)];
     }
 
     /// Returns the property as a number.
