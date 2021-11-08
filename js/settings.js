@@ -86,6 +86,7 @@ void function SettingsController() {
                         __shortcutBox:        "var(--bright)",
 
                         // Article
+                        __articleOverflow:            "hidden",
                         // FIXME: Allow to set each value separately.
                         __articlePadding:             0,
                         __articleBaseWidth:           "500px",
@@ -146,6 +147,7 @@ void function SettingsController() {
                         __historyContrast: "var(--bright)",
 
                         // Article
+                        __articleOverflow:            "visible",
                         __articleBaseWidth:           "100vw",
                         __articleWidthShift:          "0px",
                         __articleBaseHeight:          "100vh",
@@ -172,8 +174,8 @@ void function SettingsController() {
                         __tokenProgressColor:      "var(--dark)",
                         __tokenProgressBackground: "var(--bright)",
                         __tokenTypedColor:         "transparent",
-                        __tokenTypedBackground:    `linear-gradient(var(--dark), var(--dark)) 0 0/
-                                                    calc(100% - 1ex) 100% no-repeat`,
+                        __tokenTypedBackground:    `linear-gradient(var(--dark), var(--dark))
+                                                    0 0/calc(100% - .90ex) 100% no-repeat`,
                         __tokenErrorColor:         "var(--bright)",
                         __tokenErrorBackground:    "var(--dark)",
                     },

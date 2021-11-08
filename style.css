@@ -283,7 +283,7 @@ article[data-is-loaded=false] #articleInput {
 
 #articleOverflow {
     height: 100%;
-    overflow: hidden;
+    overflow: var(--article-overflow);
 }
 
 #articleThumbnail[src="data:,"],
