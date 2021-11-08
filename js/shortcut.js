@@ -26,12 +26,12 @@ void function ShortcutController() {
     }
 
     function generate_identifier(e) {
-        const cmd = e.metaKey ? "⌘" : String();
+        const cmd = e.metaKey ? "cmd" : String();
         const key = /[+-]/.test(e.key) ? e.key
                                        : e.code.replace(/(Key|Digit)/, String())
                                                .toLowerCase();
 
-        return cmd + key;
+        return cmd ? `${cmd}\x20${key}` : key;
     }
 
     function key_event(e) {

@@ -74,7 +74,7 @@ void new class Article extends Controller {
                 if (url)
                     window.open(url);
             },
-            "⌘enter": () => {
+            "cmd enter": () => {
                 const url = this.current_article_data.edit_url;
                 if (url)
                     window.open(url);
@@ -83,13 +83,13 @@ void new class Article extends Controller {
                 keydown: e => (this.display_highres_image(true), e.preventDefault()),
                 keyup: e => (this.display_highres_image(false), e.preventDefault()),
             },
-            "⌘s": e => {
+            "cmd s": e => {
                 if (this.current_article_data) {
                     this.advance_token();
                     º.emit`input :clear`();
                 }
             },
-            "⌘x": () => this.current_article_data && this.unload_article(),
+            "cmd x": () => this.current_article_data && this.unload_article(),
         };
     }
 
