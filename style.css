@@ -401,53 +401,6 @@ article[data-is-loaded=false] #articleInput {
     letter-spacing: var(--article-extract-letter-spacing);
 }
 
-/* .token {
-    display: inline-block;
-    position: relative;
-    white-space: pre-wrap;
-    color: var(--token-upcoming-color);
-    background: var(--token-upcoming-background);
-    padding-top: var(--token-offset-top);
-}
-
-#activeToken {
-    z-index: var(--z-elevated);
-}
-
-#progressToken {
-    color: var(--token-progress-color);
-    background: var(--token-progress-background);
-    text-shadow: var(--token-progress-text-shadow);
-    position: absolute;
-    right: 0;
-    margin-top: calc(-1 * var(--token-offset-top));
-    padding-top: var(--token-offset-top);
-}
-
-#progressToken::before {
-    content: attr(data-upcoming);
-}
-
-#articleExtract, #articleInput, #loadingSpinner {
-    font: var(--article-extract-font);
-    font-feature-settings: var(--article-extract-font-feature-settings);
-    letter-spacing: var(--article-extract-letter-spacing);
-}
-
-.typedToken {
-    position: relative;
-    color: var(--token-typed-color);
-    background: var(--token-typed-background);
-}
-
-.token::before {
-    content: attr(data-word);
-}
-
-#activeToken::before {
-    color: transparent;
-} */
-
 .history-image {
     --timing: 500ms;
     --history-image-max-size: 200px;
@@ -571,9 +524,6 @@ header {
     white-space: pre;
     text-transform: uppercase;
 }
-
-#settingsStatusLanguage::before { content: "|||  "; }
-#settingsStatusTheme::after { content: "  |||"; }
 
 #settingsStatusBar span {
     padding-right: 0.2ch;

@@ -3,8 +3,7 @@ void function SettingsController() {
 
     !function init() {
         self.node = ƒ("#settings");
-        self.status_bar_language = ƒ("#settingsStatusLanguage");
-        self.status_bar_theme = ƒ("#settingsStatusTheme");
+        self.status_bar = ƒ("#settingsStatus");
         self.settings = {
             language: {
                 type: "checkbox",
@@ -670,14 +669,14 @@ void function SettingsController() {
                              .map(([key, state]) => key)
                              .sort();
 
-        status_txt += selected.splice(0, lang.display_limit).join(" / ");
+        status_txt += selected.splice(0, lang.display_limit).join("\x20/\x20");
 
         if (selected.length)
             status_txt += ` + ${selected.length}`;
 
-        self.status_bar_language.textContent = status_txt;
-
         // Theme
-        self.status_bar_theme.textContent = º.req`theme :getSelected`();
+        status_txt += " & " +  º.req`theme :getSelected`();
+
+        self.status_bar.textContent = status_txt;
     }
 }();
