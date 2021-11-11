@@ -97,7 +97,7 @@ void function WikiController() {
         return fetch_json(wiki_url).then(article_data_raw => {
             prefetch_related_articles(article_data_raw);
 
-            return article_data;
+            return article_data_raw;
         });
     }
 }();

@@ -135,12 +135,14 @@
         <script src="js/nav.js"></script>
         <script src="js/article.js"></script>
         <script>
-            const entry = new URLSearchParams(location.search).get("entry");
+            let entry = window.location.hash;
+            if (entry) entry = entry.substr(1);
+
             const api_response = entry
                 ? º.req`wikiapi :fetchArticleByFullUrl`(entry)
                 : º.req`wikiapi :fetchRandomArticle`();
 
-            api_response.then((article_data_raw) => {
+            api_response.then(article_data_raw => {
                 º.emit`history :push`({ article_data_raw, is_related: false });
                 º.emit`article :setContents`(article_data_raw);
             });
