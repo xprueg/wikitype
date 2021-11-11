@@ -20,6 +20,7 @@ void function NavController() {
         }, true);
 
         º.listen({
+            "article :afterUnload": article_data => (render_options(article_data), show()),
             "nav :displayOptions": article_data => (render_options(article_data), show()),
             "nav :forceHide": () => hide(),
         });

@@ -15,8 +15,8 @@ void function HistoryController() {
                 node.previousElementSibling.remove();
             }
 
-            º.emit`nav :forceHide`();
             º.emit`article :setContents`(self.cache.get(node.dataset.pageid));
+            º.emit`nav :forceHide`();
             º.emit`input :clear`();
         }, true);
 

@@ -52,11 +52,6 @@ void new class Article extends Controller {
         this.$input = ƒ(".inputToken");
 
         this.current_article_data = null;
-
-        this.flags = {
-            DONT_DISPLAY_NAVIGATION: 1 << 0,
-            DISPLAY_NAVIGATION: 1 << 1,
-        };
     }
 
     __listen() {
@@ -136,12 +131,12 @@ void new class Article extends Controller {
         });
     }
 
-    set_contents(article_data) {
+    set_contents(article_data_raw) {
         // If there is already an article loaded clear it first.
         if (this.current_article_data)
-            this.unload_article(this.flags.DONT_DISPLAY_NAVIGATION);
+            this.unload_article();
 
-        const article = this.current_article_data = ArticleData.from(article_data);
+        const article = this.current_article_data = ArticleData.from(article_data_raw);
 
         // Create tokens.
         article.tokenized_extract.forEach((word, i) => {
@@ -167,7 +162,7 @@ void new class Article extends Controller {
         this.$node.dataset.isLoaded = true;
     }
 
-    unload_article(display_navigation = this.flags.DISPLAY_NAVIGATION) {
+    unload_article() {
         if (!this.current_article_data)
             return;
 
@@ -186,10 +181,8 @@ void new class Article extends Controller {
         // Reposition frame.
         this.reposition_article();
 
-        if (display_navigation === this.flags.DISPLAY_NAVIGATION) {
-            º.emit`spinner :spawn`(this.$article);
-            º.emit`nav :displayOptions`(this.current_article_data);
-        }
+        º.emit`spinner :spawn`(this.$article);
+        º.emit`article :afterUnload`(this.current_article_data);
 
         this.current_article_data = undefined;
         this.$node.dataset.isLoaded = false;
