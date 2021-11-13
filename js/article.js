@@ -223,7 +223,7 @@ void new class Article extends Controller {
     reposition_article() {
         const invert = () => (Math.random() > .5 ? 1 : -1);
 
-        const main_padding = º.req`theme :as_px`("__mainPadding");
+        const main_padding = º.req`theme :valAsPx`("__mainPadding");
         const { x, y, width: w, height: h } = this.$node.getBoundingClientRect();
         const ref = {
             left: main_padding,
@@ -232,10 +232,10 @@ void new class Article extends Controller {
             height: h - main_padding * 2,
         };
 
-        const article_base_width = º.req`theme :as_px`("__articleBaseWidth");
-        const article_width_shift = º.req`theme :as_px`("__articleWidthShift");
-        const article_base_height = º.req`theme :as_px`("__articleBaseHeight");
-        const article_height_shift = º.req`theme :as_px`("__articleHeightShift");
+        const article_base_width = º.req`theme :valAsPx`("__articleBaseWidth");
+        const article_width_shift = º.req`theme :valAsPx`("__articleWidthShift");
+        const article_base_height = º.req`theme :valAsPx`("__articleBaseHeight");
+        const article_height_shift = º.req`theme :valAsPx`("__articleHeightShift");
 
         const width = Math.round(Math.min(
             article_base_width +

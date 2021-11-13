@@ -1,39 +1,47 @@
-void function ThemeController() {
-    const self = Object.create(null);
-
-    void function init() {
-        self.node = ƒ("html");
-        self.active_theme = º.req`theme :getSelected`();
-        self.themes = º.req`theme :getAll`();
+void new class Theme extends Controller {
+    __data() {
+        this.$node = ƒ("html");
+        this.active_theme = º.req`theme :getSelected`();
+        this.themes = º.req`theme :getAll`();
 
         // Variables that can be controlled by the user.
-        self.user = {
+        this.user = {
             __uFontSizeScaling: 1,
         };
+    }
 
-        set_theme_to(self.active_theme);
-        apply(self.user);
-
-        º.emit`shortcut :setMultiple`(
-            ["cmd +", _ => (self.user.__uFontSizeScaling += .05, apply(self.user))],
-            ["cmd -", _ => (self.user.__uFontSizeScaling -= .05, apply(self.user))],
-            ["cmd 0", _ => (self.user.__uFontSizeScaling = 1, apply(self.user))],
-        );
-
-        º.respond({
-            "theme :val": key => val(key),
-            "theme :as_px": key => as_px(key),
-        });
-
-        º.listen({
-            "setting :themeUpdated": (theme) => {
+    __listen() {
+        return {
+            "setting :themeUpdated": theme => {
                 º.emit`theme :beforeUpdate`();
-                reset_theme();
-                set_theme_to(theme);
+
+                this.reset_theme();
+                this.set_theme_to(theme);
+
                 º.emit`theme :afterUpdate`();
             },
-            "theme :apply": vars => apply(vars),
-        });
+            "theme :apply": this.apply.bind(this),
+        };
+    }
+
+    __respond() {
+        return {
+            "theme :val": this.val.bind(this),
+            "theme :valAsPx": this.val_as_px.bind(this),
+        };
+    }
+
+    __shortcuts() {
+        return {
+            "cmd +": () => (this.user.__uFontSizeScaling += .05, this.apply(this.user)),
+            "cmd -": () => (this.user.__uFontSizeScaling -= .05, this.apply(this.user)),
+            "cmd 0": () => (this.user.__uFontSizeScaling = 1, this.apply(this.user)),
+        };
+    }
+
+    __init() {
+        this.set_theme_to(this.active_theme);
+        this.apply(this.user);
 
         ƒ("body").dataset.isTyping = "false";
         let is_typing_timeout;
@@ -46,20 +54,25 @@ void function ThemeController() {
                 ƒ("body").dataset.isTyping = "false";
             }, 250);
         });
-    }();
+    }
 
-    /// Transforms the keys from an object from Camel case to CSS variable names.
+    /// Transforms the keys from an object from camel case to CSS variable names.
     /// `__cssVariable' turns into `--css-variable'.
     ///
-    /// [>] x: object{*: string}
-    /// [<] object{*: string}
-    function transpile(x) {
+    /// [>] o: object{*: str}
+    /// [<] object{*: str}
+    transpile(o) {
         return Object.fromEntries(
-            Object.entries(x).map(([k, v]) => [__transpile(k), v])
+            Object.entries(o).map(([k, v]) => [this.transpile_key(k), v])
         );
     }
 
-    function __transpile(key) {
+    /// Transforms a string from camel case to a CSS variable name.
+    /// `__cssVariable' turns into `--css-variable'.
+    ///
+    /// [>] key: str
+    /// [<] str
+    transpile_key(key) {
         return key.replace(/^__/, '--')
                   .replace(/([A-Z])/g, '-$1')
                   .toLowerCase();
@@ -69,60 +82,54 @@ void function ThemeController() {
     ///
     /// [>] name: string
     /// [<] object{*: str}
-    function compile(name) {
-        const theme = transpile(self.themes[name]);
+    compile(name) {
+        const theme = this.transpile(this.themes[name]);
         const parent = theme.extend;
 
         if (!parent)
             return theme;
 
-        return Object.assign(Object.create(null), compile(parent), theme);
+        return Object.assign(Object.create(null), this.compile(parent), theme);
     }
 
-    function reset_theme() {
-        Object.entries(compile(self.active_theme))
-              .forEach(([key, value]) => self.node.style.removeProperty(key));
+    reset_theme() {
+        Object.entries(this.compile(this.active_theme))
+              .forEach(([key, value]) => this.$node.style.removeProperty(key));
     }
 
     /// Sets the active theme to the given name and applies it.
     ///
     /// [>] name: str
     /// [<] void
-    function set_theme_to(name) {
-        apply(compile(self.active_theme = name));
+    set_theme_to(name) {
+        this.apply(this.compile(this.active_theme = name));
     }
 
     /// Applies the given key value pairs to the html node.
     ///
     /// [>] vars: object{*: str}
     /// [<] void
-    function apply(vars) {
-        Object.entries(transpile(vars))
-              .forEach(([key, value]) => self.node.style.setProperty(key, value));
+    apply(vars) {
+        Object.entries(this.transpile(vars))
+              .forEach(([key, value]) => this.$node.style.setProperty(key, value));
    }
 
     /// Returns the raw property value as a string.
     ///
     /// [>] key: str
     /// [<] str
-    function val(key) {
-        return compile(self.active_theme)[__transpile(key)];
-    }
-
-    /// Returns the property as a number.
-    ///
-    /// [>] key: str
-    /// [<] int
-    function px(key) {
-        return Number(val(key).replace(/px$/, String()));
+    val(key) {
+        return this.compile(this.active_theme)[this.transpile_key(key)];
     }
 
     /// Returns the property converted to an absolute pixel value.
     ///
+    /// [~] TODO: Support floats.
+    ///
     /// [>] key: str
     /// [<] int
-    function as_px(key) {
-        const [_, v, unit] = val(key).match(/(\d+)(.+)/);
+    val_as_px(key) {
+        const [_, v, unit] = this.val(key).match(/(\d+)(.+)/);
 
         switch(unit) {
             case "px":
@@ -135,4 +142,4 @@ void function ThemeController() {
                 throw Error(`Unkown unit '${unit}'.`);
         }
     }
-}();
+}
