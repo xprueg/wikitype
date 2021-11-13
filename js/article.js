@@ -49,7 +49,7 @@ void new class Article extends Controller {
         this.$thumbnail = ƒ("#articleThumbnail");
         this.$image = ƒ("#articleImage");
         this.$active_token = null;
-        this.$input = ƒ(".inputToken");
+        this.$input = ª(ƒ("#inputTokenTemplate"), ".inputToken").cloneNode();
 
         this.current_article_data = null;
     }

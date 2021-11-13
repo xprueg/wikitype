@@ -248,15 +248,6 @@ article {
     z-index: var(--z-base);
 }
 
-article[data-is-loaded=false] #articleInput {
-    display: none;
-}
-
-@keyframes blink {
-    0%, 40% { opacity: 0; }
-    50%, 100% { opacity: 1; }
-}
-
 /*** ——— Article Frame ——— ***/
 
 #articleFrame {
@@ -382,15 +373,25 @@ article[data-is-loaded=false] #articleInput {
     padding-top: var(--token-offset-top);
 }
 
+/* Caret */
+@keyframes blink {
+    0%, 40% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
 .inputToken::after {
     content: "";
     position: absolute;
-    right: 0;
+    right: calc(var(--article-caret-width) * -1);
     top: 0;
     height: 100%;
     transform: scaleY(var(--article-caret-scale-y));
     width: var(--article-caret-width);
     background: var(--article-caret-color);
+}
+
+body[data-is-typing="false"] .inputToken::after {
+    animation: blink 1000ms infinite;
 }
 
 /**/

@@ -34,6 +34,18 @@ void function ThemeController() {
             },
             "theme :apply": vars => apply(vars),
         });
+
+        ƒ("body").dataset.isTyping = "false";
+        let is_typing_timeout;
+        document.addEventListener("keydown", () => {
+            clearTimeout(is_typing_timeout);
+
+            ƒ("body").dataset.isTyping = "true";
+
+            is_typing_timeout = setTimeout(() => {
+                ƒ("body").dataset.isTyping = "false";
+            }, 250);
+        });
     }();
 
     /// Transforms the keys from an object from Camel case to CSS variable names.

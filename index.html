@@ -77,12 +77,14 @@
             <template id="tokenTemplate">
                 <span class="token" data-word></span>
             </template>
+            <template id="inputTokenTemplate">
+                <span class="inputToken" contenteditable type="text"
+                      autocomplete="off" autocorrect="off" spellcheck="false"
+                      data-mistyped></span>
+            </template>
 
             <div id="articleFrame">
                 <div id="articleContentWrapper">
-                    <span class="inputToken" contenteditable type="text"
-                          autocomplete="off" autocorrect="off" spellcheck="false"
-                          data-mistyped></span>
                     <div id="articleOverflow">
                         <p id="articleExtract"></p>
                         <img id="articleThumbnail" src="data:," alt/>
