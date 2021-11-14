@@ -129,7 +129,7 @@ void new class Theme extends Controller {
     /// [>] key: str
     /// [<] int
     val_as_px(key) {
-        const [_, v, unit] = this.val(key).match(/(\d+)(.+)/);
+        const [_, v, unit] = this.val(key).match(/(\d+)(.+)?/);
 
         switch(unit) {
             case "px":
@@ -138,6 +138,8 @@ void new class Theme extends Controller {
                 return window.innerWidth / 100 * +v;
             case "vh":
                 return window.innerHeight / 100 * +v;
+            case undefined:
+                return +v;
             default:
                 throw Error(`Unkown unit '${unit}'.`);
         }
