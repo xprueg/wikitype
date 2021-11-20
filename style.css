@@ -83,7 +83,6 @@ footer {
     display: flex;
     overflow: hidden;
     padding: var(--main-padding);
-    padding-top: 0;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -248,33 +247,28 @@ article {
     z-index: var(--z-base);
 }
 
-/*** ——— Article Frame ——— ***/
+/* ——— Article Frame ——— */
 
-#articleFrame {
+#article {
     position: fixed;
-    top: 0;
-    left: calc(var(--aside-width) + var(--global-border-size));
-    width: calc(100vw - var(--aside-width) * 2 - var(--global-border-size) * 2);
-    height: 100vw;
-    background: var(--article-frame-background);
-    transition: background var(--article-change-duration);
-    pointer-events: none;
-}
-
-#articleContentWrapper {
-    position: absolute;
     top: var(--k-article-frame-y);
     left: var(--k-article-frame-x);
     width: var(--k-article-frame-w);
     height: var(--k-article-frame-h);
     padding: var(--article-padding);
+    clip-path: inset(-100vw -100vw var(--article-bottom-clip) -100vw);
     transition: left var(--article-change-duration), top var(--article-change-duration),
                 width var(--article-change-duration), height var(--article-change-duration);
+    pointer-events: none;
 }
 
-#articleOverflow {
-    height: 100%;
-    overflow: var(--article-overflow);
+article::before {
+    content: "";
+    position: fixed;
+    top: 0; right: 0;
+    bottom: 0; left: 0;
+    background: var(--article-frame-background);
+    transition: background var(--article-change-duration);
 }
 
 #articleThumbnail[src="data:,"],
@@ -425,7 +419,6 @@ header {
     overflow: hidden;
     z-index: var(--z-elevated);
     padding: var(--main-padding);
-    padding-bottom: 0;
 }
 
 #shortcuts {

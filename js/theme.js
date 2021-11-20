@@ -63,7 +63,12 @@ void new class Theme extends Controller {
     /// [<] object{*: str}
     transpile(o) {
         return Object.fromEntries(
-            Object.entries(o).map(([k, v]) => [this.transpile_key(k), v])
+            Object.entries(o).map(
+                ([k, v]) => [
+                    this.transpile_key(k),
+                    this.transpile_values(String(v))
+                ]
+            )
         );
     }
 
@@ -76,6 +81,17 @@ void new class Theme extends Controller {
         return key.replace(/^__/, '--')
                   .replace(/([A-Z])/g, '-$1')
                   .toLowerCase();
+    }
+
+    /// Transforms every occurence of camel case strings to a CSS variable.
+    /// `foo __cssVariable bar' turns into `foo var(--css-variable) bar'.
+    ///
+    /// [>] key: str
+    /// [<] str
+    transpile_values(key) {
+        return key.replace(/__([A-Z]+)/gi, m => {
+            return `var(${this.transpile_key(m)})`;
+        });
     }
 
     /// Returns the extended theme object.

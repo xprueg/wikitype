@@ -44,7 +44,7 @@ class ArticleData {
 void new class Article extends Controller {
     __data() {
         this.$node = ƒ("article");
-        this.$article = ƒ("#articleContentWrapper");
+        this.$article = ƒ("#article");
         this.$extract = ƒ("#articleExtract");
         this.$thumbnail = ƒ("#articleThumbnail");
         this.$image = ƒ("#articleImage");
@@ -221,16 +221,15 @@ void new class Article extends Controller {
     }
 
     reposition_article() {
-        const invert = () => (Math.random() > .5 ? 1 : -1);
+        const maybe_invert = () => (Math.random() > .5 ? 1 : -1);
 
         const main_padding = º.req`theme :valAsPx`("__mainPadding");
-        const { x, y, width: w, height: h } = this.$node.getBoundingClientRect();
-        const ref = {
-            left: main_padding,
-            top: y + main_padding,
-            width: w - main_padding * 2,
-            height: h - main_padding * 2,
-        };
+        let {
+            x: ref_x, y: ref_y,
+            width: ref_width, height: ref_height,
+        } = this.$node.getBoundingClientRect();
+        ref_x += main_padding;
+        ref_width -= main_padding * 2;
 
         const article_base_width = º.req`theme :valAsPx`("__articleBaseWidth");
         const article_width_shift = º.req`theme :valAsPx`("__articleWidthShift");
@@ -238,27 +237,25 @@ void new class Article extends Controller {
         const article_height_shift = º.req`theme :valAsPx`("__articleHeightShift");
 
         const width = Math.round(Math.min(
-            article_base_width +
-            Math.random() * (invert() * article_width_shift),
-            ref.width
+            article_base_width + Math.random() * (maybe_invert() * article_width_shift),
+            ref_width
         ));
         const height = Math.round(Math.min(
-            article_base_height +
-            Math.random() * (invert() * article_height_shift),
-            ref.height
+            article_base_height + Math.random() * (maybe_invert() * article_height_shift),
+            ref_height
         ));
         const left = Math.round(
-            (ref.width - width) / 2 +
-            (invert() * ((ref.width - width) / 2) * Math.random())
+            (ref_width - width) / 2 +
+            (maybe_invert() * ((ref_width - width) / 2) * Math.random())
         );
         const top = Math.round(
-            (ref.height - height) / 2 +
-            (invert() * ((ref.height - height) / 2) * Math.random())
+            (ref_height - height) / 2 +
+            (maybe_invert() * ((ref_height - height) / 2) * Math.random())
         );
 
         º.emit`theme :apply`({
-            __kArticleFrameX: `${ref.left + left}px`,
-            __kArticleFrameY: `${ref.top + top}px`,
+            __kArticleFrameX: `${ref_x + left}px`,
+            __kArticleFrameY: `${ref_y + top}px`,
             __kArticleFrameW: `${width}px`,
             __kArticleFrameH: `${height}px`,
         });
