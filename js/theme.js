@@ -56,18 +56,22 @@ void new class Theme extends Controller {
         });
     }
 
-    /// Transforms the keys from an object from camel case to CSS variable names.
-    /// `__cssVariable' turns into `--css-variable'.
+    /// Transpiles a theme.
     ///
     /// [>] o: object{*: str}
     /// [<] object{*: str}
     transpile(o) {
         return Object.fromEntries(
             Object.entries(o).map(
-                ([k, v]) => [
-                    this.transpile_key(k),
-                    this.transpile_values(String(v))
-                ]
+                ([k, v]) => {
+                    k = this.transpile_key(k);
+
+                    v = String(v);
+                    v = this.transpile_values(v);
+                    v = this.transpile_comments(v);
+
+                    return [k, v];
+                }
             )
         );
     }
@@ -86,12 +90,26 @@ void new class Theme extends Controller {
     /// Transforms every occurence of camel case strings to a CSS variable.
     /// `foo __cssVariable bar' turns into `foo var(--css-variable) bar'.
     ///
-    /// [>] key: str
+    /// [>] value: str
     /// [<] str
-    transpile_values(key) {
-        return key.replace(/__([A-Z]+)/gi, m => {
+    transpile_values(value) {
+        return value.replace(/__([A-Z]+)/gi, m => {
             return `var(${this.transpile_key(m)})`;
         });
+    }
+
+    /// Transforms comments from the passed in value. This allows to use C++-Style like
+    /// comments in CSS values.
+    /// "// comment" => "/* comment */"
+    /// "// comment :: linear..." => "/* comment */ linear..."
+    ///
+    /// [>] value: str
+    /// [<] str
+    transpile_comments(value) {
+        const comment = (m, g) => `/* ${g.trim()} */`;
+
+        return value.replace(/^\s*\/\/([^\n:]*)::/gm, comment)
+                    .replace(/^\s*\/\/(.*$)/gm, comment);
     }
 
     /// Returns the extended theme object.

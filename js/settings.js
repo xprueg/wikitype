@@ -270,27 +270,27 @@ void function SettingsController() {
                         __dark:   "white",
                         __bright: "black",
                         __bodyBackground: `
-                            /* LEFT STATIC GUIDE */
+                            // LEFT STATIC GUIDE
                             linear-gradient(magenta, magenta)
                                 __asideWidth 0/1px 100vh no-repeat,
-                            /* RIGHT STATIC GUIDE */
+                            // RIGHT STATIC GUIDE
                             linear-gradient(magenta, magenta)
                                 calc(100vw - __asideWidth - 1px) 0/1px 100vh no-repeat,
 
-                            /* TOP ARTICLE GUIDE */
+                            // TOP ARTICLE GUIDE
                             linear-gradient(cyan, cyan)
                                 0 __frameY/100vw 1px no-repeat,
-                            /* LEFT ARTICLE GUIDE */
+                            // LEFT ARTICLE GUIDE
                             linear-gradient(cyan, cyan)
                                 __frameX 0/1px 100vh no-repeat,
-                            /* BOTTOM ARTICLE GUIDE */
+                            // BOTTOM ARTICLE GUIDE
                             linear-gradient(cyan, cyan)
                                 0 calc(__frameY + __frameH - 1px)/100vw 1px no-repeat,
-                            /* RIGHT ARTICLE GUIDE */
+                            // RIGHT ARTICLE GUIDE
                             linear-gradient(cyan, cyan)
                                 calc(__frameX + __frameW - 1px) 0/1px 100vh no-repeat,
 
-                            /* CHECKER BACKGROUND */
+                            // CHECKER BACKGROUND
                             linear-gradient(45deg,
                                 hsla(0, 0%, 0%, .04) 25%, transparent 25%, transparent 75%,
                                 hsla(0, 0%, 0%, .04) 75%, hsla(0, 0%, 0%, .04))
@@ -317,14 +317,14 @@ void function SettingsController() {
                         // Settings
                         __settingsColor: "__bright",
                         __settingsBackground: `
-                            /* TOP ARTICLE GUIDE */
+                            // TOP ARTICLE GUIDE
                             linear-gradient(cyan, cyan)
                                 0 __frameY/100vw 1px no-repeat,
-                            /* BOTTOM ARTICLE GUIDE */
+                            // BOTTOM ARTICLE GUIDE
                             linear-gradient(cyan, cyan)
                                 0 calc(__frameY + __frameH - 1px)/100vw 1px no-repeat,
 
-                            /* CHECKER BACKGROUND */
+                            // CHECKER BACKGROUND
                             linear-gradient(45deg,
                                 hsla(0, 0%, 0%, .04) 25%, transparent 25%, transparent 75%,
                                 hsla(0, 0%, 0%, .04) 75%, hsla(0, 0%, 0%, .04))
@@ -360,7 +360,7 @@ void function SettingsController() {
                         // Background
                         __cFrameWExtended: "calc(__frameW + (__cHalfHandleSize - __cHalfBorderSize) * 2)",
                         __articleFrameBackground: `
-                            /* Top Handles */
+                            // HANDLES TOP
                             linear-gradient(90deg,
                                     transparent __cBorderSize,
                                     __dark __cBorderSize,
@@ -371,10 +371,11 @@ void function SettingsController() {
                                     __dark calc(__cFrameWExtended - __cBorderSize),
                                     transparent calc(__cFrameWExtended - __cBorderSize)
                                 )
-                                /* x */ calc(__frameX + __cHalfBorderSize - __cHalfHandleSize)
-                                /* y */ calc(__frameY + __cHalfBorderSize - __cHalfHandleSize + __cBorderSize)/
-                                /* w */ calc(__frameW - __cBorderSize + __cHandleSize)
-                                /* h */ __cSmallHandleSize
+                                // X :: calc(__frameX + __cHalfBorderSize - __cHalfHandleSize)
+                                // Y :: calc(__frameY + __cHalfBorderSize - __cHalfHandleSize + __cBorderSize)/
+                                // W :: calc(__frameW - __cBorderSize + __cHandleSize)
+                                // H :: __cSmallHandleSize
+
                                 no-repeat,
                             linear-gradient(90deg,
                                 __bright __cHandleSize,
@@ -382,13 +383,13 @@ void function SettingsController() {
                                 transparent calc(__cFrameWExtended - __cHandleSize),
                                 __bright calc(__cFrameWExtended - __cHandleSize)
                                 )
-                                /* x */ calc(__frameX + __cHalfBorderSize - __cHalfHandleSize)
-                                /* y */ calc(__frameY + __cHalfBorderSize - __cHalfHandleSize)/
-                                /* w */ calc(__frameW - __cBorderSize + __cHandleSize)
-                                /* h */ __cHandleSize
+                                // X :: calc(__frameX + __cHalfBorderSize - __cHalfHandleSize)
+                                // Y :: calc(__frameY + __cHalfBorderSize - __cHalfHandleSize)/
+                                // W :: calc(__frameW - __cBorderSize + __cHandleSize)
+                                // H :: __cHandleSize
                                 no-repeat,
 
-                            /* Bottom Handles */
+                            // HANDLES BOTTOM
                             linear-gradient(90deg,
                                     transparent __cBorderSize,
                                     __dark __cBorderSize,
@@ -399,10 +400,10 @@ void function SettingsController() {
                                     __dark calc(__cFrameWExtended - __cBorderSize),
                                     transparent calc(__cFrameWExtended - __cBorderSize)
                                 )
-                                /* x */ calc(__frameX + __cHalfBorderSize - __cHalfHandleSize)
-                                /* y */ calc(__frameY + __frameH - __cHalfBorderSize - __cHalfHandleSize + __cBorderSize)/
-                                /* w */ calc(__frameW - __cBorderSize + __cHandleSize)
-                                /* h */ __cSmallHandleSize
+                                // X :: calc(__frameX + __cHalfBorderSize - __cHalfHandleSize)
+                                // Y :: calc(__frameY + __frameH - __cHalfBorderSize - __cHalfHandleSize + __cBorderSize)/
+                                // W :: calc(__frameW - __cBorderSize + __cHandleSize)
+                                // H :: __cSmallHandleSize
                                 no-repeat,
                             linear-gradient(90deg,
                                 __bright __cHandleSize,
@@ -410,24 +411,27 @@ void function SettingsController() {
                                 transparent calc(__cFrameWExtended - __cHandleSize),
                                 __bright calc(__cFrameWExtended - __cHandleSize)
                                 )
-                                /* x */ calc(__frameX + __cHalfBorderSize - __cHalfHandleSize)
-                                /* y */ calc(__frameY + __frameH - __cHalfBorderSize - __cHalfHandleSize)/
-                                /* w */ calc(__frameW - __cBorderSize + __cHandleSize)
-                                /* h */ __cHandleSize
+                                // X :: calc(__frameX + __cHalfBorderSize - __cHalfHandleSize)
+                                // Y :: calc(__frameY + __frameH - __cHalfBorderSize - __cHalfHandleSize)/
+                                // W :: calc(__frameW - __cBorderSize + __cHandleSize)
+                                // H :: __cHandleSize
                                 no-repeat,
 
-                            /* BORDER TOP */
+                            // BORDER TOP
                             linear-gradient(__bright, __bright)
                                 __frameX __frameY/__frameW __cBorderSize no-repeat,
-                            /* BORDER RIGHT */
+
+                            // BORDER RIGHT
                             linear-gradient(__bright, __bright)
                                 calc(__frameX + __frameW - __cBorderSize) __frameY/
                                 __cBorderSize __frameH no-repeat,
-                            /* BORDER BOTTOM */
+
+                            // BORDER BOTTOM
                             linear-gradient(__bright, __bright)
                                 __frameX calc(__frameY + __frameH - __cBorderSize)/
                                 __frameW __cBorderSize no-repeat,
-                            /* BORDER LEFT */
+
+                            // BORDER LEFT
                             linear-gradient(__bright, __bright)
                                 __frameX __frameY/__cBorderSize __frameH no-repeat
                             `,
