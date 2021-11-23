@@ -90,7 +90,7 @@ void function WikiController() {
         wiki_url = wiki_url.replace(
             new RegExp(String.raw`(https://[a-z]{2}.wikipedia.org)/wiki/(.+)`),
             (_, domain, title) => {
-                return `${domain}/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+                return `${domain}/api/rest_v1/page/summary/${title}`;
             }
         );
 
