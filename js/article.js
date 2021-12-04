@@ -180,7 +180,7 @@ class ArticleData {
     /// [>] text: String
     /// [<] Array<String*>
     get tokenized_extract() {
-        return this.extract.trim().match(/[^\s]+\s{0,1}/g);
+        return this.extract.trim().replace("\n", "\x20").match(/[^\s]+\s{0,1}/g);
     }
 }
 
