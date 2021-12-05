@@ -303,6 +303,8 @@ void new class Article extends Controller {
 
         º.emit`spinner :kill`(this.$article);
         this.$node.dataset.isLoaded = true;
+
+        º.emit`article :loaded`();
     }
 
     unload_article() {
@@ -443,6 +445,7 @@ void new class Article extends Controller {
 
         const state = InputState.new(token_txt, input_txt);
         if (state.compare()) {
+            º.emit`article :completedToken`(input_txt);
             this.advance_token();
             this.clear_input();
             return;

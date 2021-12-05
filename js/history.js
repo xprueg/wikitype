@@ -23,6 +23,7 @@ void function HistoryController() {
         º.listen({
             "history :push": article_data_raw => push_entry(article_data_raw),
             "article :beforeUnload": clone_image,
+            "history :addWpmToPageId": add_wpm_to_page_id,
         });
 
         º.respond({
@@ -35,6 +36,14 @@ void function HistoryController() {
             },
         });
     }();
+
+    function add_wpm_to_page_id(wpm, pageid) {
+        const $history_item = ƒ(`[data-pageid="${pageid}"]`);
+        if (!$history_item)
+            return;
+
+        ƒ("[data-lang]", $history_item).dataset.wpm = wpm;
+    }
 
     function remove_history_images() {
         ƒƒ(".history-image").forEach((img) => {

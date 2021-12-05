@@ -142,6 +142,25 @@ footer {
     align-self: center;
 }
 
+.history li:not(:first-of-type) span::before {
+    content: attr(data-wpm) " WPM";
+    font-size: 0.5em;
+    position: absolute;
+    top: calc(100% - 1ex);
+    left: 50%;
+    border-radius: 100vw;
+    padding: .25ex .9ex;
+    background: var(--history-base);
+    color: var(--history-contrast);
+    transform: translateX(-50%);
+    transition: all 250ms ease-in-out;
+}
+
+.history li:hover:not(:first-of-type) span::before {
+    top: 100%;
+    opacity: 0;
+}
+
 /*** ——— Navigation ——— ***/
 
 nav {
