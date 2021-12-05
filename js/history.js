@@ -22,7 +22,7 @@ void function HistoryController() {
 
         º.listen({
             "history :push": article_data_raw => push_entry(article_data_raw),
-            "article :beforeUnload": thumbnail_node => clone_image(thumbnail_node),
+            "article :beforeUnload": clone_image,
         });
 
         º.respond({
@@ -80,22 +80,22 @@ void function HistoryController() {
         };
     }
 
-    function clone_image(thumbnail_node) {
-        if (thumbnail_node.src !== "data:,") {
-            const clone = ƒ("body").appendChild(thumbnail_node.cloneNode());
-            const img_pos = thumbnail_node.getBoundingClientRect();
+    function clone_image(current_article_data, $thumbnail_node) {
+        if ($thumbnail_node.src !== "data:,") {
+            const $clone = ƒ("body").appendChild($thumbnail_node.cloneNode());
+            const img_pos = $thumbnail_node.getBoundingClientRect();
 
-            clone.removeAttribute("id");
-            clone.classList.add("history-image");
-            clone.style.left = `${img_pos.x}px`;
-            clone.style.top = `${img_pos.y}px`;
+            $clone.removeAttribute("id");
+            $clone.classList.add("history-image");
+            $clone.style.left = `${img_pos.x}px`;
+            $clone.style.top = `${img_pos.y}px`;
 
             setTimeout(() => {
-                const img_pos_to = get_cloned_image_position(clone);
+                const img_pos_to = get_cloned_image_position($clone);
 
-                clone.style.left = `${img_pos_to.x}px`;
-                clone.style.top = `${img_pos_to.y}px`;
-                clone.style.transform = `rotate(${img_pos_to.r}deg)`;
+                $clone.style.left = `${img_pos_to.x}px`;
+                $clone.style.top = `${img_pos_to.y}px`;
+                $clone.style.transform = `rotate(${img_pos_to.r}deg)`;
             });
         }
     }

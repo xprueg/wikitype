@@ -309,8 +309,7 @@ void new class Article extends Controller {
         if (!this.current_article_data)
             return;
 
-        // Create image clone for history.
-        º.emit`article :beforeUnload`(this.$thumbnail);
+        º.emit`article :beforeUnload`(this.current_article_data, this.$thumbnail);
 
         // Clear input
         º.emit`input :clear`();
