@@ -175,12 +175,12 @@ class ArticleData {
         return new ArticleData(...args);
     }
 
-    /// Splits the provided string into words and tries to make all characters typeable.
+    /// Splits the provided string into words.
     ///
     /// [>] text: String
     /// [<] Array<String*>
     get tokenized_extract() {
-        return this.extract.trim().replace("\n", "\x20").match(/[^\s]+\s{0,1}/g);
+        return this.extract.trim().replace(/\n/g, "\x20").match(/[^\s]+\s{0,1}/g);
     }
 }
 
