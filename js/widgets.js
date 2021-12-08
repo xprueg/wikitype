@@ -49,7 +49,7 @@ void new class WPM extends Controller {
                 document.body.addEventListener("keydown", this.bound_start_counting);
             },
             "article :completedToken": this.add_word.bind(this),
-            "article :beforeUnload": (current_article_data, _) => {
+            "article :beforeUnload": current_article_data => {
                 this.stop_counting(current_article_data.id);
             },
         };

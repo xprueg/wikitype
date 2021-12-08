@@ -311,7 +311,7 @@ void new class Article extends Controller {
         if (!this.current_article_data)
             return;
 
-        º.emit`article :beforeUnload`(this.current_article_data, this.$thumbnail);
+        º.emit`article :beforeUnload`(this.current_article_data);
 
         // Clear input
         º.emit`input :clear`();

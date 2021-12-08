@@ -59,8 +59,6 @@ void function SettingsController() {
                         // Aside
                         __asideWidth:                 "70px",
                         __asideColor:                 "__dark",
-                        __asideThumbnailMixBlendMode: "normal",
-                        __asideThumbnailFilter:       "none",
 
                         // History
                         __historyBase:     "__dark",
@@ -139,9 +137,6 @@ void function SettingsController() {
                         __bright:          "white",
                         __bodyBackground:  "__bright",
 
-                        // Aside
-                        __asideThumbnailFilter: "opacity(.3) contrast(4)",
-
                         // History
                         __historyBase:     "hsl(0, 0%, 80%)",
                         __historyContrast: "__bright",
@@ -193,10 +188,6 @@ void function SettingsController() {
                         // General
                         __dark:   "hsl(56, 87%, 13%)",
                         __bright: "hsl(56, 8%, 56%)",
-
-                        // Aside
-                        __asideThumbnailMixBlendMode: "soft-light",
-                        __asideThumbnailFilter:       "grayscale(1)",
 
                         // Article
                         __articlePadding:             "50px",
@@ -304,7 +295,6 @@ void function SettingsController() {
 
                         // Aside
                         __asideColor:                 "__bright",
-                        __asideThumbnailMixBlendMode: "difference",
 
                         // History
                         __historyBase:     "__bright",
@@ -484,8 +474,6 @@ void function SettingsController() {
 
                         // Aside
                         __asideColor:                 "__bright",
-                        __asideThumbnailMixBlendMode: "soft-light",
-                        __asideThumbnailFilter:       "grayscale(1)",
 
                         // History
                         __historyBase:     "__bright",

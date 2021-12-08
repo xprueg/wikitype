@@ -1,4 +1,4 @@
-/*** ——— Reset ——— ***/
+/*// Reset //*/
 
 * {
     margin: 0;
@@ -15,11 +15,8 @@ html, body {
     height: 100%;
 }
 
-.hidden {
-    opacity: 0;
-}
 
-/*** ——— <html> ——— ***/
+/*// <html> //*/
 
 html {
     font-family: Inter;
@@ -28,7 +25,8 @@ html {
     --article-change-duration: 512ms ease-in-out;
 }
 
-/*** ——— <body> ——— ***/
+
+/*// <body> //*/
 
 body {
     display: grid;
@@ -47,7 +45,8 @@ body {
     --z-peak: 8;
 }
 
-/*** ——— Sidebar ——— ***/
+
+/*// Sidebar //*/
 
 aside {
     font-family: Trash;
@@ -75,7 +74,8 @@ aside {
     font-weight: normal;
 }
 
-/*** ——— History ——— ***/
+
+/*// History //*/
 
 footer {
     position: relative;
@@ -161,7 +161,8 @@ footer {
     opacity: 0;
 }
 
-/*** ——— Navigation ——— ***/
+
+/*// Navigation //*/
 
 nav {
     position: absolute;
@@ -245,7 +246,8 @@ nav[data-is-visible=true] {
     border-bottom-right-radius: var(--upcoming-option-height);
 }
 
-/*** ——— Loading Spinner ——— ***/
+
+/*// Loading Spinner //*/
 
 #loadingSpinner {
     position: absolute;
@@ -258,7 +260,8 @@ nav[data-is-visible=true] {
     color: var(--article-loading-spinner-color);
 }
 
-/*** ——— Article ——— ***/
+
+/*// Article //*/
 
 article {
     grid-area: article;
@@ -266,7 +269,8 @@ article {
     z-index: var(--z-base);
 }
 
-/* ——— Article Frame ——— */
+
+/*// Article Frame //*/
 
 #article {
     position: fixed;
@@ -319,7 +323,8 @@ article::before {
     z-index: var(--z-peak);
 }
 
-/* ——— Tokens ——— */
+
+/*// Tokens //*/
 
 .token {
     display: inline-block;
@@ -407,29 +412,14 @@ body[data-is-typing="false"] .inputToken::after {
     animation: blink 1000ms infinite;
 }
 
-/**/
-
 #articleExtract, .inputToken, #loadingSpinner {
     font: var(--article-extract-font);
     font-feature-settings: var(--article-extract-font-feature-settings);
     letter-spacing: var(--article-extract-letter-spacing);
 }
 
-.history-image {
-    --timing: 500ms;
-    --history-image-max-size: 200px;
-    position: absolute;
-    mix-blend-mode: var(--aside-thumbnail-mix-blend-mode);
-    filter: var(--aside-thumbnail-filter);
-    max-height: var(--history-image-max-size);
-    max-width: var(--history-image-max-size);
-    transform-origin: center;
-    pointer-events: none;
-    /* FIXME: Animating transform will prevent the animation of mix-blend-mode. */
-    transition: all var(--timing) ease-in-out, z-index 0s linear;
-}
 
-/*** ——— Shortcuts ——— ***/
+/*// Shortcuts //*/
 
 header {
     grid-area: shortcuts;
@@ -484,7 +474,8 @@ header {
     align-items: center;
 }
 
-/*** ——— Settings ——— ***/
+
+/*// Settings //*/
 
 #settingsWrapper {
     --settings-wrapper-width: min(40vw, 550px);
