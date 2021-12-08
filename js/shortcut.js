@@ -35,7 +35,7 @@ void new class Shortcut extends Controller {
     }
 
     generate_identifier(e) {
-        const cmd = e.metaKey ? "cmd" : String();
+        const cmd = e.metaKey || e.ctrlKey ? "cmd" : String();
         const key = /[+-]/.test(e.key) ? e.key
                                        : e.code.replace(/(Key|Digit)/, String())
                                                .toLowerCase();
