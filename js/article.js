@@ -168,7 +168,7 @@ class ArticleData {
         this.image = data?.originalimage;
         this.title = data?.titles?.normalized;
         this.lang = data?.lang;
-        this.extract = data?.extract?.length ? data.extract : title();
+        this.extract = data?.extract?.length ? data.extract : this.title;
     }
 
     static from(...args) {
