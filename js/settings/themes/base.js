@@ -45,6 +45,7 @@ const BASE_THEME = {
     __articleBaseHeight:          "400px",
     __articleHeightShift:         "50px",
     __articleBottomClip:          "0",
+    __articleFadeTokenLines:      0,
     __articleLoadingSpinnerColor: "__dark",
     __articleLoadingSpinnerChars: "-\\|/",
     __articleLoadingSpinnerDelay: 128,

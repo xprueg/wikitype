@@ -291,6 +291,7 @@ void new class Article extends Controller {
 
         // Set active token.
         this.advance_token();
+        this.fade_tokens();
 
         // Insert thumbnail.
         if (article.thumbnail) {
@@ -347,6 +348,8 @@ void new class Article extends Controller {
             if (active_token.offsetTop !== next_token.offsetTop) {
                 while(next_token.previousElementSibling !== null)
                     next_token.previousElementSibling.remove();
+
+                this.shift_token_fade();
             }
 
             // Update typed token.
@@ -362,6 +365,56 @@ void new class Article extends Controller {
 
         // Store reference.
         this.$active_token = next_token;
+    }
+
+    fade_tokens() {
+        const fade_lines = +º.req`theme :val`("__articleFadeTokenLines");
+        if (fade_lines === 0)
+            return;
+
+        const { bottom: article_bottom } = this.$article.getBoundingClientRect();
+        const reversed_tokens = ƒƒ(".token", this.$extract).reverse();
+        for (let i = 0, latest_bottom, lines_faded = 0; i < reversed_tokens.length; ++i) {
+            const token = reversed_tokens[i];
+            const { top: token_bottom } = token.getBoundingClientRect();
+
+            // Return early if no token is outside of the frame.
+            if (token_bottom < article_bottom && i === 0)
+                break;
+
+            if (token_bottom > article_bottom) {
+                token.style.opacity = "0%";
+                continue;
+            }
+
+            if (token_bottom !== latest_bottom && latest_bottom !== undefined)
+                if (++lines_faded > fade_lines)
+                    break;
+
+            token.style.opacity = `${100 / fade_lines * lines_faded}%`;
+
+            latest_bottom = token_bottom;
+        }
+    }
+
+    shift_token_fade() {
+        const reversed_tokens = ƒƒ(".token", this.$extract).reverse();
+
+        let top_buffer;
+        let last_line_start = 0;
+        for (let i = 0; i < reversed_tokens.length; ++i) {
+            const token = reversed_tokens[i];
+            const { top } = token.getBoundingClientRect();
+
+            if (top !== top_buffer) {
+                for (let j = last_line_start; j < i; ++j)
+                    reversed_tokens[j].style.opacity = token.style.opacity;
+
+                last_line_start = i;
+            }
+
+            top_buffer = top;
+        }
     }
 
     reposition_article() {
