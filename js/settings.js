@@ -1,26 +1,26 @@
-void function SettingsController() {
-    const self = Object.create(null);
-
-    !function init() {
-        self.node = ƒ("#settings");
-        self.status_bar = ƒ("#settingsStatus");
-        self.settings = {
+void new class Settings extends Controller {
+    __data() {
+        this.node = ƒ("#settings");
+        this.status_bar = ƒ("#settingsStatus");
+        this.settings = {
             language: LANGUAGE_SETTINGS,
             theme: THEME_SETTINGS,
         };
+    }
 
-        Object.entries(self.settings).forEach(([setting, data]) => {
+    __init() {
+        Object.entries(this.settings).forEach(([setting, data]) => {
             data.node = ƒ(`#${setting}`);
             data.node.dataset.type = data.type;
 
-            init_options(setting, data.options, data.default_option);
-            render_dom(data.node, data.options);
-            add_listener(setting, data.node, data.type, data.options, data.default_option);
+            this.init_options(setting, data.options, data.default_option);
+            this.render_dom(data.node, data.options);
+            this.add_listener(setting, data.node, data.type, data.options, data.default_option);
 
             º.respond({
-                [`${setting} :getSelected`]: () => get_selected_options(data.options,
+                [`${setting} :getSelected`]: () => this.get_selected_options(data.options,
                                                                         data.type),
-                [`${setting} :getRandom`]: () => rng(get_selected_options(data.options,
+                [`${setting} :getRandom`]: () => rng(this.get_selected_options(data.options,
                                                                           data.type)),
                 [`${setting} :getAll`]: () => data.options,
             });
@@ -32,10 +32,13 @@ void function SettingsController() {
             });
         });
 
-        update_status_bar();
-    }();
+        this.update_status_bar();
+    }
 
-    function init_options(setting, options, default_option) {
+    init_options(setting, options, default_option) {
+        if (!default_option)
+            return;
+
         const saved_options = JSON.parse(localStorage.getItem(setting));
         if (saved_options)
             default_option = saved_options;
@@ -48,7 +51,7 @@ void function SettingsController() {
         });
     }
 
-    function render_dom(root, options) {
+    render_dom(root, options) {
         const buffer = Array();
 
         Object.keys(options)
@@ -68,7 +71,7 @@ void function SettingsController() {
         root.append(...buffer);
     }
 
-    function get_selected_options(options, type) {
+    get_selected_options(options, type) {
         const selected = Object.entries(options)
                                .filter(([key, state]) => state.is_selected)
                                .map(([key, state]) => key);
@@ -76,7 +79,7 @@ void function SettingsController() {
         return type === "radio" ? selected.shift() : selected;
     }
 
-    function add_listener(setting, root, type, options, default_option) {
+    add_listener(setting, root, type, options, default_option) {
         root.addEventListener("click", (e) => {
             const target = e.target;
             const option = options?.[target.dataset.ref];
@@ -96,7 +99,7 @@ void function SettingsController() {
             target.dataset.isSelected = (option.is_selected = !option.is_selected);
 
             // Make sure that at least one option is selected.
-            if (type === "checkbox") {
+            if (type === "checkbox" && default_option) {
                 if (Object.values(options).every((state) => !state.is_selected)) {
                     const default_opt_node = options[default_option];
                     default_opt_node.is_selected = true;
@@ -104,13 +107,13 @@ void function SettingsController() {
                 }
             }
 
-            update_status_bar();
-            º.emit`setting :${setting}Updated`(get_selected_options(options, type));
+            this.update_status_bar();
+            º.emit`setting :${setting}Updated`(this.get_selected_options(options, type));
         });
     }
 
-    function update_status_bar() {
-        const [lang, theme] = [self.settings.language, self.settings.theme];
+    update_status_bar() {
+        const [lang, theme] = [this.settings.language, this.settings.theme];
         let status_txt = String();
 
         // Languages
@@ -127,6 +130,6 @@ void function SettingsController() {
         // Theme
         status_txt += " & " +  º.req`theme :getSelected`();
 
-        self.status_bar.textContent = status_txt;
+        this.status_bar.textContent = status_txt;
     }
 }();
