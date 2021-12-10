@@ -119,11 +119,34 @@ class InputState {
                 break;
             }
 
+            // Letter with Diaeresis
+            // U+00F6 Latin Small Letter O with Diaeresis
+            // U+00D6 Latin Capital Letter O with Diaeresis
+            // U+00E4 Latin Small Letter A with Diaeresis
+            // U+00C4 Latin Capital Letter A with Diaeresis
+            // U+00FC Latin Small Letter U with Diaeresis
+            // U+00DC Latin Capital Letter U with Diaeresis
+            if (/[öäü]/i.test(token_c)) {
+                const is_uppercase = /[ÖÄÜ]/.test(token_c);
+                const peek = this.input.peek();
+
+                if (/e/i.test(peek)) {
+                    const chars = input_c + peek;
+                    if (chars === (is_uppercase ? chars.toUpperCase() : chars.toLowerCase())) {
+                        if (/ö/i.test(token_c) && /o/i.test(input_c) ||
+                            /ä/i.test(token_c) && /a/i.test(input_c) ||
+                            /ü/i.test(token_c) && /u/i.test(input_c)) {
+                            this.input.eat();
+                            break;
+                        }
+                    }
+                }
+            }
+
             // Whitespace & Zero Width Space
             // U+200B Zero Width Space (ZWSP)
             if (/\s|\u200B/.test(token_c) && /\s/.test(input_c))
                 break;
-
 
             // Fractions
             // U+2044 Fraction Slash
