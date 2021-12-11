@@ -395,7 +395,11 @@ void new class Article extends Controller {
         if (fade_lines === 0)
             return;
 
-        const { bottom: article_bottom } = this.$article.getBoundingClientRect();
+        const article_bottom_clip = Math.abs(º.req`theme :valAsPx`("__articleBottomClip"));
+        const { bottom: article_bottom_max } = this.$node.getBoundingClientRect();
+        let { bottom: article_bottom } = this.$article.getBoundingClientRect();
+        article_bottom = Math.min(article_bottom + article_bottom_clip, article_bottom_max);
+
         const reversed_tokens = ƒƒ(".token", this.$extract).reverse();
         for (let i = 0, latest_bottom, lines_faded = 0; i < reversed_tokens.length; ++i) {
             const token = reversed_tokens[i];
