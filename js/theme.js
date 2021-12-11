@@ -163,7 +163,7 @@ void new class Theme extends Controller {
     /// [>] key: str
     /// [<] int
     val_as_px(key) {
-        const [_, v, unit] = this.val(key).match(/(\d+)(.+)?/);
+        const [_, v, unit] = this.val(key).match(/(-?\d+)(.+)?/);
 
         switch(unit) {
             case "px":
