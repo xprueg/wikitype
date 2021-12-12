@@ -28,6 +28,7 @@ void new class Theme extends Controller {
         return {
             "theme :val": this.val.bind(this),
             "theme :valAsPx": this.val_as_px.bind(this),
+            "theme :bool": this.bool.bind(this),
         };
     }
 
@@ -154,6 +155,15 @@ void new class Theme extends Controller {
     /// [<] str
     val(key) {
         return this.compile(this.active_theme)[this.transpile_key(key)];
+    }
+
+    /// Returns the property converted to a boolean.
+    /// Only works for the strings "true" and "false" for now.
+    ///
+    /// [>] key: str
+    /// [<] bool
+    bool(key) {
+        return this.val(key) === "true";
     }
 
     /// Returns the property converted to an absolute pixel value.

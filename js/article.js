@@ -390,6 +390,10 @@ void new class Article extends Controller {
         this.$active_token = next_token;
     }
 
+    /// Fades out the tokens that are close to the bottom of the article frame.
+    ///
+    /// [~] TODO: Rerun the function on events that change the window/article size.
+    /// [<] void
     fade_tokens() {
         const fade_lines = +º.req`theme :val`("__articleFadeTokenLines");
         if (fade_lines === 0)
@@ -455,6 +459,7 @@ void new class Article extends Controller {
         ref_x += main_padding;
         ref_width -= main_padding * 2;
 
+        const randomize_position = º.req`theme :bool`("__articleRandomizePosition");
         const article_base_width = º.req`theme :valAsPx`("__articleBaseWidth");
         const article_width_shift = º.req`theme :valAsPx`("__articleWidthShift");
         const article_base_height = º.req`theme :valAsPx`("__articleBaseHeight");
@@ -468,14 +473,12 @@ void new class Article extends Controller {
             article_base_height + Math.random() * (maybe_invert() * article_height_shift),
             ref_height
         ));
-        const left = Math.round(
-            (ref_width - width) / 2 +
-            (maybe_invert() * ((ref_width - width) / 2) * Math.random())
-        );
-        const top = Math.round(
-            (ref_height - height) / 2 +
-            (maybe_invert() * ((ref_height - height) / 2) * Math.random())
-        );
+        let left = Math.round((ref_width - width) / 2);
+        let top = Math.round((ref_height - height) / 2);
+        if (randomize_position) {
+            left += (maybe_invert() * ((ref_width - width) / 2) * Math.random());
+            top += (maybe_invert() * ((ref_height - height) / 2) * Math.random());
+        }
 
         º.emit`theme :apply`({
             __kArticleFrameX: `${ref_x + left}px`,

@@ -7,5 +7,6 @@ const THEME_SETTINGS = {
         note: NOTE_THEME,
         alph: ALPH_THEME,
         term: TERM_THEME,
+         pro: PRO_THEME,
     },
 }
