@@ -22,8 +22,7 @@ const PRO_THEME = {
     __articleLoadingSpinnerDelay: 128,
 
     // Font
-    __articleExtractFont: `normal clamp(20px, calc(1vw * 2.4 * __uFontSizeScaling), 60px)/
-                           1.4em pragmatapro`,
+    __articleExtractFont: `calc(30px * __uFontSizeScaling)/1.4em pragmatapro`,
 
     // Tokens
     __tokenActiveColor:     "hsl(120, 7%, 85%)",
