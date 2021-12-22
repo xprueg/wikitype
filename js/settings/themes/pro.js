@@ -4,14 +4,14 @@ const PRO_THEME = {
     extend: "base",
 
     // General
-    __dark:   "hsl(180, 1.45%, 13.53%)",
-    __bright: "hsl(120, 25%, 95.29%)",
+    __dark:   "#1a1c2c",
+    __bright: "#f4f4f4",
 
     // Settings
     __settingsBoxShadow: "0 0 1000px 100px __dark",
 
     // Article
-    __articleBaseWidth:           "750px",
+    __articleBaseWidth:           "900px",
     __articleWidthShift:          "0px",
     __articleBaseHeight:          "200px",
     __articleHeightShift:         "0px",
@@ -21,8 +21,11 @@ const PRO_THEME = {
     __articleLoadingSpinnerChars: "",
     __articleLoadingSpinnerDelay: 128,
 
+    // Thumbnail
+    __articleThumbnailFilter:       "opacity(0)",
+
     // Font
-    __articleExtractFont: `calc(30px * __uFontSizeScaling)/1.4em PragmataPro-Regular`,
+    __articleExtractFont: `calc(32px * __uFontSizeScaling)/1.5em PragmataPro-Regular`,
 
     // Tokens
     __tokenActiveColor:     "hsl(120, 7%, 85%)",
