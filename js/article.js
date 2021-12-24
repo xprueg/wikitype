@@ -143,6 +143,11 @@ class InputState {
                 }
             }
 
+            // Math Symbol
+            // U+00D7 Multiplication Sign
+            if (/\u00D7/.test(token_c) && /[x]/i.test(input_c))
+                break;
+
             // Whitespace & Zero Width Space
             // U+200B Zero Width Space (ZWSP)
             if (/\s|\u200B/.test(token_c) && /\s/.test(input_c))
