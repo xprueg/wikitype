@@ -47,6 +47,7 @@ const BASE_THEME = {
     __articleRandomizePosition:   true,
     __articleBottomClip:          "0",
     __articleFadeTokenLines:      0,
+    __articleLimitTokenLines:     0,
     __articleLoadingSpinnerColor: "__dark",
     __articleLoadingSpinnerChars: "-\\|/",
     __articleLoadingSpinnerDelay: 128,

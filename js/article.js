@@ -452,18 +452,31 @@ void new class Article extends Controller {
         const maybe_invert = () => (Math.random() > .5 ? 1 : -1);
 
         const main_padding = º.req`theme :valAsPx`("__mainPadding");
+        const max_lines = +º.req`theme :val`("__articleLimitTokenLines");
+        const randomize_position = º.req`theme :bool`("__articleRandomizePosition");
+        const article_base_width = º.req`theme :valAsPx`("__articleBaseWidth");
+        const article_width_shift = º.req`theme :valAsPx`("__articleWidthShift");
+        let article_base_height = º.req`theme :valAsPx`("__articleBaseHeight");
+        const article_height_shift = º.req`theme :valAsPx`("__articleHeightShift");
+
+        if (max_lines !== 0) {
+            const article_padding = º.req`theme :valAsPx`("__articlePadding");
+            const size_ref = document.createElement("span");
+            size_ref.classList.add("token");
+            size_ref.style.opacity = "0%";
+            size_ref.textContent = "x";
+            this.$extract.appendChild(size_ref);
+            const m_height = size_ref.getBoundingClientRect().height * max_lines;
+            size_ref.remove();
+            article_base_height = m_height + article_padding * 2;
+        }
+
         let {
             x: ref_x, y: ref_y,
             width: ref_width, height: ref_height,
         } = this.$node.getBoundingClientRect();
         ref_x += main_padding;
         ref_width -= main_padding * 2;
-
-        const randomize_position = º.req`theme :bool`("__articleRandomizePosition");
-        const article_base_width = º.req`theme :valAsPx`("__articleBaseWidth");
-        const article_width_shift = º.req`theme :valAsPx`("__articleWidthShift");
-        const article_base_height = º.req`theme :valAsPx`("__articleBaseHeight");
-        const article_height_shift = º.req`theme :valAsPx`("__articleHeightShift");
 
         const width = Math.round(Math.min(
             article_base_width + Math.random() * (maybe_invert() * article_width_shift),
