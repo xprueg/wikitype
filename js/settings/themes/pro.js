@@ -35,7 +35,7 @@ const PRO_THEME = {
     // Settings
     __settingsBackground   : "__cCheckerBackground",
     __settingsHeadingColor : "__bright",
-    __settingsBoxShadow    : "0 0 1000px 100px __dark",
+    __settingsBoxShadow    : "-1px 0 0 0 __dark",
 
     // Article
     __articleBaseWidth           : "900px",
