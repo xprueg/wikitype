@@ -28,4 +28,8 @@ Prefix any Wikipedia Article URL with _xpr.org/wikitype#_ to load it.
     <td><img src="https://github.com/xprueg/wikitype/blob/main/preview%20images/note.png?raw=true"><p align="center">Note<br>Font: Grafier</p></td>
     <td><img src="https://github.com/xprueg/wikitype/blob/main/preview%20images/terminal.png?raw=true"><p align="center">Terminal<br>Font: JetBrains Mono</p></td>
   </tr>
+  <tr>
+      <td><img src="https://github.com/xprueg/wikitype/blob/main/preview%20images/pro.png?raw=true"><p align="center">Pro<br>Font: PragmataPro</p></td>
+      <td></td>
+    </tr>
 </table>
