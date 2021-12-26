@@ -15,6 +15,10 @@ class Controller {
         this.exec("__init");
     }
 
+    static new(...args) {
+        return new this(...args);
+    }
+
     exec(fn_name, fallback) {
         if (this[fn_name]) {
             switch(fn_name) {
