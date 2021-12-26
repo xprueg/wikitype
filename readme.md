@@ -1,4 +1,4 @@
-[![Wikitype website](https://github.com/xprueg/wikitype/blob/main/preview.png?raw=true)](https://xpr.org/wikitype)
+[![Wikitype website](https://github.com/xprueg/wikitype/blob/main/preview%20images/pro.png?raw=true)](https://xpr.org/wikitype)
 
 ---
 
@@ -6,6 +6,8 @@ With Wikitype you can discover random Wikipedia articles by typing their extract
 You can then either choose one of three related articles or pick a random article.
 
 Prefix any Wikipedia Article URL with _xpr.org/wikitype#_ to load it.
+
+Use the query string timer _(?timer=seconds)_ to replace the clock with a timer.
 
 ---
 
