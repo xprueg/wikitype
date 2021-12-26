@@ -1,25 +1,57 @@
 void new class Clock extends Controller {
     __data() {
         this.$clock = ƒ(".clock");
+        this.search = new URLSearchParams(window.location.search);
     }
 
     __init() {
-        // Display current time.
-        this.render();
+        const timer = this.search.get("timer");
 
-        // Update time every 60 seconds, starting at the next minute change.
-        setTimeout(
-            () => this.render() || setInterval(this.render.bind(this), 1000 * 60),
-            1000 * (60 - new Date().getSeconds())
-        );
+        if (timer) {
+            this.timer = timer;
+            this.render_timer();
+            this.interval = setInterval(() => {
+                this.timer -= 1;
+                this.render_timer();
+
+                if (this.timer <= 0) {
+                    this.search.delete("timer");
+                    clearInterval(this.interval);
+                    this.__init();
+                }
+            }, 1000);
+        } else {
+            // Display current time.
+            this.render_clock();
+
+            // Update time every 60 seconds, starting at the next minute change.
+            setTimeout(
+                () => this.render_clock() || setInterval(this.render_clock.bind(this), 1000 * 60),
+                1000 * (60 - new Date().getSeconds())
+            );
+        }
     };
 
-    render() {
+    render_clock() {
         const now = new Date();
         const h = String(now.getHours()).padStart(2, "0");
         const m = String(now.getMinutes()).padStart(2, "0");
 
         this.$clock.innerText = `${h}:${m}`;
+    }
+
+    render_timer() {
+        let seconds = this.timer;
+        let minutes = 0;
+        while (seconds >= 60) {
+            minutes += 1;
+            seconds -= 60;
+        }
+
+        minutes = String(minutes).padStart(2, "0");
+        seconds = String(seconds).padStart(2, "0");
+
+        this.$clock.innerText = `${minutes}:${seconds}`;
     }
 };
 
