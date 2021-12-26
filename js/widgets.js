@@ -1,27 +1,27 @@
-void function ClockController() {
-    const self = Object.create(null);
+void new class Clock extends Controller {
+    __data() {
+        this.$clock = ƒ(".clock");
+    }
 
-    void function init() {
-        self.node = ƒ(".clock");
-
+    __init() {
         // Display current time.
-        render();
+        this.render();
 
         // Update time every 60 seconds, starting at the next minute change.
         setTimeout(
-            () => render() || setInterval(render, 1000 * 60),
+            () => this.render() || setInterval(this.render.bind(this), 1000 * 60),
             1000 * (60 - new Date().getSeconds())
         );
-    }();
+    };
 
-    function render() {
+    render() {
         const now = new Date();
         const h = String(now.getHours()).padStart(2, "0");
         const m = String(now.getMinutes()).padStart(2, "0");
 
-        self.node.innerText = `${h}:${m}`;
+        this.$clock.innerText = `${h}:${m}`;
     }
-}();
+};
 
 void new class WPM extends Controller {
     __data() {
