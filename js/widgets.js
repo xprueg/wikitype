@@ -32,7 +32,6 @@ void new class WPM extends Controller {
 
         this.most_recent_wpm = undefined;
         this.state = {
-            seconds_passed: 0,
             keys_pressed: 0,
             time_start: 0,
         };
@@ -76,7 +75,9 @@ void new class WPM extends Controller {
         if (!this.state.time_start)
             return;
 
-        const wpm = this.calculate_wpm();
+        let wpm = this.calculate_wpm();
+        if (this.state.keys_pressed === 0)
+            wpm = 0;
 
         this.render();
         this.reset_initial_state();
@@ -90,7 +91,7 @@ void new class WPM extends Controller {
     }
 
     calculate_wpm() {
-        let seconds_passed = this.state.seconds_passed;
+        let seconds_passed = 0;
         let keys_pressed = this.state.keys_pressed;
 
         if (this.state.time_start)
