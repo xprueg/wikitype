@@ -55,7 +55,8 @@ class InputState {
                 const corrected = this.autocorrect();
                 if (!(corrected ^ InputState.NOT_CORRECTED)) {
                     this.upcoming = this.token.data.substr(this.token.idx);
-                    this.mistyped = this.input.data.substr(this.input.idx);
+                    this.correct = this.token.data.substr(0, this.token.idx);
+                    this.mistyped = this.input.data.substr(this.input.idx).replace(/\s/g, "␣");
                     return false;
                 } else if (!(corrected ^ InputState.RETRY)) {
                     continue;

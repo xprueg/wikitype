@@ -365,15 +365,14 @@ void new class Article extends Controller {
             return;
         }
 
-        if (state.correct) {
-            this.$input.textContent = state.correct + state.mistyped;
-            const range = document.createRange();
-            const selection = window.getSelection();
-            range.selectNodeContents(this.$input);
-            range.collapse(false);
-            selection.empty();
-            selection.addRange(range);
-        }
+        this.$input.textContent = state.correct + state.mistyped;
+        const range = document.createRange();
+        const selection = window.getSelection();
+        range.selectNodeContents(this.$input);
+        range.collapse(false);
+        selection.empty();
+        selection.addRange(range);
+
         this.$input.dataset.mistyped = state.mistyped;
         this.$active_token.dataset.upcoming = state.upcoming;
     }
