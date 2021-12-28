@@ -12,6 +12,7 @@ const PRO_THEME = {
     __cCheckerBackground : `
         // Overlay
         linear-gradient(__bright, __bright) 0 0/100% calc(100% - __cHeight) no-repeat,
+        linear-gradient(__bright, __bright) 0 0/calc(__asideWidth + __mainPadding) 100% no-repeat,
 
         // Checker Pattern
         linear-gradient(45deg, __cColor, __cColor 25%, transparent 25%)
@@ -32,8 +33,10 @@ const PRO_THEME = {
     __bright         : "hsl(43.90, 43%, 90%)",
     __bodyBackground : "__cCheckerBackground",
 
-    // Settings
-    __settingsBackground   : "__cCheckerBackground",
+    // Setting
+    __settingsBackground   : `
+        linear-gradient(__bright, __bright) 0 0/100% calc(100% - __cHeight) no-repeat
+    `,
     __settingsHeadingColor : "__bright",
     __settingsBoxShadow    : "-1px 0 0 0 __dark",
 
