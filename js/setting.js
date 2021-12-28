@@ -19,9 +19,9 @@ class Setting extends Controller {
         this.$list = ƒ(`#${this.setting}`);
         this.$list.dataset.type = this.type;
 
-         this.init_options();
-         this.render();
-         this.add_listener();
+        this.init_options();
+        this.render();
+        this.add_listener();
     }
 
     get_selected_options() {
