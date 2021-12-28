@@ -18,23 +18,16 @@ void new class Settings extends Controller {
     }
 
     update_status_bar() {
-        const [lang, theme] = [this.settings.language, this.settings.theme];
-        let status_txt = String();
+        const selected_languages = º.req`language :getSelected`().sort();
+        const displayed_languages = selected_languages.splice(0, this.settings.language.display_limit);
 
-        // Languages
-        let selected = Object.entries(lang.options)
-                             .filter(([key, state]) => state.is_selected)
-                             .map(([key, state]) => key)
-                             .sort();
+        this.$status_bar.textContent = String();
+        this.$status_bar.textContent += displayed_languages.join(" / ");
 
-        status_txt += selected.splice(0, lang.display_limit).join("\x20/\x20");
+        if (selected_languages.length)
+            this.$status_bar.textContent += ` + ${selected_languages.length}`;
 
-        if (selected.length)
-            status_txt += ` + ${selected.length}`;
-
-        // Theme
-        status_txt += " & " +  º.req`theme :getSelected`();
-
-        this.$status_bar.textContent = status_txt;
+        this.$status_bar.textContent += " & ";
+        this.$status_bar.textContent += º.req`theme :getSelected`();
     }
 }();
