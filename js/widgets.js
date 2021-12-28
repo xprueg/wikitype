@@ -8,18 +8,24 @@ void new class Clock extends Controller {
         const timer = this.search.get("timer");
 
         if (timer) {
-            this.timer = timer;
+            let [duration, interval] = timer.split(":").map(s => +s);
+
+            this.duration = duration;
+            this.interval = interval ? interval : 1;
+
             this.render_timer();
-            this.interval = setInterval(() => {
-                this.timer -= 1;
+
+            this.interval_id = setInterval(() => {
+                this.duration -= this.interval;
                 this.render_timer();
 
-                if (this.timer <= 0) {
+                if (this.duration <= 0) {
                     this.search.delete("timer");
-                    clearInterval(this.interval);
+                    clearInterval(this.interval_id);
+
                     this.__init();
                 }
-            }, 1000);
+            }, this.interval * 1000);
         } else {
             // Display current time.
             this.render_clock();
@@ -41,7 +47,7 @@ void new class Clock extends Controller {
     }
 
     render_timer() {
-        let seconds = this.timer;
+        let seconds = this.duration;
         let minutes = 0;
         while (seconds >= 60) {
             minutes += 1;
