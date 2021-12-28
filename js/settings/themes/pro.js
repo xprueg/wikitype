@@ -29,14 +29,11 @@ const PRO_THEME = {
     `,
 
     // General
-    __dark           : "hsl(.90, 90%, .43%)",
-    __bright         : "hsl(43.90, 43%, 90%)",
+    __dark           : "black",
+    __bright         : "white",
     __bodyBackground : "__cCheckerBackground",
 
     // Setting
-    __settingsBackground   : `
-        linear-gradient(__bright, __bright) 0 0/100% calc(100% - __cHeight) no-repeat
-    `,
     __settingsHeadingColor : "__bright",
     __settingsBoxShadow    : "-1px 0 0 0 __dark",
 
@@ -57,8 +54,8 @@ const PRO_THEME = {
     __articleExtractFont : "calc(32px * __uFontSizeScaling)/1.5em PragmataPro-Regular",
 
     // Tokens
-    __tokenActiveColor     : "hsl(120, 7%, 85%)",
-    __tokenTypedColor      : "hsl(120, 7%, 85%)",
-    __tokenErrorColor      : "hsl(120, 10%, 90%)",
-    __tokenErrorBackground : "hsl(120, 0%, 40%)",
+    __tokenActiveColor     : "gainsboro",
+    __tokenTypedColor      : "gainsboro",
+    __tokenErrorColor      : "crimson",
+    __tokenErrorBackground : "white",
 };
