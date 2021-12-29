@@ -121,7 +121,7 @@ void new class WPM extends Controller {
         this.reset_initial_state();
         this.most_recent_wpm = wpm;
 
-        º.emit`history :addWpmToPageId`(wpm, pageid);
+        emit`history :addWpmToPageId`(wpm, pageid);
     }
 
     add_word(token) {

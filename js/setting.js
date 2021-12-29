@@ -96,8 +96,8 @@ class Setting extends Controller {
                 }
             }
 
-            º.emit`settings :updateStatusBar`();
-            º.emit`setting :${this.setting}Updated`(this.get_selected_options());
+            emit`settings :updateStatusBar`();
+            emit`setting :${this.setting}Updated`(this.get_selected_options());
         });
     }
 }

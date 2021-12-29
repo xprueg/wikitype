@@ -19,7 +19,7 @@ void function NavController() {
             hide();
         }, true);
 
-        º.listen({
+        listen({
             "article :afterUnload": article_data => (render_options(article_data), show()),
             "nav :displayOptions": article_data => (render_options(article_data), show()),
             "nav :forceHide": () => hide(),
@@ -49,13 +49,13 @@ void function NavController() {
     function select(choice) {
         const article_data_raw = self.related_article_buffer[Number(choice) - 1];
         if (article_data_raw) {
-            º.emit`history :push`({ article_data_raw, is_related: true });
-            º.emit`article :setContents`(article_data_raw);
-            º.emit`wikiapi :prefetchRelatedArticles`(article_data_raw);
+            emit`history :push`({ article_data_raw, is_related: true });
+            emit`article :setContents`(article_data_raw);
+            emit`wikiapi :prefetchRelatedArticles`(article_data_raw);
         } else {
-            º.req`wikiapi :fetchRandomArticle`().then(article_data_raw => {
-                º.emit`history :push`({ article_data_raw, is_related: false });
-                º.emit`article :setContents`(article_data_raw);
+            req`wikiapi :fetchRandomArticle`().then(article_data_raw => {
+                emit`history :push`({ article_data_raw, is_related: false });
+                emit`article :setContents`(article_data_raw);
             });
         }
     }
@@ -63,9 +63,9 @@ void function NavController() {
     function render_options(article_data) {
         reset_options();
 
-        º.req`wikiapi :fetchRelatedArticles`(article_data._raw).then(articles => {
+        req`wikiapi :fetchRelatedArticles`(article_data._raw).then(articles => {
             const related_articles = articles.pages.filter(
-                article => !º.req`history :includesPageId`(article.pageid)
+                article => !req`history :includesPageId`(article.pageid)
             );
 
             self.related_nodes.forEach(node => {

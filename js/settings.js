@@ -18,7 +18,7 @@ void new class Settings extends Controller {
     }
 
     update_status_bar() {
-        const selected_languages = º.req`language :getSelected`().sort();
+        const selected_languages = req`language :getSelected`().sort();
         const displayed_languages = selected_languages.splice(0, this.settings.language.display_limit);
 
         this.$status_bar.textContent = String();
@@ -28,6 +28,6 @@ void new class Settings extends Controller {
             this.$status_bar.textContent += ` + ${selected_languages.length}`;
 
         this.$status_bar.textContent += " & ";
-        this.$status_bar.textContent += º.req`theme :getSelected`();
+        this.$status_bar.textContent += req`theme :getSelected`();
     }
 }();

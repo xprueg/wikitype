@@ -15,17 +15,17 @@ void function HistoryController() {
                 node.previousElementSibling.remove();
             }
 
-            º.emit`article :setContents`(self.cache.get(node.dataset.pageid));
-            º.emit`nav :forceHide`();
-            º.emit`input :clear`();
+            emit`article :setContents`(self.cache.get(node.dataset.pageid));
+            emit`nav :forceHide`();
+            emit`input :clear`();
         }, true);
 
-        º.listen({
+        listen({
             "history :push": push_entry,
             "history :addWpmToPageId": add_wpm_to_page_id,
         });
 
-        º.respond({
+        respond({
             "history :includesPageId": pageid => {
                 for (const key of self.cache.keys())
                     if (key == pageid)

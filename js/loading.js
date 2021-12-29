@@ -25,10 +25,10 @@ void new class Spinner extends Controller {
                 document.createElement("div"), { id: this.spinner_element_id }
             )),
             frame: 0,
-            chars: º.req`theme :val`("__articleLoadingSpinnerChars"),
+            chars: req`theme :val`("__articleLoadingSpinnerChars"),
             id: setInterval(
                 () => this.update($node),
-                º.req`theme :val`("__articleLoadingSpinnerDelay")
+                req`theme :val`("__articleLoadingSpinnerDelay")
             ),
         });
 

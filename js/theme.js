@@ -1,8 +1,8 @@
 void new class Theme extends Controller {
     __data() {
         this.$node = ƒ("html");
-        this.active_theme = º.req`theme :getSelected`();
-        this.themes = º.req`theme :getAll`();
+        this.active_theme = req`theme :getSelected`();
+        this.themes = req`theme :getAll`();
 
         // Variables that can be controlled by the user.
         this.user = {
@@ -13,12 +13,12 @@ void new class Theme extends Controller {
     __listen() {
         return {
             "setting :themeUpdated": theme => {
-                º.emit`theme :beforeUpdate`();
+                emit`theme :beforeUpdate`();
 
                 this.reset_theme();
                 this.set_theme_to(theme);
 
-                º.emit`theme :afterUpdate`();
+                emit`theme :afterUpdate`();
             },
             "theme :apply": this.apply.bind(this),
         };

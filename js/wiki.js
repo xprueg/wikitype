@@ -4,7 +4,7 @@ void function WikiController() {
     void function init() {
         self.related_articles_cache = new Map();
         self.random_article_cache = new Map(
-            Object.keys(º.req`language :getAll`()).map((lang) => [lang, Array()])
+            Object.keys(req`language :getAll`()).map((lang) => [lang, Array()])
         );
 
         self.url = (() => {
@@ -30,7 +30,7 @@ void function WikiController() {
             return { random, related };
         })();
 
-        º.respond({
+        respond({
             "wikiapi :fetchRandomArticle": lang_code => load_random_article(lang_code),
             "wikiapi :fetchArticleByFullUrl": url => load_article_by_full_url(url),
             "wikiapi :fetchRelatedArticles": article_data_raw => {
@@ -38,7 +38,7 @@ void function WikiController() {
             },
         });
 
-        º.listen({
+        listen({
             "wikiapi :prefetchRelatedArticles": article_data_raw => {
                 prefetch_related_articles(article_data_raw)
             },
@@ -70,7 +70,7 @@ void function WikiController() {
         return fetch_json(self.url.related(article_data_raw), { pages: Array() });
     }
 
-    function load_random_article(lang_code = º.req`language :getRandom`()) {
+    function load_random_article(lang_code = req`language :getRandom`()) {
         prefetch_random_article(lang_code);
 
         const cached_article = self.random_article_cache.get(lang_code).shift();

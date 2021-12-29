@@ -20,7 +20,7 @@
               href="https://server.xpr.org/~/fonts/pragmatic_pro.css">
         <link rel="stylesheet" type="text/css" href="style.css">
         <script src="js/lib.js"></script>
-        <script src="js/º.js"></script>
+        <script src="js/message.js"></script>
         <script src="js/controller.js"></script>
         <script src="js/setting.js"></script>
         <script defer data-domain="xpr.org"
@@ -156,12 +156,12 @@
             if (entry) entry = entry.substr(1);
 
             const api_response = entry
-                ? º.req`wikiapi :fetchArticleByFullUrl`(entry)
-                : º.req`wikiapi :fetchRandomArticle`();
+                ? req`wikiapi :fetchArticleByFullUrl`(entry)
+                : req`wikiapi :fetchRandomArticle`();
 
             api_response.then(article_data_raw => {
-                º.emit`history :push`({ article_data_raw, is_related: false });
-                º.emit`article :setContents`(article_data_raw);
+                emit`history :push`({ article_data_raw, is_related: false });
+                emit`article :setContents`(article_data_raw);
             });
         </script>
     </body>

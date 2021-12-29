@@ -65,7 +65,7 @@ void new class Article extends Controller {
             "cmd s": e => {
                 if (this.current_article_data) {
                     this.advance_token();
-                    º.emit`input :clear`();
+                    emit`input :clear`();
                 }
             },
             "cmd x": () => this.current_article_data && this.unload_article(),
@@ -74,7 +74,7 @@ void new class Article extends Controller {
 
     __init() {
         // Always start in a loading state.
-        º.emit`spinner :spawn`(this.$article);
+        emit`spinner :spawn`(this.$article);
         this.$node.dataset.isLoaded = false;
 
         this.reposition_article();
@@ -143,20 +143,20 @@ void new class Article extends Controller {
             });
         }
 
-        º.emit`spinner :kill`(this.$article);
+        emit`spinner :kill`(this.$article);
         this.$node.dataset.isLoaded = true;
 
-        º.emit`article :loaded`();
+        emit`article :loaded`();
     }
 
     unload_article() {
         if (!this.current_article_data)
             return;
 
-        º.emit`article :beforeUnload`(this.current_article_data);
+        emit`article :beforeUnload`(this.current_article_data);
 
         // Clear input
-        º.emit`input :clear`();
+        emit`input :clear`();
 
         // Reset all article nodes.
         this.$extract.querySelectorAll("span").forEach((node) => node.remove());
@@ -167,8 +167,8 @@ void new class Article extends Controller {
         // Reposition frame.
         this.reposition_article();
 
-        º.emit`spinner :spawn`(this.$article);
-        º.emit`article :afterUnload`(this.current_article_data);
+        emit`spinner :spawn`(this.$article);
+        emit`article :afterUnload`(this.current_article_data);
 
         this.current_article_data = undefined;
         this.$node.dataset.isLoaded = false;
@@ -213,11 +213,11 @@ void new class Article extends Controller {
     /// [~] TODO: Rerun the function on events that change the window/article size.
     /// [<] void
     fade_tokens() {
-        const fade_lines = +º.req`theme :val`("__articleFadeTokenLines");
+        const fade_lines = +req`theme :val`("__articleFadeTokenLines");
         if (fade_lines === 0)
             return;
 
-        const article_bottom_clip = Math.abs(º.req`theme :valAsPx`("__articleBottomClip"));
+        const article_bottom_clip = Math.abs(req`theme :valAsPx`("__articleBottomClip"));
         const { bottom: article_bottom_max } = this.$node.getBoundingClientRect();
         let { bottom: article_bottom } = this.$article.getBoundingClientRect();
         article_bottom = Math.min(article_bottom + article_bottom_clip, article_bottom_max);
@@ -269,16 +269,16 @@ void new class Article extends Controller {
     reposition_article() {
         const maybe_invert = () => (Math.random() > .5 ? 1 : -1);
 
-        const main_padding = º.req`theme :valAsPx`("__mainPadding");
-        const max_lines = +º.req`theme :val`("__articleLimitTokenLines");
-        const randomize_position = º.req`theme :bool`("__articleRandomizePosition");
-        const article_base_width = º.req`theme :valAsPx`("__articleBaseWidth");
-        const article_width_shift = º.req`theme :valAsPx`("__articleWidthShift");
-        let article_base_height = º.req`theme :valAsPx`("__articleBaseHeight");
-        const article_height_shift = º.req`theme :valAsPx`("__articleHeightShift");
+        const main_padding = req`theme :valAsPx`("__mainPadding");
+        const max_lines = +req`theme :val`("__articleLimitTokenLines");
+        const randomize_position = req`theme :bool`("__articleRandomizePosition");
+        const article_base_width = req`theme :valAsPx`("__articleBaseWidth");
+        const article_width_shift = req`theme :valAsPx`("__articleWidthShift");
+        let article_base_height = req`theme :valAsPx`("__articleBaseHeight");
+        const article_height_shift = req`theme :valAsPx`("__articleHeightShift");
 
         if (max_lines !== 0) {
-            const article_padding = º.req`theme :valAsPx`("__articlePadding");
+            const article_padding = req`theme :valAsPx`("__articlePadding");
             const size_ref = document.createElement("span");
             size_ref.classList.add("token");
             size_ref.style.opacity = "0%";
@@ -311,7 +311,7 @@ void new class Article extends Controller {
             top += (maybe_invert() * ((ref_height - height) / 2) * Math.random());
         }
 
-        º.emit`theme :apply`({
+        emit`theme :apply`({
             __kArticleFrameX: `${ref_x + left}px`,
             __kArticleFrameY: `${ref_y + top}px`,
             __kArticleFrameW: `${width}px`,
@@ -359,7 +359,7 @@ void new class Article extends Controller {
 
         const state = InputState.new(token_txt, input_txt);
         if (state.compare()) {
-            º.emit`article :completedToken`(input_txt);
+            emit`article :completedToken`(input_txt);
             this.advance_token();
             this.clear_input();
             return;

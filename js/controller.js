@@ -7,9 +7,9 @@ class Controller {
         const shortcuts = this.exec("__shortcuts", {});
         for (const [message, fn] of Object.entries(shortcuts)) {
             if (fn instanceof Function)
-                º.emit`shortcut :set`(message, fn);
+                emit`shortcut :set`(message, fn);
             else
-                º.emit`shortcut :set`(message, fn?.keydown, fn?.keyup);
+                emit`shortcut :set`(message, fn?.keydown, fn?.keyup);
         }
 
         this.exec("__init");
@@ -23,11 +23,11 @@ class Controller {
         if (this[fn_name]) {
             switch(fn_name) {
                 case "__listen":
-                    º.listen(this.__listen());
+                    listen(this.__listen());
                     break;
 
                 case "__respond":
-                    º.respond(this.__respond());
+                    respond(this.__respond());
                     break;
 
                 default:
