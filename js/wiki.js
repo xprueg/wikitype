@@ -1,4 +1,4 @@
-void new class Wiki extends Controller {
+void new class WikiApi extends Controller {
     __data() {
         this.related_articles_cache = new Map();
         this.random_article_cache = new Map(
@@ -33,9 +33,9 @@ void new class Wiki extends Controller {
         );
     }
 
-    related_url(article_data_raw) {
-        const lang = article_data_raw.lang;
-        const title = encodeURIComponent(article_data_raw.titles.normalized);
+    related_url(raw_article_data) {
+        const lang = raw_article_data.lang;
+        const title = encodeURIComponent(raw_article_data.titles.normalized);
 
         return new Request(
             `https://${lang}.wikipedia.org/api/rest_v1/page/related/${title}`,
@@ -43,21 +43,8 @@ void new class Wiki extends Controller {
         );
     }
 
-    prefetch_related_articles(article_data_raw) {
-        this.load_related_articles(article_data_raw).then(
-            articles => this.related_articles_cache.set(article_data_raw.pageid, articles)
-        );
-    }
-
-    prefetch_random_article(lang_code) {
-        fetch_json(this.random_url(lang_code)).then(article_data_raw => {
-            this.prefetch_related_articles(article_data_raw);
-            this.random_article_cache.get(lang_code).push(article_data_raw);
-        });
-    }
-
-    load_related_articles(article_data_raw) {
-        const article_id = article_data_raw.pageid;
+    load_related_articles(raw_article_data) {
+        const article_id = raw_article_data.pageid;
 
         const cached_related_articles = this.related_articles_cache.get(article_id)
         if (cached_related_articles) {
@@ -65,7 +52,7 @@ void new class Wiki extends Controller {
             return resolve_promise(cached_related_articles);
         }
 
-        return fetch_json(this.related_url(article_data_raw), { pages: Array() });
+        return fetch_json(this.related_url(raw_article_data), { pages: Array() });
     }
 
     load_random_article(lang_code = req`language :getRandom`()) {
@@ -75,10 +62,10 @@ void new class Wiki extends Controller {
         if (cached_article)
             return resolve_promise(cached_article);
 
-        return fetch_json(this.random_url(lang_code)).then(article_data_raw => {
-            this.prefetch_related_articles(article_data_raw);
+        return fetch_json(this.random_url(lang_code)).then(raw_article_data => {
+            this.prefetch_related_articles(raw_article_data);
 
-            return article_data_raw;
+            return raw_article_data;
         });
     }
 
@@ -87,15 +74,26 @@ void new class Wiki extends Controller {
         // https://lang.wikipedia.org/api/rest_v1/page/summary/xyz
         wiki_url = wiki_url.replace(
             new RegExp(String.raw`(https://[a-z]{2}.wikipedia.org)/wiki/(.+)`),
-            (_, domain, title) => {
-                return `${domain}/api/rest_v1/page/summary/${title}`;
-            }
+            (_, domain, title) => `${domain}/api/rest_v1/page/summary/${title}`
         );
 
-        return fetch_json(wiki_url).then(article_data_raw => {
-            this.prefetch_related_articles(article_data_raw);
+        return fetch_json(wiki_url).then(raw_article_data => {
+            this.prefetch_related_articles(raw_article_data);
 
-            return article_data_raw;
+            return raw_article_data;
+        });
+    }
+
+    prefetch_related_articles(raw_article_data) {
+        this.load_related_articles(raw_article_data).then(
+            articles => this.related_articles_cache.set(raw_article_data.pageid, articles)
+        );
+    }
+
+    prefetch_random_article(lang_code) {
+        fetch_json(this.random_url(lang_code)).then(raw_article_data => {
+            this.prefetch_related_articles(raw_article_data);
+            this.random_article_cache.get(lang_code).push(raw_article_data);
         });
     }
 }
