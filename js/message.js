@@ -64,7 +64,10 @@ const Messages = new class {
 
             return true;
         }).forEach(([message, fn]) => {
-            this.listener.set(message, (this.listener.get(message) ?? Array()).concat(fn));
+            if (!this.listener.has(message))
+                this.listener.set(message, Array());
+
+            this.listener.get(message).push(fn);
         });
     }
 
