@@ -3,35 +3,9 @@ const PRO_THEME = {
     id     : "pro",
     extend : "base",
 
-    // Custom
-    __cSize              : "2px",
-    __cBgSize            : "calc(__cSize * 2)",
-    __cColor             : "__dark",
-    __cHalfBgSize        : "calc(__cBgSize / 2)",
-    __cHeight            : "calc(__mainPadding * .5)",
-    __cCheckerBackground : `
-        // Overlay
-        linear-gradient(__bright, __bright) 0 0/100% calc(100% - __cHeight) no-repeat,
-        linear-gradient(__bright, __bright) 0 0/calc(__asideWidth + __mainPadding) 100% no-repeat,
-
-        // Checker Pattern
-        linear-gradient(45deg, __cColor, __cColor 25%, transparent 25%)
-                        0 0/__cBgSize __cBgSize,
-        linear-gradient(-45deg, __cColor, __cColor 25%, transparent 25%)
-                        0 calc(-1 * __cHalfBgSize)/__cBgSize __cBgSize,
-        linear-gradient(45deg, transparent, transparent 75%, __cColor 75%)
-                        calc(-1 * __cHalfBgSize) __cHalfBgSize/__cBgSize __cBgSize,
-        linear-gradient(-45deg, transparent, transparent 75%, __cColor 75%)
-                        __cHalfBgSize 0/__cBgSize __cBgSize,
-
-        // Background
-        linear-gradient(__bright, __bright)
-    `,
-
     // General
     __dark           : "black",
     __bright         : "white",
-    __bodyBackground : "__cCheckerBackground",
 
     // Setting
     __settingsHeadingColor : "__bright",
