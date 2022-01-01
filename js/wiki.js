@@ -1,5 +1,5 @@
 /// <T> WikiImage: OBJ{
-///     source: URL,
+///     source: STR,
 ///     width: INT,
 ///     height: INT,
 /// }
@@ -16,8 +16,8 @@
 ///     pageid: INT,
 ///     content_urls: OBJ{
 ///         desktop: OBJ{
-///             page: URL,
-///             edit: URL,
+///             page: STR,
+///             edit: STR,
 ///         },
 ///     },
 ///     originalimage: WikiImage,
@@ -25,12 +25,17 @@
 ///     extract: STR,
 /// }
 
+/// <T> WikiRelatedResponse: OBJ{
+///     pages: ARR[WikiResponse]
+/// }
+
 void new class WikiApi extends Controller {
     __data() {
-        this.related_articles_cache = new Map();
-        this.random_article_cache = new Map(
-            Object.keys(req`language :getAll`()).map(lang => [lang, Array()])
-        );
+        /// <T> cache: MAP{
+        ///     STR: ARR[WikiResponse],
+        ///     INT: WikiRelatedResponse,
+        /// }
+        this.cache = new Map();
     }
 
     __listen() {
@@ -50,7 +55,7 @@ void new class WikiApi extends Controller {
     /// Returns a Headers object that contains the "Api-User-Agent" header which is
     /// required for Wikipedia API calls.
     ///
-    /// [<] Headers
+    /// [<] HEADERS
     get headers() {
         return new Headers({
             "Api-User-Agent": "Wikitype (https://xpr.org/wikitype; abuse@xpr.org)",
@@ -60,7 +65,7 @@ void new class WikiApi extends Controller {
     /// Returns a Request object that will return a random article when fetched.
     ///
     /// [>] lang_code: STR
-    /// [<] Request
+    /// [<] REQUEST
     random_url(lang_code) {
         return new Request(
             `https://${lang_code}.wikipedia.org/api/rest_v1/page/random/summary`,
@@ -71,7 +76,7 @@ void new class WikiApi extends Controller {
     /// Returns a Request object that will return related articles when fetched.
     ///
     /// [>] wikiapi_response: WikiResponse
-    /// [<] Request
+    /// [<] REQUEST
     related_url(wikiapi_response) {
         const lang = wikiapi_response.lang;
         const title = encodeURIComponent(wikiapi_response.titles.normalized);
@@ -85,13 +90,13 @@ void new class WikiApi extends Controller {
     /// Returns all related articles to the passed in article.
     ///
     /// [>] wikiapi_response: WikiResponse
-    /// [<] Promise
+    /// [<] PROMISE
     load_related_articles(wikiapi_response) {
         const article_id = wikiapi_response.pageid;
 
-        const cached_related_articles = this.related_articles_cache.get(article_id);
+        const cached_related_articles = this.cache.get(article_id);
         if (cached_related_articles) {
-            this.related_articles_cache.delete(article_id);
+            this.cache.delete(article_id);
             return resolve_promise(cached_related_articles);
         }
 
@@ -101,13 +106,13 @@ void new class WikiApi extends Controller {
     /// Loads a random article for the provided language.
     ///
     /// [>] lang_code[? = req`language :getRandom`()]: STR
-    /// [<] Promise
+    /// [<] PROMISE
     load_random_article(lang_code = req`language :getRandom`()) {
         this.prefetch_random_article(lang_code);
 
-        const cached_article = this.random_article_cache.get(lang_code).shift();
-        if (cached_article)
-            return resolve_promise(cached_article);
+        const cached_articles = this.cache.get(lang_code);
+        if (cached_articles && cached_articles.length > 0)
+            return resolve_promise(cached_articles.shift());
 
         return fetch_json(this.random_url(lang_code)).then(wikiapi_response => {
             this.prefetch_related_articles(wikiapi_response);
@@ -119,8 +124,8 @@ void new class WikiApi extends Controller {
     /// Loads the article url.
     /// The url must have the format "https://lang.wikipedia.org/wiki/xyz".
     ///
-    /// [>] wiki_url: URL
-    /// [<] Promise
+    /// [>] wiki_url: STR
+    /// [<] PROMISE
     load_article_by_full_url(wiki_url) {
         // https://lang.wikipedia.org/wiki/xyz
         // https://lang.wikipedia.org/api/rest_v1/page/summary/xyz
@@ -141,9 +146,8 @@ void new class WikiApi extends Controller {
     /// [>] wikiapi_response: WikiResponse
     /// [<] VOID
     prefetch_related_articles(wikiapi_response) {
-        this.load_related_articles(wikiapi_response).then(
-            articles => this.related_articles_cache.set(wikiapi_response.pageid, articles)
-        );
+        this.load_related_articles(wikiapi_response)
+            .then(articles => this.cache.set(wikiapi_response.pageid, articles));
     }
 
     /// Prefetches random articles for the specified languages.
@@ -153,7 +157,10 @@ void new class WikiApi extends Controller {
     prefetch_random_article(lang_code) {
         fetch_json(this.random_url(lang_code)).then(wikiapi_response => {
             this.prefetch_related_articles(wikiapi_response);
-            this.random_article_cache.get(lang_code).push(wikiapi_response);
+
+            if (!this.cache.has(lang_code))
+                this.cache.set(lang_code, Array());
+            this.cache.get(lang_code).push(wikiapi_response);
         });
     }
 }
