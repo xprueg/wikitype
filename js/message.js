@@ -1,7 +1,9 @@
 const Messages = new class {
     constructor() {
-        this.listener = new Map();
+        /// <T> responder: MAP{STR: FN(*) -> *}
         this.responder = new Map();
+        /// <T> listener: MAP{STR: ARR[FN(*) -> VOID]}
+        this.listener = new Map();
     }
 
     /// Joins both arrays from a tagged template.
@@ -45,7 +47,7 @@ const Messages = new class {
     /// <?> req`ns :Message`(*)
     ///
     /// [>] message: STR
-    /// [>] substitutions: ARRAY[*]
+    /// [>] substitutions: ARR[*]
     /// [<] FN(*) -> *
     request(message, ...substitutions) {
         return this.responder.get(this.join_tagged_template(message, substitutions));
@@ -53,7 +55,7 @@ const Messages = new class {
 
     /// Adds listener messages.
     ///
-    /// [>] listener: OBJ{STR: FN(*) -> *}
+    /// [>] listener: OBJ{STR: FN(*) -> VOID}
     /// [<] VOID
     listen(listener) {
         Object.entries(listener).filter(([message, fn]) => {
@@ -76,7 +78,7 @@ const Messages = new class {
     /// <?> emit`ns :Message`(*)
     ///
     /// [>] message: STR
-    /// [>] substitutions: ARRAY[*]
+    /// [>] substitutions: ARR[*]
     /// [<] FN(*) -> VOID
     emit(message, ...substitutions) {
         const listener = this.listener.get(this.join_tagged_template(message, substitutions));
