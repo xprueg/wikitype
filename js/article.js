@@ -115,12 +115,12 @@ void new class Article extends Controller {
         });
     }
 
-    set_contents(article_data_raw) {
+    set_contents(wikiapi_response) {
         // If there is already an article loaded clear it first.
         if (this.current_article_data)
             this.unload_article();
 
-        const article = this.current_article_data = ArticleData.from(article_data_raw);
+        const article = this.current_article_data = ArticleData.from(wikiapi_response);
 
         // Create tokens.
         article.tokenized_extract.forEach((word, i) => {

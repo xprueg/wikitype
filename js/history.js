@@ -1,42 +1,40 @@
-void function HistoryController() {
-    const self = Object.create(null);
+void new class History extends Controller {
+    __data() {
+        this.$node = ƒ(".history");
+        /// <T> cache: MAP{STR: WikiResponse}
+        this.cache = new Map();
+    }
 
-    void function init() {
-        self.node = ƒ(".history");
-        self.cache = new Map();
+    __listen() {
+        return {
+            "history :push": this.push_entry.bind(this),
+            "history :addWpmToPageId": this.add_wpm_to_page_id.bind(this),
+        };
+    }
+    __respond() {
+        return {
+            "history :includesPageId": pageid => this.cache.has(String(pageid)),
+        };
+    }
 
-        self.node.addEventListener("click", e => {
-            const node = e.target;
-            if (!(node instanceof HTMLLIElement))
+    __init() {
+        this.$node.addEventListener("click", e => {
+            const $target = e.target;
+            if (!($target instanceof HTMLLIElement))
                 return;
 
-            while(node.previousElementSibling) {
-                self.cache.delete(node.previousElementSibling.dataset.pageid);
-                node.previousElementSibling.remove();
+            while($target.previousElementSibling) {
+                this.cache.delete($target.previousElementSibling.dataset.pageid);
+                $target.previousElementSibling.remove();
             }
 
-            emit`article :setContents`(self.cache.get(node.dataset.pageid));
+            emit`article :setContents`(this.cache.get($target.dataset.pageid));
             emit`nav :forceHide`();
             emit`input :clear`();
         }, true);
+    }
 
-        listen({
-            "history :push": push_entry,
-            "history :addWpmToPageId": add_wpm_to_page_id,
-        });
-
-        respond({
-            "history :includesPageId": pageid => {
-                for (const key of self.cache.keys())
-                    if (key == pageid)
-                        return true;
-
-                return false;
-            },
-        });
-    }();
-
-    function add_wpm_to_page_id(wpm, pageid) {
+    add_wpm_to_page_id(wpm, pageid) {
         const $history_item = ƒ(`[data-pageid="${pageid}"]`);
         if (!$history_item)
             return;
@@ -44,19 +42,18 @@ void function HistoryController() {
         ƒ("[data-lang]", $history_item).dataset.wpm = wpm;
     }
 
-    function push_entry({ article_data_raw, is_related }) {
-        const li = ª(ƒ("#historyEntryTemplate"), "li");
-        const span = li.querySelector("span");
+    push_entry({ wikiapi_response, is_related }) {
+        const $li = ª(ƒ("#historyEntryTemplate"), "li");
+        const $span = $li.querySelector("span");
 
         if (!is_related)
-            li.dataset.chain = "start";
+            $li.dataset.chain = "start";
 
-        li.dataset.pageid = article_data_raw.pageid;
-        span.innerText = article_data_raw.titles.normalized;
-        span.dataset.lang = article_data_raw.lang;
-        self.node.insertBefore(li, self.node.children.length
-                                   ? self.node.children[0] : null);
+        $li.dataset.pageid = wikiapi_response.pageid;
+        $span.innerText = wikiapi_response.titles.normalized;
+        $span.dataset.lang = wikiapi_response.lang;
+        this.$node.insertBefore($li, this.$node.children.length ? this.$node.children[0] : null);
 
-        self.cache.set(String(article_data_raw.pageid), article_data_raw);
+        this.cache.set(String(wikiapi_response.pageid), wikiapi_response);
     }
-}();
+}

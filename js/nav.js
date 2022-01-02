@@ -47,15 +47,15 @@ void function NavController() {
     }
 
     function select(choice) {
-        const article_data_raw = self.related_article_buffer[Number(choice) - 1];
-        if (article_data_raw) {
-            emit`history :push`({ article_data_raw, is_related: true });
-            emit`article :setContents`(article_data_raw);
-            emit`wikiapi :prefetchRelatedArticles`(article_data_raw);
+        const wikiapi_response = self.related_article_buffer[Number(choice) - 1];
+        if (wikiapi_response) {
+            emit`history :push`({ wikiapi_response, is_related: true });
+            emit`article :setContents`(wikiapi_response);
+            emit`wikiapi :prefetchRelatedArticles`(wikiapi_response);
         } else {
-            req`wikiapi :fetchRandomArticle`().then(article_data_raw => {
-                emit`history :push`({ article_data_raw, is_related: false });
-                emit`article :setContents`(article_data_raw);
+            req`wikiapi :fetchRandomArticle`().then(wikiapi_response => {
+                emit`history :push`({ wikiapi_response, is_related: false });
+                emit`article :setContents`(wikiapi_response);
             });
         }
     }
