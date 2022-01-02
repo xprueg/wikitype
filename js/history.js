@@ -23,15 +23,23 @@ void new class History extends Controller {
             if (!($target instanceof HTMLLIElement))
                 return;
 
-            while($target.previousElementSibling) {
-                this.cache.delete($target.previousElementSibling.dataset.pageid);
-                $target.previousElementSibling.remove();
-            }
-
-            emit`article :setContents`(this.cache.get($target.dataset.pageid));
-            emit`nav :forceHide`();
-            emit`input :clear`();
+            this.restore_entry($target);
         }, true);
+    }
+
+    /// Removes all entries after the provided entry and loads the article.
+    ///
+    /// [>] $entry: HTMLLIELEMENT
+    /// [<] VOID
+    restore_entry($entry) {
+        while($entry.previousElementSibling) {
+            this.cache.delete($entry.previousElementSibling.dataset.pageid);
+            $entry.previousElementSibling.remove();
+        }
+
+        emit`article :setContents`(this.cache.get($entry.dataset.pageid));
+        emit`nav :forceHide`();
+        emit`input :clear`();
     }
 
     add_wpm_to_page_id(wpm, pageid) {
