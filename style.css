@@ -118,23 +118,27 @@ footer {
     margin-right: 1ex;
 }
 
-.history li span,
+.history_entry,
 .history::after {
     pointer-events: none;
     position: relative;
-    display: inline-flex;
     box-shadow: inset 0 0 0 2px var(--history-base);
     border-radius: 100vw;
     padding: .25ex .9ex;
 }
 
-.history li:first-of-type span,
-.history li:hover span {
+.history_entry .title {
+    display: inline-flex;
+    position: relative;
+}
+
+.history li:first-of-type .history_entry,
+.history li:hover .history_entry {
     background: var(--history-base);
     color: var(--history-contrast);
 }
 
-.history li:first-of-type span::after {
+.history li:first-of-type .title::after {
     content: attr(data-lang);
     text-transform: uppercase;
     font-size: 0.5em;
@@ -142,8 +146,11 @@ footer {
     align-self: center;
 }
 
-.history li:not(:first-of-type) span::before {
-    content: attr(data-wpm) " WPM";
+.history li:first-of-type .wpm {
+    display: none;
+}
+
+.history li .wpm {
     font-size: 0.5em;
     position: absolute;
     top: calc(100% - 1ex);
@@ -153,11 +160,13 @@ footer {
     background: var(--history-base);
     color: var(--history-contrast);
     transform: translateX(-50%);
-    transition: all 250ms ease-in-out;
 }
 
-.history li:hover:not(:first-of-type) span::before {
-    top: 100%;
+.history li .wpm::after {
+    content: " WPM";
+}
+
+.history li:hover .wpm {
     opacity: 0;
 }
 

@@ -1,21 +1,15 @@
 class HistoryEntry {
     constructor({ wikiapi_response, is_related }) {
         this.wikiapi_response = wikiapi_response;
-        this.is_related = is_related;
 
-        this.$li = ª(ƒ("#historyEntryTemplate"), "li");
-        this.$title = this.$li.querySelector(".title");
-
+        this.$node = ª(ƒ("#historyEntryTemplate"), "li");
+        this.$node.dataset.id = wikiapi_response.pageid;
         if (!is_related)
-            this.$li.dataset.chain = "start";
+            this.$node.dataset.chain = "start";
 
-        this.$li.dataset.id = wikiapi_response.pageid;
+        this.$title = this.$node.querySelector(".title");
         this.$title.innerText = wikiapi_response.titles.normalized;
         this.$title.dataset.lang = wikiapi_response.lang;
-    }
-
-    get $node() {
-        return this.$li;
     }
 
     get id() {
@@ -25,7 +19,7 @@ class HistoryEntry {
     update(data, val) {
         switch(data) {
             case "wpm":
-                this.$title.dataset.wpm = val;
+                this.$node.querySelector(".wpm").textContent = val;
                 break;
             default:
                 break;
@@ -49,7 +43,7 @@ class HistoryMap extends Map {
     }
 
     get_wikiapi_response(id) {
-        return this.get(id).wikiapi_response;
+        return this.get(id)?.wikiapi_response;
     }
 
     has(id) {
@@ -92,6 +86,15 @@ void new class History extends Controller {
         }, true);
     }
 
+    /// Adds an entry to the history.
+    ///
+    /// [>] OBJ{wikiapi_response: WikiResponse, is_related: BOOL}
+    /// [<] VOID
+    push_entry({ wikiapi_response, is_related }) {
+        const entry = this.cache.create({ wikiapi_response, is_related });
+        this.$node.insertBefore(entry.$node, this.$node.children.length ? this.$node.children[0] : null);
+    }
+
     /// Removes all entries after the provided entry and loads the article.
     ///
     /// [>] $entry: HTMLLIELEMENT
@@ -107,10 +110,5 @@ void new class History extends Controller {
         emit`article :setContents`(entry_wikiapi_response);
         emit`nav :forceHide`();
         emit`input :clear`();
-    }
-
-    push_entry({ wikiapi_response, is_related }) {
-        const entry = this.cache.create({ wikiapi_response, is_related });
-        this.$node.insertBefore(entry.$node, this.$node.children.length ? this.$node.children[0] : null);
     }
 }
