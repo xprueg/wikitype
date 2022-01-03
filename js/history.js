@@ -21,11 +21,35 @@ class HistoryEntry {
     }
 }
 
+class HistoryMap extends Map {
+    set(id, entry) {
+        super.set(String(id), entry);
+    }
+
+    get(id) {
+        return super.get(String(id));
+    }
+
+    get_wikiapi_response(id) {
+        return this.get(id).wikiapi_response;
+    }
+
+    has(id) {
+        return super.has(String(id));
+    }
+
+    delete(id) {
+        const entry = this.get(id);
+        entry.$node.remove();
+        return super.delete(String(id));
+    }
+}
+
 void new class History extends Controller {
     __data() {
         this.$node = ƒ(".history");
         /// <T> cache: MAP{STR: WikiResponse}
-        this.cache = new Map();
+        this.cache = new HistoryMap();
     }
 
     __listen() {
@@ -36,7 +60,7 @@ void new class History extends Controller {
     }
     __respond() {
         return {
-            "history :includesPageId": pageid => this.cache.has(String(pageid)),
+            "history :includesPageId": id => this.cache.has(id),
         };
     }
 
@@ -55,22 +79,17 @@ void new class History extends Controller {
     /// [>] $entry: HTMLLIELEMENT
     /// [<] VOID
     restore_entry($entry) {
-        while ($entry.previousElementSibling) {
-            const id = $entry.previousElementSibling.dataset.id;
-            const history_entry = this.cache.get(id);
+        while ($entry.previousElementSibling)
+            this.cache.delete($entry.previousElementSibling.dataset.id);
 
-            history_entry.$node.remove();
-            this.cache.delete(id);
-        }
-
-        const entry_wikiapi_response = this.cache.get($entry.dataset.id).wikiapi_response;
+        const entry_wikiapi_response = this.cache.get_wikiapi_response($entry.dataset.id);
         emit`article :setContents`(entry_wikiapi_response);
         emit`nav :forceHide`();
         emit`input :clear`();
     }
 
     add_wpm_to_page_id(wpm, pageid) {
-        const history_entry = this.cache.get(String(pageid));
+        const history_entry = this.cache.get(pageid);
         if (!history_entry)
             return;
 
