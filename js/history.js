@@ -3,31 +3,49 @@ class HistoryEntry {
         this.wikiapi_response = wikiapi_response;
         this.is_related = is_related;
 
-        const $li = ª(ƒ("#historyEntryTemplate"), "li");
-        const $span = $li.querySelector("span");
+        this.$li = ª(ƒ("#historyEntryTemplate"), "li");
+        this.$title = this.$li.querySelector(".title");
 
         if (!is_related)
-            $li.dataset.chain = "start";
+            this.$li.dataset.chain = "start";
 
-        $li.dataset.id = wikiapi_response.pageid;
-        $span.innerText = wikiapi_response.titles.normalized;
-        $span.dataset.lang = wikiapi_response.lang;
-        this.$node = $li;
-        this.$text = $span;
+        this.$li.dataset.id = wikiapi_response.pageid;
+        this.$title.innerText = wikiapi_response.titles.normalized;
+        this.$title.dataset.lang = wikiapi_response.lang;
+    }
+
+    get $node() {
+        return this.$li;
     }
 
     get id() {
         return String(this.wikiapi_response.pageid);
     }
+
+    update(data, val) {
+        switch(data) {
+            case "wpm":
+                this.$title.dataset.wpm = val;
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 class HistoryMap extends Map {
-    set(id, entry) {
-        super.set(String(id), entry);
+    create({ wikiapi_response, is_related }) {
+        const entry = new HistoryEntry({ wikiapi_response, is_related });
+        super.set(String(entry.id), entry);
+        return entry;
     }
 
     get(id) {
         return super.get(String(id));
+    }
+
+    update(id, data, val) {
+        this.get(id)?.update(data, val);
     }
 
     get_wikiapi_response(id) {
@@ -38,24 +56,24 @@ class HistoryMap extends Map {
         return super.has(String(id));
     }
 
-    delete(id) {
+    destroy(id) {
         const entry = this.get(id);
-        entry.$node.remove();
-        return super.delete(String(id));
+        super.delete(String(id));
+        return entry;
     }
 }
 
 void new class History extends Controller {
     __data() {
         this.$node = ƒ(".history");
-        /// <T> cache: MAP{STR: WikiResponse}
+        /// <T> cache: MAP{STR: HistoryEntry}
         this.cache = new HistoryMap();
     }
 
     __listen() {
         return {
             "history :push": this.push_entry.bind(this),
-            "history :addWpmToPageId": this.add_wpm_to_page_id.bind(this),
+            "history :addWpmToPageId": (wpm, id) => this.cache.update(id, "wpm", wpm),
         };
     }
     __respond() {
@@ -79,27 +97,20 @@ void new class History extends Controller {
     /// [>] $entry: HTMLLIELEMENT
     /// [<] VOID
     restore_entry($entry) {
-        while ($entry.previousElementSibling)
-            this.cache.delete($entry.previousElementSibling.dataset.id);
-
         const entry_wikiapi_response = this.cache.get_wikiapi_response($entry.dataset.id);
+
+        while ($entry.previousElementSibling) {
+            const entry = this.cache.destroy($entry.previousElementSibling.dataset.id);
+            entry.$node.remove();
+        }
+
         emit`article :setContents`(entry_wikiapi_response);
         emit`nav :forceHide`();
         emit`input :clear`();
     }
 
-    add_wpm_to_page_id(wpm, pageid) {
-        const history_entry = this.cache.get(pageid);
-        if (!history_entry)
-            return;
-
-        history_entry.$text.dataset.wpm = wpm;
-    }
-
     push_entry({ wikiapi_response, is_related }) {
-        const entry = new HistoryEntry({ wikiapi_response, is_related });
-
+        const entry = this.cache.create({ wikiapi_response, is_related });
         this.$node.insertBefore(entry.$node, this.$node.children.length ? this.$node.children[0] : null);
-        this.cache.set(entry.id, entry);
     }
 }
