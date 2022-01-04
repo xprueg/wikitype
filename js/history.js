@@ -2,7 +2,7 @@ class HistoryEntry {
     constructor({ wikiapi_response, is_related }) {
         this.wikiapi_response = wikiapi_response;
 
-        this.$node = ª(ƒ("#historyEntryTemplate"), "li");
+        this.$node = ª(ƒ("#historyEntryTemplate"), ".entry");
         this.$node.dataset.id = wikiapi_response.pageid;
         if (!is_related)
             this.$node.dataset.chain = "start";
@@ -10,6 +10,7 @@ class HistoryEntry {
         this.$title = this.$node.querySelector(".title");
         this.$title.innerText = wikiapi_response.titles.normalized;
         this.$title.dataset.lang = wikiapi_response.lang;
+        this.$title.dataset.wpm = 0;
     }
 
     get id() {
@@ -19,7 +20,7 @@ class HistoryEntry {
     update(data, val) {
         switch(data) {
             case "wpm":
-                this.$node.querySelector(".wpm").textContent = val;
+                this.$title.dataset.wpm = val;
                 break;
             default:
                 break;
@@ -77,12 +78,9 @@ void new class History extends Controller {
     }
 
     __init() {
-        this.$node.addEventListener("click", e => {
-            const $target = e.target;
-            if (!($target instanceof HTMLLIElement))
-                return;
-
-            this.restore_entry($target);
+        this.$node.addEventListener("click", evt => {
+            if (evt.target.classList.contains("title"))
+                this.restore_entry(evt.target.parentNode);
         }, true);
     }
 

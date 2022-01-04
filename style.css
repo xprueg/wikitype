@@ -77,7 +77,7 @@ aside {
 
 /*// History //*/
 
-footer {
+.history {
     position: relative;
     grid-area: history;
     display: flex;
@@ -86,59 +86,56 @@ footer {
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+    pointer-events: none;
     z-index: var(--z-elevated);
-}
-
-.history {
     display: flex;
     font-size: 30px;
     color: var(--history-base);
 }
 
 .history::after {
-    /* This ensures that the footer will have a height even before
+    /* This ensures that the element will have a height even before
        the first entry is being pushed. */
     content: "*";
     opacity: 0;
 }
 
-.history li {
+.history .entry {
+    white-space: nowrap;
+}
+
+.history .entry::after {
+    content: " <-";
+    margin-right: -0.3ex;
+}
+
+.history .entry[data-chain="start"]::after {
+    content: " ⁂";
+    margin-right: 2ex;
+}
+
+.history .title {
+    pointer-events: auto;
     cursor: pointer;
     white-space: nowrap;
 }
 
-.history li::after {
-    content: " <-";
-    white-space: pre;
-    margin-right: -0.3ex;
-}
-
-.history li[data-chain="start"]::after {
-    content: " ⁂ ";
-    margin-right: 1ex;
-}
-
-.history_entry,
-.history::after {
-    pointer-events: none;
+.history .title, .history::after {
     position: relative;
     box-shadow: inset 0 0 0 2px var(--history-base);
     border-radius: 100vw;
     padding: .25ex .9ex;
-}
-
-.history_entry .title {
     display: inline-flex;
-    position: relative;
 }
 
-.history li:first-of-type .history_entry,
-.history li:hover .history_entry {
+.history .title:hover,
+.history .entry:first-of-type .title {
     background: var(--history-base);
     color: var(--history-contrast);
 }
 
-.history li:first-of-type .title::after {
+/* data-lang */
+.history .entry:first-of-type .title::after {
     content: attr(data-lang);
     text-transform: uppercase;
     font-size: 0.5em;
@@ -146,11 +143,9 @@ footer {
     align-self: center;
 }
 
-.history li:first-of-type .wpm {
-    display: none;
-}
-
-.history li .wpm {
+/* data-wpm */
+.history .entry:not(:first-of-type) .title::after {
+    content: attr(data-wpm) " WPM";
     font-size: 0.5em;
     position: absolute;
     top: calc(100% - 1ex);
@@ -162,12 +157,8 @@ footer {
     transform: translateX(-50%);
 }
 
-.history li .wpm::after {
-    content: " WPM";
-}
-
-.history li:hover .wpm {
-    opacity: 0;
+.history .entry:not(:first-of-type) .title:hover::after {
+    display: none;
 }
 
 
