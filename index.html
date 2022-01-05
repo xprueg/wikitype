@@ -29,18 +29,14 @@
     <body>
         <nav data-is-visible>
             <div id="navSelect">
-                <div class="navOption">
-                    <span data-navOptionIdx="0"></span>
+                <div class="random navOption">
+                    <span data-nav-option-idx="0"></span>
                     <span class="navOptionTitle">Random Article</span></div>
-                <div class="navOption" data-status="loading">
-                    <span data-navOptionIdx="1"></span>
-                    <span class="navOptionTitle"></span></div>
-                <div class="navOption" data-status="loading">
-                    <span data-navOptionIdx="2"></span>
-                    <span class="navOptionTitle"></span></div>
-                <div class="navOption" data-status="loading">
-                    <span data-navOptionIdx="3"></span>
-                    <span class="navOptionTitle"></span></div>
+                <template id="navOption">
+                    <div class="related navOption" data-status>
+                        <span data-nav-option-idx></span>
+                        <span class="navOptionTitle"></span></div>
+                </template>
             </div>
         </nav>
 

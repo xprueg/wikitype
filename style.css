@@ -15,6 +15,10 @@ html, body {
     height: 100%;
 }
 
+/*// Global //*/
+.hidden {
+    display: none;
+}
 
 /*// <html> //*/
 
@@ -173,14 +177,9 @@ nav {
     align-items: center;
     justify-content: center;
     display: flex;
-    opacity: 0;
     transition: opacity 125ms ease-in-out;
     pointer-events: none;
     z-index: var(--z-elevated);
-}
-
-nav[data-is-visible=true] {
-    opacity: 1;
 }
 
 #navSelect {
@@ -197,7 +196,7 @@ nav[data-is-visible=true] {
     margin-top: 0;
 }
 
-[data-navOptionIdx] {
+[data-nav-option-idx] {
     width: var(--upcoming-option-height);
     height: var(--upcoming-option-height);
     background: var(--upcoming-option-background);
@@ -211,13 +210,13 @@ nav[data-is-visible=true] {
     flex-shrink: 0;
 }
 
-[data-navOptionIdx="0"]::before { content: "\E12B"; }
-[data-navOptionIdx="1"]::before { content: "\2780"; }
-[data-navOptionIdx="2"]::before { content: "\2781"; }
-[data-navOptionIdx="3"]::before { content: "\E12D"; }
-[data-status="unavailable"] [data-navOptionIdx]::before { content: "\E13D"; }
+[data-nav-option-idx="0"]::before { content: "\E12B"; }
+[data-nav-option-idx="1"]::before { content: "\2780"; }
+[data-nav-option-idx="2"]::before { content: "\2781"; }
+[data-nav-option-idx="3"]::before { content: "\E12D"; }
+[data-status="unavailable"] [data-nav-option-idx]::before { content: "\E13D"; }
 [data-status="unavailable"] .navOptionTitle::after { content: "—"; }
-[data-status="loading"] [data-navOptionIdx]::before { content: "\E139"; }
+[data-status="loading"] [data-nav-option-idx]::before { content: "\E139"; }
 [data-status="loading"] .navOptionTitle::after { content: "Loading…"; }
 
 .navOptionTitle {
@@ -241,7 +240,7 @@ nav[data-is-visible=true] {
     margin-left: -1px;
 }
 
-.navOption:first-child [data-navOptionIdx] {
+.navOption:first-child [data-nav-option-idx] {
     border-top-right-radius: 0;
     border-bottom-right-radius: var(--upcoming-option-height);
 }

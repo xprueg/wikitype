@@ -1,6 +1,6 @@
 class ArticleData {
     constructor(data) {
-        this._raw = data;
+        this.wikiapi_response = data;
 
         this.id = data?.pageid;
         this.url = data?.content_urls?.desktop?.page;
