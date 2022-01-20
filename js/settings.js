@@ -4,6 +4,7 @@ void new class Settings extends Controller {
         this.settings = {
             language: LanguageSetting.new(),
             theme: ThemeSetting.new(),
+            font: FontSetting.new(),
         };
     }
 

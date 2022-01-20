@@ -66,7 +66,9 @@ const BASE_THEME = {
     __articleThumbnailFilter:       "none",
 
     // Font
-    __articleExtractFont:                "400 30px/1.4em system-ui",
+    __articleFontFamily:                 "system-ui",
+    __articleExtractFont:                `400 calc(30px * __uFontSizeScaling)/
+                                          1.4em __uArticleFontFamily`,
     __articleExtractLetterSpacing:       "normal",
     __articleExtractFontFeatureSettings: "normal",
 

@@ -7,6 +7,7 @@ void new class Theme extends Controller {
         // Variables that can be controlled by the user.
         this.user = {
             __uFontSizeScaling: 1,
+            __uArticleFontFamily: req`font :getSelected`("family"),
         };
     }
 
@@ -19,6 +20,10 @@ void new class Theme extends Controller {
                 this.set_theme_to(theme);
 
                 emit`theme :afterUpdate`();
+            },
+            "setting :fontUpdatedObj": font => {
+                this.user.__uArticleFontFamily = font.family;
+                this.apply(this.user);
             },
             "theme :apply": this.apply.bind(this),
         };

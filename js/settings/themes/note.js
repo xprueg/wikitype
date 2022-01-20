@@ -49,8 +49,9 @@ const NOTE_THEME = {
     __articleThumbnailFilter:       "grayscale(1)",
 
     // Font
+    __articleFontFamily:  "Grafier-Regular",
     __articleExtractFont: `calc(34px * __uFontSizeScaling)/
-                           1.4em Grafier-Regular`,
+                           1.4em __uArticleFontFamily`,
     __articleExtractFontFeatureSettings: "'ss02'",
 
     // Tokens

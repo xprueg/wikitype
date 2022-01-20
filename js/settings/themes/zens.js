@@ -29,8 +29,9 @@ const ZENS_THEME = {
     __articleThumbnailBorder: "0px solid transparent",
 
     // Font
+    __articleFontFamily:  "GTAmericaLC-ExpRg",
     __articleExtractFont: `400 clamp(20px, calc(1vw * 3 * __uFontSizeScaling), 60px)/
-                           1.35em GTAmericaLC-ExpRg`,
+                           1.35em __uArticleFontFamily`,
     __articleExtractFontFeatureSettings: `'kern', 'liga', 'onum',
                                           'ss02', 'ss03', 'ss05'`,
 

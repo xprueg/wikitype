@@ -25,7 +25,8 @@ const PRO_THEME = {
     __articleThumbnailFilter : "opacity(0)",
 
     // Font
-    __articleExtractFont : "calc(32px * __uFontSizeScaling)/1.5em PragmataPro-Regular",
+    __articleFontFamily:   "PragmataPro-Regular",
+    __articleExtractFont : "calc(32px * __uFontSizeScaling)/1.5em __uArticleFontFamily",
 
     // Tokens
     __tokenActiveColor     : "gainsboro",

@@ -9,7 +9,7 @@ class Setting extends Controller {
 
     __respond() {
         return {
-            [`${this.setting} :getSelected`]: () => this.get_selected_options(),
+            [`${this.setting} :getSelected`]: this.get_selected_options.bind(this),
             [`${this.setting} :getRandom`]: () => rng(this.get_selected_options()),
             [`${this.setting} :getAll`]: () => this.options,
         };
@@ -24,10 +24,24 @@ class Setting extends Controller {
         this.add_listener();
     }
 
-    get_selected_options() {
+    get_selected_options(ret_val = "key") {
         const selected = Object.entries(this.options)
-                               .filter(([key, state]) => state.is_selected)
-                               .map(([key, state]) => key);
+            .filter(([key, state]) => state.is_selected)
+            .map(([key, state]) => {
+                switch(ret_val) {
+                    case "key":
+                        return key;
+                    case "obj":
+                        // FIXME The internal state should not be returned if obj is requested.
+                        //       Separate state and settings data.
+                        return state;
+                    default:
+                        if (state.hasOwnProperty(ret_val))
+                            return state[ret_val];
+                        else
+                            throw Error(`${this.setting} has no property ${ret_val}.`);
+                }
+            });
 
         return this.type === "radio" ? selected.shift() : selected;
     }
@@ -98,6 +112,7 @@ class Setting extends Controller {
 
             emit`settings :updateStatusBar`();
             emit`setting :${this.setting}Updated`(this.get_selected_options());
+            emit`setting :${this.setting}UpdatedObj`(this.get_selected_options("obj"));
         });
     }
 }

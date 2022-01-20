@@ -188,8 +188,9 @@ const ALPH_THEME = {
     __articleThumbnailBorder: "2px solid var(--bright)",
 
     // Font
+    __articleFontFamily:                 "ObjectSans-Regular",
     __articleExtractFont:                `calc(32px * __uFontSizeScaling)/
-                                          1.3em ObjectSans-Regular`,
+                                          1.3em __uArticleFontFamily`,
     __articleExtractFontFeatureSettings: "'salt'",
 
     // Tokens

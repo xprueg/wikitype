@@ -21,7 +21,7 @@ const TERM_THEME = {
     `,
 
     // Aside
-    __asideColor:                 "__bright",
+    __asideColor: "__bright",
 
     // History
     __historyBase:     "__bright",
@@ -99,8 +99,9 @@ const TERM_THEME = {
     __articleThumbnailFilter:       "grayscale(0)",
 
     // Font
+    __articleFontFamily:  "JetBrains Mono",
     __articleExtractFont: `calc(30px * __uFontSizeScaling)/
-                           1.5em "JetBrains Mono", monospace`,
+                           1.5em __uArticleFontFamily`,
     __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
                                           "cv10", "cv11"`,
 
