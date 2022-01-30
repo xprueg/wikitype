@@ -14,17 +14,13 @@ void new class Theme extends Controller {
     __listen() {
         return {
             "setting :themeUpdated": theme => {
-                emit`theme :beforeUpdate`();
-
                 this.reset_theme();
                 this.set_theme_to(theme);
 
-                emit`theme :afterUpdate`();
+                emit`article :forceRender`();
             },
-            "setting :fontUpdatedObj": font => {
-                this.user.__uArticleFontFamily = font.family;
-                this.apply(this.user);
-            },
+            "setting :fontUpdatedObj": font => this.update_user("__uArticleFontFamily",
+                                                                font.family),
             "theme :apply": this.apply.bind(this),
         };
     }
@@ -39,9 +35,9 @@ void new class Theme extends Controller {
 
     __shortcuts() {
         return {
-            "cmd +": () => (this.user.__uFontSizeScaling += .05, this.apply(this.user)),
-            "cmd -": () => (this.user.__uFontSizeScaling -= .05, this.apply(this.user)),
-            "cmd 0": () => (this.user.__uFontSizeScaling = 1, this.apply(this.user)),
+            "cmd +": () => this.update_user("__uFontSizeScaling", "increase"),
+            "cmd -": () => this.update_user("__uFontSizeScaling", "decrease"),
+            "cmd 0": () => this.update_user("__uFontSizeScaling", "reset"),
         };
     }
 
@@ -60,6 +56,30 @@ void new class Theme extends Controller {
                 ƒ("body").dataset.isTyping = "false";
             }, 250);
         });
+    }
+
+    /// Updates the user settings and applies the new values.
+    ///
+    /// [>] setting: str
+    /// [<] change: *
+    update_user(setting, change) {
+        let val = this.user[setting];
+        switch(setting) {
+            case "__uFontSizeScaling":
+                switch(change) {
+                    case "increase": val += .05; break;
+                    case "decrease": val -= .05; break;
+                    case "reset": val = 1; break;
+                }
+                break;
+            case "__uArticleFontFamily":
+                val = change;
+                break;
+        }
+
+        this.user[setting] = val;
+        this.apply(this.user);
+        emit`article :forceRender`();
     }
 
     /// Transpiles a theme.
@@ -152,7 +172,7 @@ void new class Theme extends Controller {
     apply(vars) {
         Object.entries(this.transpile(vars))
               .forEach(([key, value]) => this.$node.style.setProperty(key, value));
-   }
+    }
 
     /// Returns the raw property value as a string.
     ///

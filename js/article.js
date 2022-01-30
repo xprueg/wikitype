@@ -39,7 +39,7 @@ void new class Article extends Controller {
     __listen() {
         return {
             "article :setContents": this.set_contents.bind(this),
-            "theme :afterUpdate": this.reposition_article.bind(this),
+            "article :forceRender": this.reposition_article.bind(this),
             "input :clear": this.clear_input.bind(this),
         };
     }
