@@ -94,9 +94,9 @@ const ALPH_THEME = {
 
     // Article
     __articlePadding:             "30px",
-    __articleBaseWidth:           "800px",
-    __articleBaseHeight:          "500px",
-    __articleBottomClip:          "__cBorderSize",
+    __articleBaseWidth:           "900px",
+    __articleLimitTokenLines:     6,
+    __articleBottomClip:          "__articlePadding",
     __articleLoadingSpinnerColor: "__bright",
     __articleLoadingSpinnerChars: "¶ ",
     __articleLoadingSpinnerDelay: 512,
@@ -207,5 +207,5 @@ const ALPH_THEME = {
     __tokenTypedBackground:    "transparent",
     __tokenErrorColor:         "hsl(360, 100%, 10%)",
     __tokenErrorBackground:    "hsl(360, 100%, 60%)",
-    __tokenOffsetTop:          ".35ex",
+    __tokenOffsetTop:          ".3ex",
 };

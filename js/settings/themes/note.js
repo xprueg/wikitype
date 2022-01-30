@@ -15,11 +15,11 @@ const NOTE_THEME = {
     __bright: "hsl(56, 8%, 56%)",
 
     // Article
+    __articleBaseWidth:           "800px",
+    __articleLimitTokenLines:     5,
+
     __articlePadding:             "50px",
-    __articleBaseWidth:           "700px",
-    __articleWidthShift:          "0px",
-    __articleBaseHeight:          "700px",
-    __articleHeightShift:         "0px",
+    __articleBottomClip:          "__articlePadding",
     __articleLoadingSpinnerColor: "hsl(56, 86%, 15%)",
 
     // Background

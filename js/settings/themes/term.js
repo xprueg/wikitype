@@ -44,7 +44,6 @@ const TERM_THEME = {
 
     // Article
     __articleBaseWidth:           "900px",
-    __articleBaseHeight:          "500px",
     __articleLoadingSpinnerColor: "__bright",
     __articleLoadingSpinnerChars: "░ ▒ ",
     __articleLoadingSpinnerDelay: 512,

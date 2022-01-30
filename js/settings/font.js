@@ -6,6 +6,7 @@ class FontSetting extends Setting {
         this.options = {
             // TODO Store __articleExtractFontFeatureSettings in here as well.
             // TODO Store __articleLoadingSpinnerChars in here as well.
+            // TODO Store __tokenOffsetTop in here as well.
             theme_default: {
                 name: "Theme Default",
                 family: "var(--article-font-family)",
