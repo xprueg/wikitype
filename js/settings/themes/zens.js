@@ -17,7 +17,6 @@ const ZENS_THEME = {
     __articleWidthShift:          "0px",
     __articleBaseHeight:          "100vh",
     __articleHeightShift:         "0px",
-    __articleFadeTokenLines:      3,
     __articleLoadingSpinnerChars: "→↘↓↘",
     __articleLoadingSpinnerDelay: 360,
 
