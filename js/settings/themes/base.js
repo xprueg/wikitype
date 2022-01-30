@@ -42,7 +42,6 @@ const BASE_THEME = {
     __articlePadding:             0,
     __articleBaseWidth:           "900px",
     __articleBaseHeight:          "0px",
-    __articleRandomizePosition:   false,
     __articleBottomClip:          "0",
     __articleLimitTokenLines:     3,
     __articleLoadingSpinnerColor: "__dark",

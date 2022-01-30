@@ -158,11 +158,8 @@ void new class Article extends Controller {
     }
 
     reposition_article() {
-        const maybe_invert = () => (Math.random() > .5 ? 1 : -1);
-
         const main_padding = req`theme :valAsPx`("__mainPadding");
         const max_lines = +req`theme :val`("__articleLimitTokenLines");
-        const randomize_position = req`theme :bool`("__articleRandomizePosition");
         const article_base_width = req`theme :valAsPx`("__articleBaseWidth");
         let article_base_height = req`theme :valAsPx`("__articleBaseHeight");
 
@@ -189,10 +186,6 @@ void new class Article extends Controller {
         const height = Math.round(Math.min(article_base_height, ref_height));
         let left = Math.round((ref_width - width) / 2);
         let top = Math.round((ref_height - height) / 2);
-        if (randomize_position) {
-            left += (maybe_invert() * ((ref_width - width) / 2) * Math.random());
-            top += (maybe_invert() * ((ref_height - height) / 2) * Math.random());
-        }
 
         emit`theme :apply`({
             __kArticleFrameX: `${ref_x + left}px`,
