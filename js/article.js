@@ -164,9 +164,7 @@ void new class Article extends Controller {
         const max_lines = +req`theme :val`("__articleLimitTokenLines");
         const randomize_position = req`theme :bool`("__articleRandomizePosition");
         const article_base_width = req`theme :valAsPx`("__articleBaseWidth");
-        const article_width_shift = req`theme :valAsPx`("__articleWidthShift");
         let article_base_height = req`theme :valAsPx`("__articleBaseHeight");
-        const article_height_shift = req`theme :valAsPx`("__articleHeightShift");
 
         if (max_lines !== 0) {
             const article_padding = req`theme :valAsPx`("__articlePadding");
@@ -187,14 +185,8 @@ void new class Article extends Controller {
         ref_x += main_padding;
         ref_width -= main_padding * 2;
 
-        const width = Math.round(Math.min(
-            article_base_width + Math.random() * (maybe_invert() * article_width_shift),
-            ref_width
-        ));
-        const height = Math.round(Math.min(
-            article_base_height + Math.random() * (maybe_invert() * article_height_shift),
-            ref_height
-        ));
+        const width = Math.round(Math.min(article_base_width, ref_width));
+        const height = Math.round(Math.min(article_base_height, ref_height));
         let left = Math.round((ref_width - width) / 2);
         let top = Math.round((ref_height - height) / 2);
         if (randomize_position) {

@@ -13,9 +13,7 @@ const PRO_THEME = {
 
     // Article
     __articleBaseWidth           : "900px",
-    __articleWidthShift          : "0px",
     __articleBaseHeight          : "200px",
-    __articleHeightShift         : "0px",
     __articleLimitTokenLines     : 3,
     __articleLoadingSpinnerChars : "",
     __articleLoadingSpinnerDelay : 128,
