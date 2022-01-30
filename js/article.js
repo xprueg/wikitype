@@ -30,8 +30,6 @@ void new class Article extends Controller {
         this.$node = ƒ("article");
         this.$article = ƒ("#article");
         this.$extract = ƒ("#articleExtract");
-        this.$thumbnail = ƒ("#articleThumbnail");
-        this.$image = ƒ("#articleImage");
         this.$active_token = null;
         this.$input = ª(ƒ("#inputTokenTemplate"), ".inputToken").cloneNode();
 
@@ -58,10 +56,6 @@ void new class Article extends Controller {
                 if (url)
                     window.open(url);
             },
-            "tab": {
-                keydown: e => (this.display_highres_image(true), e.preventDefault()),
-                keyup: e => (this.display_highres_image(false), e.preventDefault()),
-            },
             "cmd s": e => {
                 if (this.current_article_data) {
                     this.advance_token();
@@ -85,36 +79,6 @@ void new class Article extends Controller {
         document.body.addEventListener("keydown", this.focus_input.bind(this));
     }
 
-    display_highres_image(should_render) {
-        const id = this.current_article_data.id;
-        const image = this.current_article_data.image;
-
-        // Remove source if it shouldn't be rendered.
-        if (!should_render)
-            return void (this.$image.src = "data:,");
-
-        // If there is no current article loaded or
-        // the highres image is already set return.
-        if (!this.current_article_data || !image || this.$image.src !== "data:,")
-            return;
-
-        // Display the scaled up thumbnail while waiting for the highres version.
-        this.$image.src = this.current_article_data.thumbnail;
-        this.$image.style.cssText = `--original-height: ${image.width}px;
-                                         --original-width: ${image.height}px;`;
-
-        preload_image(image.source, img => {
-            // If, while the image has been loaded, the article got changed ignore
-            // the incoming highres image.
-            if (!this.current_article_data
-                || this.current_article_data.id !== id
-                || this.$image.src === "data:,")
-                return;
-
-            this.$image.src = img.src;
-        });
-    }
-
     set_contents(wikiapi_response) {
         // If there is already an article loaded clear it first.
         if (this.current_article_data)
@@ -134,15 +98,6 @@ void new class Article extends Controller {
         this.advance_token();
         this.fade_tokens();
 
-        // Insert thumbnail.
-        if (article.thumbnail) {
-            preload_image(article.thumbnail, img => {
-                // Make sure that the article hasn't been changed.
-                if (article.id === this.current_article_data?.id)
-                    this.$thumbnail.src = img.src;
-            });
-        }
-
         emit`spinner :kill`(this.$article);
         this.$node.dataset.isLoaded = true;
 
@@ -160,8 +115,6 @@ void new class Article extends Controller {
 
         // Reset all article nodes.
         this.$extract.querySelectorAll("span").forEach((node) => node.remove());
-        this.$image.src = "data:,";
-        this.$thumbnail.src = "data:,";
         this.$active_token = null;
 
         // Reposition frame.

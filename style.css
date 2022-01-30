@@ -39,7 +39,7 @@ body {
         "aside article   settings"
         "aside history   settings";
     grid-template-rows: auto 1fr auto;
-    grid-template-columns: var(--aside-width) 1fr var(--aside-width);
+    grid-template-columns: var(--aside-width) calc(100vw - var(--aside-width) * 2) var(--aside-width);
     background: var(--body-background);
     transition: background var(--article-change-duration);
     border: var(--global-border-size) solid var(--global-border-color);
@@ -85,7 +85,6 @@ aside {
     position: relative;
     grid-area: history;
     display: flex;
-    overflow: hidden;
     padding: var(--main-padding);
     user-select: none;
     -moz-user-select: none;
@@ -106,6 +105,7 @@ aside {
 
 .history .entry {
     white-space: nowrap;
+    position: relative;
 }
 
 .history .entry::after {
@@ -116,6 +116,34 @@ aside {
 .history .entry[data-chain="start"]::after {
     content: " ⁂";
     margin-right: 2ex;
+}
+
+.history .thumbnail {
+    position: absolute;
+    top: -.5ex;
+    transform: translateY(-100%);
+    max-height: 100px;
+    max-width: 100%;
+    left: 0;
+    border-radius: 11px;
+    border-bottom-left-radius: 22px;
+}
+
+.history .thumbnail.highres {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    height: var(--original-height);
+    width: var(--original-width);
+    max-width: 100%;
+    max-height: 100%;
+    transform: translateX(-50%) translateY(-50%);
+    object-fit: contain;
+}
+
+.history .thumbnail[src="undefined"],
+.history .entry:not(:first-of-type) .thumbnail {
+    display: none;
 }
 
 .history .title {
