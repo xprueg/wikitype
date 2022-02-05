@@ -12,6 +12,7 @@ class Setting extends Controller {
             [`${this.setting} :getSelected`]: this.get_selected_options.bind(this),
             [`${this.setting} :getRandom`]: () => rng(this.get_selected_options()),
             [`${this.setting} :getAll`]: () => this.options,
+            [`${this.setting} :get`]: (key) => this.options[key],
         };
     }
 

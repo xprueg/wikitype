@@ -45,8 +45,6 @@ const BASE_THEME = {
     __articleBottomClip:          "0",
     __articleLimitTokenLines:     3,
     __articleLoadingSpinnerColor: "__dark",
-    __articleLoadingSpinnerChars: "-\\|/",
-    __articleLoadingSpinnerDelay: 128,
 
     // Caret
     __articleCaretWidth:  "1px",
@@ -62,11 +60,10 @@ const BASE_THEME = {
     __articleThumbnailFilter:       "none",
 
     // Font
-    __articleFontFamily:                 "system-ui",
+    __articleFontFamily:                 "system_ui",
     __articleExtractFont:                `400 calc(30px * __uFontSizeScaling)/
                                           1.4em __uArticleFontFamily`,
     __articleExtractLetterSpacing:       "normal",
-    __articleExtractFontFeatureSettings: "normal",
 
     // Tokens
     __tokenUpcomingColor:      "__dark",
@@ -80,5 +77,4 @@ const BASE_THEME = {
     __tokenTypedBackground:    "__bright",
     __tokenErrorColor:         "__bright",
     __tokenErrorBackground:    "red",
-    __tokenOffsetTop:          "0px",
 };

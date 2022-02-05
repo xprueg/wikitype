@@ -98,8 +98,6 @@ const ALPH_THEME = {
     __articleLimitTokenLines:     6,
     __articleBottomClip:          "__articlePadding",
     __articleLoadingSpinnerColor: "__bright",
-    __articleLoadingSpinnerChars: "¶ ",
-    __articleLoadingSpinnerDelay: 512,
 
     // Caret
     __articleCaretColor: "__bright",
@@ -188,10 +186,9 @@ const ALPH_THEME = {
     __articleThumbnailBorder: "2px solid var(--bright)",
 
     // Font
-    __articleFontFamily:                 "ObjectSans-Regular",
+    __articleFontFamily:                 "object_sans",
     __articleExtractFont:                `calc(32px * __uFontSizeScaling)/
                                           1.3em __uArticleFontFamily`,
-    __articleExtractFontFeatureSettings: "'salt'",
 
     // Tokens
     __tokenUpcomingColor:      "var(--bright)",
@@ -207,5 +204,4 @@ const ALPH_THEME = {
     __tokenTypedBackground:    "transparent",
     __tokenErrorColor:         "hsl(360, 100%, 10%)",
     __tokenErrorBackground:    "hsl(360, 100%, 60%)",
-    __tokenOffsetTop:          ".3ex",
 };

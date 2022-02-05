@@ -45,8 +45,6 @@ const TERM_THEME = {
     // Article
     __articleBaseWidth:           "900px",
     __articleLoadingSpinnerColor: "__bright",
-    __articleLoadingSpinnerChars: "░ ▒ ",
-    __articleLoadingSpinnerDelay: 512,
 
     // Caret
     __articleCaretWidth: "0px",
@@ -98,11 +96,9 @@ const TERM_THEME = {
     __articleThumbnailFilter:       "grayscale(0)",
 
     // Font
-    __articleFontFamily:  "JetBrains Mono",
+    __articleFontFamily:  "jetbrains_mono",
     __articleExtractFont: `calc(30px * __uFontSizeScaling)/
                            1.5em __uArticleFontFamily`,
-    __articleExtractFontFeatureSettings: `"ss01", "ss02", "case",
-                                          "cv10", "cv11"`,
 
     // Tokens
     __tokenUpcomingBackground: "__bright",

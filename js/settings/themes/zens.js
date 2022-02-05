@@ -16,8 +16,6 @@ const ZENS_THEME = {
     __articleBaseWidth:           "100vw",
     __articleBaseHeight:          "100vh",
     __articleLimitTokenLines:     0,
-    __articleLoadingSpinnerChars: "→↘↓↘",
-    __articleLoadingSpinnerDelay: 360,
 
     // Caret
     __articleCaretWidth:  "2px",
@@ -27,11 +25,9 @@ const ZENS_THEME = {
     __articleThumbnailBorder: "0px solid transparent",
 
     // Font
-    __articleFontFamily:  "GTAmericaLC-ExpRg",
+    __articleFontFamily:  "gt_america",
     __articleExtractFont: `400 clamp(20px, calc(1vw * 3 * __uFontSizeScaling), 60px)/
                            1.35em __uArticleFontFamily`,
-    __articleExtractFontFeatureSettings: `'kern', 'liga', 'onum',
-                                          'ss02', 'ss03', 'ss05'`,
 
     // Tokens
     __tokenActiveColor:        "transparent",

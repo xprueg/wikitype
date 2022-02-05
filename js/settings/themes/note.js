@@ -17,10 +17,9 @@ const NOTE_THEME = {
     // Article
     __articleBaseWidth:           "800px",
     __articleLimitTokenLines:     5,
-
+    __articleLoadingSpinnerColor: "hsl(56, 86%, 15%)",
     __articlePadding:             "50px",
     __articleBottomClip:          "__articlePadding",
-    __articleLoadingSpinnerColor: "hsl(56, 86%, 15%)",
 
     // Background
     __articleFrameBackground: `
@@ -49,10 +48,9 @@ const NOTE_THEME = {
     __articleThumbnailFilter:       "grayscale(1)",
 
     // Font
-    __articleFontFamily:  "Grafier-Regular",
+    __articleFontFamily:  "grafier",
     __articleExtractFont: `calc(34px * __uFontSizeScaling)/
                            1.4em __uArticleFontFamily`,
-    __articleExtractFontFeatureSettings: "'ss02'",
 
     // Tokens
     __tokenUpcomingColor:      "hsl(56, 86%, 15%)",

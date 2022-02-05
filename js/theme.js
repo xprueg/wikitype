@@ -7,7 +7,7 @@ void new class Theme extends Controller {
         // Variables that can be controlled by the user.
         this.user = {
             __uFontSizeScaling: 1,
-            __uArticleFontFamily: req`font :getSelected`("family"),
+            __uArticleFontFamily: String(),
         };
     }
 
@@ -16,11 +16,13 @@ void new class Theme extends Controller {
             "setting :themeUpdated": theme => {
                 this.reset_theme();
                 this.set_theme_to(theme);
+                this.set_font_to(req`font :getSelected`());
 
                 emit`article :forceRender`();
             },
-            "setting :fontUpdatedObj": font => this.update_user("__uArticleFontFamily",
-                                                                font.family),
+            "setting :fontUpdated": font_key => {
+                this.set_font_to(font_key);
+            },
             "theme :apply": this.apply.bind(this),
         };
     }
@@ -43,6 +45,7 @@ void new class Theme extends Controller {
 
     __init() {
         this.set_theme_to(this.active_theme);
+        this.set_font_to(req`font :getSelected`());
         this.apply(this.user);
 
         ƒ("body").dataset.isTyping = "false";
@@ -80,6 +83,26 @@ void new class Theme extends Controller {
         this.user[setting] = val;
         this.apply(this.user);
         emit`article :forceRender`();
+    }
+
+    set_font_to(font_key) {
+        const current_theme = this.themes[this.active_theme];
+        const theme_default = req`font :get`("theme_default");
+
+        // Reset all settings
+        this.apply(theme_default.variables);
+
+        // If the key is 'theme_default' get the actual
+        // font from the theme variables.
+        if (font_key === "theme_default")
+            font_key = req`theme :val`("__articleFontFamily");
+
+        const font_obj =  req`font :get`(font_key);
+        this.update_user("__uArticleFontFamily", font_obj.family);
+        this.apply(font_obj.variables);
+
+        // Inject font variables in theme.
+        Object.assign(current_theme, theme_default.variables, font_obj.variables);
     }
 
     /// Transpiles a theme.
